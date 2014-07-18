@@ -34,7 +34,7 @@
 
 - (IBAction)btnSearchPress:(id)sender {
     
-    NSLog(@"qCount: %@ ", _txtSearchTaxi.text);
+    NSLog(@"qCounting: %@ ", _txtSearchTaxi.text);
     
     PFQuery *cabbies = [PFQuery queryWithClassName:@"DriverObject"];
     [cabbies whereKey:@"dmvLicensePlate" equalTo:_txtSearchTaxi.text];
