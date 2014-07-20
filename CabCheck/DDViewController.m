@@ -31,6 +31,7 @@
     [locationManager startUpdatingLocation];
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (BOOL)prefersStatusBarHidden
