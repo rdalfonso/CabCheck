@@ -39,6 +39,7 @@
 		A1FE67F1197C3AA700504D5D /* taxi_top.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67EB197C3AA700504D5D /* taxi_top.jpeg */; };
 		A1FE67F3197C430000504D5D /* stop-light.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67F2197C430000504D5D /* stop-light.jpg */; };
 		A1FE67F6197C4E1000504D5D /* DDChangeCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FE67F5197C4E1000504D5D /* DDChangeCityViewController.m */; };
+		A1FE67FC197C615A00504D5D /* DDSearchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FE67FB197C615A00504D5D /* DDSearchResultsController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,8 @@
 		A1FE67F2197C430000504D5D /* stop-light.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "stop-light.jpg"; path = "../../../../../Downloads/stop-light.jpg"; sourceTree = "<group>"; };
 		A1FE67F4197C4E1000504D5D /* DDChangeCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDChangeCityViewController.h; sourceTree = "<group>"; };
 		A1FE67F5197C4E1000504D5D /* DDChangeCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDChangeCityViewController.m; sourceTree = "<group>"; };
+		A1FE67FA197C615A00504D5D /* DDSearchResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDSearchResultsController.h; sourceTree = "<group>"; };
+		A1FE67FB197C615A00504D5D /* DDSearchResultsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDSearchResultsController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +181,8 @@
 				A1AB562A1979C9B3004D23AD /* Supporting Files */,
 				A1FE67F4197C4E1000504D5D /* DDChangeCityViewController.h */,
 				A1FE67F5197C4E1000504D5D /* DDChangeCityViewController.m */,
+				A1FE67FA197C615A00504D5D /* DDSearchResultsController.h */,
+				A1FE67FB197C615A00504D5D /* DDSearchResultsController.m */,
 			);
 			path = CabCheck;
 			sourceTree = "<group>";
@@ -327,6 +332,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1AB56341979C9B3004D23AD /* DDAppDelegate.m in Sources */,
+				A1FE67FC197C615A00504D5D /* DDSearchResultsController.m in Sources */,
 				A1FE67F6197C4E1000504D5D /* DDChangeCityViewController.m in Sources */,
 				A1AB563A1979C9B3004D23AD /* DDViewController.m in Sources */,
 				A1AB56301979C9B3004D23AD /* main.m in Sources */,

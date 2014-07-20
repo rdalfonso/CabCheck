@@ -11,7 +11,6 @@
 
 
 @interface DDViewController ()
-- (IBAction)btnSearchPress:(id)sender;
 
 @end
 
@@ -31,33 +30,13 @@
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
     
-    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
 }
 
-
-- (IBAction)btnSearchPress:(id)sender {
-    
-    NSLog(@"qCounting: %@ ", _txtSearchTaxi.text);
-    
-    PFQuery *cabbies = [PFQuery queryWithClassName:@"DriverObject"];
-    [cabbies whereKey:@"dmvLicensePlate" equalTo:_txtSearchTaxi.text];
-    [cabbies whereKey:@"driver" equalTo:_txtSearchTaxi.text];
-    [cabbies whereKey:@"dmvLicensePlate" equalTo:_txtSearchTaxi.text];
-    [cabbies setLimit:20];
-    [cabbies orderByDescending:@"createdAt"];
-    
-    [cabbies findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            long qCount = (unsigned long)objects.count;
-            NSLog(@"qCount: %ld ", qCount);
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
-
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
@@ -128,5 +107,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end
