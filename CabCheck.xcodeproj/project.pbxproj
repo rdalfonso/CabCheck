@@ -31,6 +31,14 @@
 		A1AB56671979CA4B004D23AD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56661979CA4B004D23AD /* Security.framework */; };
 		A1AB56691979CA5A004D23AD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56681979CA5A004D23AD /* StoreKit.framework */; };
 		A1AB566B1979CA66004D23AD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB566A1979CA66004D23AD /* SystemConfiguration.framework */; };
+		A1FE67EC197C3AA700504D5D /* taxi-night-4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67E6197C3AA700504D5D /* taxi-night-4.jpg */; };
+		A1FE67ED197C3AA700504D5D /* taxi_night-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67E7197C3AA700504D5D /* taxi_night-3.jpg */; };
+		A1FE67EE197C3AA700504D5D /* taxi_night_blur.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67E8197C3AA700504D5D /* taxi_night_blur.jpeg */; };
+		A1FE67EF197C3AA700504D5D /* taxi-fare.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67E9197C3AA700504D5D /* taxi-fare.jpg */; };
+		A1FE67F0197C3AA700504D5D /* taxi_night.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67EA197C3AA700504D5D /* taxi_night.jpg */; };
+		A1FE67F1197C3AA700504D5D /* taxi_top.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67EB197C3AA700504D5D /* taxi_top.jpeg */; };
+		A1FE67F3197C430000504D5D /* stop-light.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67F2197C430000504D5D /* stop-light.jpg */; };
+		A1FE67F6197C4E1000504D5D /* DDChangeCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FE67F5197C4E1000504D5D /* DDChangeCityViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +81,15 @@
 		A1AB56661979CA4B004D23AD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A1AB56681979CA5A004D23AD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A1AB566A1979CA66004D23AD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		A1FE67E6197C3AA700504D5D /* taxi-night-4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "taxi-night-4.jpg"; path = "../../../../../Downloads/taxi-night-4.jpg"; sourceTree = "<group>"; };
+		A1FE67E7197C3AA700504D5D /* taxi_night-3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "taxi_night-3.jpg"; path = "../../../../../Downloads/taxi_night-3.jpg"; sourceTree = "<group>"; };
+		A1FE67E8197C3AA700504D5D /* taxi_night_blur.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = taxi_night_blur.jpeg; path = ../../../../../Downloads/taxi_night_blur.jpeg; sourceTree = "<group>"; };
+		A1FE67E9197C3AA700504D5D /* taxi-fare.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "taxi-fare.jpg"; path = "../../../../../Downloads/taxi-fare.jpg"; sourceTree = "<group>"; };
+		A1FE67EA197C3AA700504D5D /* taxi_night.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = taxi_night.jpg; path = ../../../../../Downloads/taxi_night.jpg; sourceTree = "<group>"; };
+		A1FE67EB197C3AA700504D5D /* taxi_top.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = taxi_top.jpeg; path = ../../../../../Downloads/taxi_top.jpeg; sourceTree = "<group>"; };
+		A1FE67F2197C430000504D5D /* stop-light.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "stop-light.jpg"; path = "../../../../../Downloads/stop-light.jpg"; sourceTree = "<group>"; };
+		A1FE67F4197C4E1000504D5D /* DDChangeCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDChangeCityViewController.h; sourceTree = "<group>"; };
+		A1FE67F5197C4E1000504D5D /* DDChangeCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDChangeCityViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +176,8 @@
 				A1AB56391979C9B3004D23AD /* DDViewController.m */,
 				A1AB563B1979C9B3004D23AD /* Images.xcassets */,
 				A1AB562A1979C9B3004D23AD /* Supporting Files */,
+				A1FE67F4197C4E1000504D5D /* DDChangeCityViewController.h */,
+				A1FE67F5197C4E1000504D5D /* DDChangeCityViewController.m */,
 			);
 			path = CabCheck;
 			sourceTree = "<group>";
@@ -166,6 +185,13 @@
 		A1AB562A1979C9B3004D23AD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A1FE67F2197C430000504D5D /* stop-light.jpg */,
+				A1FE67E6197C3AA700504D5D /* taxi-night-4.jpg */,
+				A1FE67E7197C3AA700504D5D /* taxi_night-3.jpg */,
+				A1FE67E8197C3AA700504D5D /* taxi_night_blur.jpeg */,
+				A1FE67E9197C3AA700504D5D /* taxi-fare.jpg */,
+				A1FE67EA197C3AA700504D5D /* taxi_night.jpg */,
+				A1FE67EB197C3AA700504D5D /* taxi_top.jpeg */,
 				A1AB562B1979C9B3004D23AD /* CabCheck-Info.plist */,
 				A1AB562C1979C9B3004D23AD /* InfoPlist.strings */,
 				A1AB562F1979C9B3004D23AD /* main.m */,
@@ -273,8 +299,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1AB563C1979C9B3004D23AD /* Images.xcassets in Resources */,
+				A1FE67EF197C3AA700504D5D /* taxi-fare.jpg in Resources */,
+				A1FE67F1197C3AA700504D5D /* taxi_top.jpeg in Resources */,
+				A1FE67EC197C3AA700504D5D /* taxi-night-4.jpg in Resources */,
 				A1AB562E1979C9B3004D23AD /* InfoPlist.strings in Resources */,
+				A1FE67F0197C3AA700504D5D /* taxi_night.jpg in Resources */,
+				A1FE67F3197C430000504D5D /* stop-light.jpg in Resources */,
 				A1AB56371979C9B3004D23AD /* Main.storyboard in Resources */,
+				A1FE67ED197C3AA700504D5D /* taxi_night-3.jpg in Resources */,
+				A1FE67EE197C3AA700504D5D /* taxi_night_blur.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1AB56341979C9B3004D23AD /* DDAppDelegate.m in Sources */,
+				A1FE67F6197C4E1000504D5D /* DDChangeCityViewController.m in Sources */,
 				A1AB563A1979C9B3004D23AD /* DDViewController.m in Sources */,
 				A1AB56301979C9B3004D23AD /* main.m in Sources */,
 			);
@@ -510,6 +544,7 @@
 				A1AB56541979C9B3004D23AD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A1AB56551979C9B3004D23AD /* Build configuration list for PBXNativeTarget "CabCheckTests" */ = {
 			isa = XCConfigurationList;
@@ -518,6 +553,7 @@
 				A1AB56571979C9B3004D23AD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -30,7 +30,11 @@
     locationManager.distanceFilter=100.0;
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
+    
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeNone;
 }
+
 
 - (IBAction)btnSearchPress:(id)sender {
     

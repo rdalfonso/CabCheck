@@ -17,6 +17,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *lblCurrentCity;
 @property (strong, nonatomic) IBOutlet UITextField *lblSearchBox;
 @property (strong, nonatomic) IBOutlet UITextField *txtSearchTaxi;
+@property (strong, nonatomic) IBOutlet UIButton *btnChangeCity;
 
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
