@@ -31,7 +31,8 @@
     [locationManager startUpdatingLocation];
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
 }
 
 - (BOOL)prefersStatusBarHidden

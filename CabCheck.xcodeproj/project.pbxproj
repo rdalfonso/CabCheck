@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A182505E197CC9A600483B5A /* DDAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = A182505D197CC9A600483B5A /* DDAboutController.m */; };
 		A1AB56241979C9B3004D23AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56231979C9B3004D23AD /* Foundation.framework */; };
 		A1AB56261979C9B3004D23AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56251979C9B3004D23AD /* CoreGraphics.framework */; };
 		A1AB56281979C9B3004D23AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56271979C9B3004D23AD /* UIKit.framework */; };
@@ -53,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A182505C197CC9A600483B5A /* DDAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAboutController.h; sourceTree = "<group>"; };
+		A182505D197CC9A600483B5A /* DDAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAboutController.m; sourceTree = "<group>"; };
 		A1AB56201979C9B3004D23AD /* CabCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CabCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1AB56231979C9B3004D23AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A1AB56251979C9B3004D23AD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -183,6 +186,8 @@
 				A1FE67F5197C4E1000504D5D /* DDChangeCityViewController.m */,
 				A1FE67FA197C615A00504D5D /* DDSearchResultsController.h */,
 				A1FE67FB197C615A00504D5D /* DDSearchResultsController.m */,
+				A182505C197CC9A600483B5A /* DDAboutController.h */,
+				A182505D197CC9A600483B5A /* DDAboutController.m */,
 			);
 			path = CabCheck;
 			sourceTree = "<group>";
@@ -332,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1AB56341979C9B3004D23AD /* DDAppDelegate.m in Sources */,
+				A182505E197CC9A600483B5A /* DDAboutController.m in Sources */,
 				A1FE67FC197C615A00504D5D /* DDSearchResultsController.m in Sources */,
 				A1FE67F6197C4E1000504D5D /* DDChangeCityViewController.m in Sources */,
 				A1AB563A1979C9B3004D23AD /* DDViewController.m in Sources */,
