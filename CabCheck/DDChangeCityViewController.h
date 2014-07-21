@@ -10,4 +10,6 @@
 
 @interface DDChangeCityViewController : UIViewController
 
+- (IBAction)btnSaveCity:(id)sender;
+
 @end

@@ -32,6 +32,8 @@
 		A1AB56671979CA4B004D23AD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56661979CA4B004D23AD /* Security.framework */; };
 		A1AB56691979CA5A004D23AD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56681979CA5A004D23AD /* StoreKit.framework */; };
 		A1AB566B1979CA66004D23AD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB566A1979CA66004D23AD /* SystemConfiguration.framework */; };
+		A1FDE9A9197DC334000091D8 /* DDCabListingController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FDE9A8197DC334000091D8 /* DDCabListingController.m */; };
+		A1FDE9AC197DC503000091D8 /* DDCabReviewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FDE9AB197DC503000091D8 /* DDCabReviewsViewController.m */; };
 		A1FE67EC197C3AA700504D5D /* taxi-night-4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67E6197C3AA700504D5D /* taxi-night-4.jpg */; };
 		A1FE67ED197C3AA700504D5D /* taxi_night-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67E7197C3AA700504D5D /* taxi_night-3.jpg */; };
 		A1FE67EE197C3AA700504D5D /* taxi_night_blur.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67E8197C3AA700504D5D /* taxi_night_blur.jpeg */; };
@@ -85,6 +87,10 @@
 		A1AB56661979CA4B004D23AD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A1AB56681979CA5A004D23AD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A1AB566A1979CA66004D23AD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		A1FDE9A7197DC334000091D8 /* DDCabListingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCabListingController.h; sourceTree = "<group>"; };
+		A1FDE9A8197DC334000091D8 /* DDCabListingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCabListingController.m; sourceTree = "<group>"; };
+		A1FDE9AA197DC503000091D8 /* DDCabReviewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCabReviewsViewController.h; sourceTree = "<group>"; };
+		A1FDE9AB197DC503000091D8 /* DDCabReviewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCabReviewsViewController.m; sourceTree = "<group>"; };
 		A1FE67E6197C3AA700504D5D /* taxi-night-4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "taxi-night-4.jpg"; path = "../../../../../Downloads/taxi-night-4.jpg"; sourceTree = "<group>"; };
 		A1FE67E7197C3AA700504D5D /* taxi_night-3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "taxi_night-3.jpg"; path = "../../../../../Downloads/taxi_night-3.jpg"; sourceTree = "<group>"; };
 		A1FE67E8197C3AA700504D5D /* taxi_night_blur.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = taxi_night_blur.jpeg; path = ../../../../../Downloads/taxi_night_blur.jpeg; sourceTree = "<group>"; };
@@ -178,6 +184,8 @@
 				A1AB56321979C9B3004D23AD /* DDAppDelegate.h */,
 				A1AB56331979C9B3004D23AD /* DDAppDelegate.m */,
 				A1AB56351979C9B3004D23AD /* Main.storyboard */,
+				A1FDE9A7197DC334000091D8 /* DDCabListingController.h */,
+				A1FDE9A8197DC334000091D8 /* DDCabListingController.m */,
 				A1AB56381979C9B3004D23AD /* DDViewController.h */,
 				A1AB56391979C9B3004D23AD /* DDViewController.m */,
 				A1AB563B1979C9B3004D23AD /* Images.xcassets */,
@@ -188,6 +196,8 @@
 				A1FE67FB197C615A00504D5D /* DDSearchResultsController.m */,
 				A182505C197CC9A600483B5A /* DDAboutController.h */,
 				A182505D197CC9A600483B5A /* DDAboutController.m */,
+				A1FDE9AA197DC503000091D8 /* DDCabReviewsViewController.h */,
+				A1FDE9AB197DC503000091D8 /* DDCabReviewsViewController.m */,
 			);
 			path = CabCheck;
 			sourceTree = "<group>";
@@ -337,10 +347,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1AB56341979C9B3004D23AD /* DDAppDelegate.m in Sources */,
+				A1FDE9AC197DC503000091D8 /* DDCabReviewsViewController.m in Sources */,
 				A182505E197CC9A600483B5A /* DDAboutController.m in Sources */,
 				A1FE67FC197C615A00504D5D /* DDSearchResultsController.m in Sources */,
 				A1FE67F6197C4E1000504D5D /* DDChangeCityViewController.m in Sources */,
 				A1AB563A1979C9B3004D23AD /* DDViewController.m in Sources */,
+				A1FDE9A9197DC334000091D8 /* DDCabListingController.m in Sources */,
 				A1AB56301979C9B3004D23AD /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -474,6 +486,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CabCheck/CabCheck-Prefix.pch";
 				INFOPLIST_FILE = "CabCheck/CabCheck-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -492,6 +505,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CabCheck/CabCheck-Prefix.pch";
 				INFOPLIST_FILE = "CabCheck/CabCheck-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
