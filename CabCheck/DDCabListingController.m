@@ -7,14 +7,15 @@
 //
 
 #import "DDCabListingController.h"
-
+#import "TaxiTableViewCell.h"
+#import "Parse/Parse.h"
 @implementation DDCabListingController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+       
     }
     return self;
 }
@@ -64,22 +65,31 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath
-                        object:(PFObject *)object {
-    static NSString *CellIdentifier = @"Cell";
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Return the number of rows in the section.
+    return self.taxis.count;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"taxiTableCell";
+    TaxiTableViewCell *cell = [tableView
+                              dequeueReusableCellWithIdentifier:CellIdentifier
+                              forIndexPath:indexPath];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                      reuseIdentifier:CellIdentifier];
-    }
+    // Configure the cell...
     
-    // Configure the cell to show todo item with a priority at the bottom
-    cell.textLabel.text = [object objectForKey:@"driver"];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Priority: %@",
-                                 [object objectForKey:@"licenseNumber"]];
+    long row = [indexPath row];
+    
+    cell.lblTaxiDriver.text = self.taxis[row];
+
     
     return cell;
-}
-@end
+}@end

@@ -34,6 +34,7 @@
 		A1AB566B1979CA66004D23AD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB566A1979CA66004D23AD /* SystemConfiguration.framework */; };
 		A1FDE9A9197DC334000091D8 /* DDCabListingController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FDE9A8197DC334000091D8 /* DDCabListingController.m */; };
 		A1FDE9AC197DC503000091D8 /* DDCabReviewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FDE9AB197DC503000091D8 /* DDCabReviewsViewController.m */; };
+		A1FDE9AF197DD57F000091D8 /* TaxiTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FDE9AE197DD57F000091D8 /* TaxiTableViewCell.m */; };
 		A1FE67EC197C3AA700504D5D /* taxi-night-4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67E6197C3AA700504D5D /* taxi-night-4.jpg */; };
 		A1FE67ED197C3AA700504D5D /* taxi_night-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67E7197C3AA700504D5D /* taxi_night-3.jpg */; };
 		A1FE67EE197C3AA700504D5D /* taxi_night_blur.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67E8197C3AA700504D5D /* taxi_night_blur.jpeg */; };
@@ -91,6 +92,8 @@
 		A1FDE9A8197DC334000091D8 /* DDCabListingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCabListingController.m; sourceTree = "<group>"; };
 		A1FDE9AA197DC503000091D8 /* DDCabReviewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCabReviewsViewController.h; sourceTree = "<group>"; };
 		A1FDE9AB197DC503000091D8 /* DDCabReviewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCabReviewsViewController.m; sourceTree = "<group>"; };
+		A1FDE9AD197DD57F000091D8 /* TaxiTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxiTableViewCell.h; sourceTree = "<group>"; };
+		A1FDE9AE197DD57F000091D8 /* TaxiTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxiTableViewCell.m; sourceTree = "<group>"; };
 		A1FE67E6197C3AA700504D5D /* taxi-night-4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "taxi-night-4.jpg"; path = "../../../../../Downloads/taxi-night-4.jpg"; sourceTree = "<group>"; };
 		A1FE67E7197C3AA700504D5D /* taxi_night-3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "taxi_night-3.jpg"; path = "../../../../../Downloads/taxi_night-3.jpg"; sourceTree = "<group>"; };
 		A1FE67E8197C3AA700504D5D /* taxi_night_blur.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = taxi_night_blur.jpeg; path = ../../../../../Downloads/taxi_night_blur.jpeg; sourceTree = "<group>"; };
@@ -198,6 +201,8 @@
 				A182505D197CC9A600483B5A /* DDAboutController.m */,
 				A1FDE9AA197DC503000091D8 /* DDCabReviewsViewController.h */,
 				A1FDE9AB197DC503000091D8 /* DDCabReviewsViewController.m */,
+				A1FDE9AD197DD57F000091D8 /* TaxiTableViewCell.h */,
+				A1FDE9AE197DD57F000091D8 /* TaxiTableViewCell.m */,
 			);
 			path = CabCheck;
 			sourceTree = "<group>";
@@ -354,6 +359,7 @@
 				A1AB563A1979C9B3004D23AD /* DDViewController.m in Sources */,
 				A1FDE9A9197DC334000091D8 /* DDCabListingController.m in Sources */,
 				A1AB56301979C9B3004D23AD /* main.m in Sources */,
+				A1FDE9AF197DD57F000091D8 /* TaxiTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
