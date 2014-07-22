@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="afg-u0-OtR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="F7h-1m-lHd">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -62,73 +62,70 @@
             </objects>
             <point key="canvasLocation" x="3367" y="699"/>
         </scene>
-        <!--Cab Listing Controller - CabListing-->
-        <scene sceneID="Bkn-b9-aG7">
+        <!--Cab Search Results View Controller-->
+        <scene sceneID="fc9-gq-eO3">
             <objects>
-                <tableViewController title="CabListing" id="afg-u0-OtR" customClass="DDCabListingController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ssA-8o-wQ5">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="taxiTableCell" id="jVf-eJ-wnB" customClass="TaxiTableViewCell">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jVf-eJ-wnB" id="yCz-Zn-KWE">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CoQ-w2-o3d">
-                                            <rect key="frame" x="37" y="11" width="42" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="lblTaxiDriver" destination="CoQ-w2-o3d" id="t7D-jc-rjb"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                    </tableView>
+                <searchDisplayController id="1EZ-4a-Jzr">
                     <connections>
-                        <segue destination="YT8-nl-9wO" kind="push" identifier="CabReviewsViewController" id="O1M-c9-9zC"/>
+                        <outlet property="delegate" destination="F7h-1m-lHd" id="2bI-Zk-1BC"/>
+                        <outlet property="searchContentsController" destination="F7h-1m-lHd" id="tKe-VB-rCq"/>
+                        <outlet property="searchResultsDataSource" destination="F7h-1m-lHd" id="Fab-2u-2aV"/>
+                        <outlet property="searchResultsDelegate" destination="F7h-1m-lHd" id="OLb-to-9VT"/>
                     </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Wf9-Yg-VbN" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4131" y="722"/>
-        </scene>
-        <!--Cab Reviews View Controller - Reviews Controller-->
-        <scene sceneID="Yfa-O4-d4l">
-            <objects>
-                <tableViewController title="Reviews Controller" id="YT8-nl-9wO" customClass="DDCabReviewsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="331-7J-0Fu">
+                </searchDisplayController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gbh-58-b03" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="F7h-1m-lHd" customClass="DDCabSearchResultsViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dFi-A6-y9J">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" prompt="Enter driver name, medallion, or license" showsSearchResultsButton="YES" showsCancelButton="YES" id="HE8-M8-jhH">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="F7h-1m-lHd" id="3Ja-NX-Jsa"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="iFn-q3-Cbh">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Kja-av-XVT">
+                                <rect key="frame" x="0.0" y="97" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iFn-q3-Cbh" id="dcq-Kq-YTe">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kja-av-XVT" id="iae-lJ-aJd">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="YT8-nl-9wO" id="84g-Yw-JIw"/>
-                            <outlet property="delegate" destination="YT8-nl-9wO" id="DVb-iq-8d2"/>
+                            <outlet property="dataSource" destination="F7h-1m-lHd" id="q2W-aN-cwI"/>
+                            <outlet property="delegate" destination="F7h-1m-lHd" id="vjT-7q-XJi"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="RAf-h9-7gi"/>
+                    <connections>
+                        <outlet property="searchBarTaxis" destination="HE8-M8-jhH" id="ARF-fQ-bTZ"/>
+                        <outlet property="searchDisplayController" destination="LlL-AU-6fr" id="1C1-Hm-2vm"/>
+                    </connections>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Yhx-Gg-EiN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="asx-Ee-6nd">
+                    <connections>
+                        <outlet property="delegate" destination="F7h-1m-lHd" id="0Re-h4-f3Z"/>
+                        <outlet property="searchContentsController" destination="F7h-1m-lHd" id="u2d-xK-21G"/>
+                        <outlet property="searchResultsDataSource" destination="F7h-1m-lHd" id="x53-lS-wot"/>
+                        <outlet property="searchResultsDelegate" destination="F7h-1m-lHd" id="2nK-Gg-2Q8"/>
+                    </connections>
+                </searchDisplayController>
+                <searchDisplayController id="LlL-AU-6fr">
+                    <connections>
+                        <outlet property="delegate" destination="F7h-1m-lHd" id="Vra-eT-Yfr"/>
+                        <outlet property="searchBar" destination="HE8-M8-jhH" id="fwB-lm-Hnb"/>
+                        <outlet property="searchContentsController" destination="F7h-1m-lHd" id="VWL-nI-d3g"/>
+                        <outlet property="searchResultsDataSource" destination="F7h-1m-lHd" id="UjI-ur-l55"/>
+                        <outlet property="searchResultsDelegate" destination="F7h-1m-lHd" id="ZWh-tR-wsM"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="4565" y="730"/>
+            <point key="canvasLocation" x="3826" y="774"/>
         </scene>
         <!--View Controller - CabCheck Main-->
         <scene sceneID="eNT-9F-wNd">

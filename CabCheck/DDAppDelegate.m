@@ -8,6 +8,7 @@
 
 #import "DDAppDelegate.h"
 #import <Parse/Parse.h>
+#import "DDCabSearchResultsViewController.h"
 
 @implementation DDAppDelegate
 
@@ -18,7 +19,12 @@
                   clientKey:@"SGDYQaGgVbDXHpPIKXwR505RJL0plP8D3zYOFwWW"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    //[[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
+   // DDCabSearchResultsViewController *controller = [[DDCabSearchResultsViewController alloc] init];
+   // self.window.rootViewController = controller;
+    //[self.window makeKeyAndVisible];
+    
     return YES;
 }
 
