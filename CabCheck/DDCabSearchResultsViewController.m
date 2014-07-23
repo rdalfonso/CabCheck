@@ -8,14 +8,18 @@
 
 #import "DDCabSearchResultsViewController.h"
 
-@interface DDCabSearchResultsViewController ()
+@interface DDCabSearchResultsViewController()  <UISearchDisplayDelegate, UISearchBarDelegate> {
+    
+}
+
+@property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) UISearchDisplayController *searchController;
+@property (nonatomic, strong) NSMutableArray *searchResults;
 
 @end
 
 
 @implementation DDCabSearchResultsViewController
-@synthesize filteredTaxiArray;
-@synthesize searchBarTaxis;
 
 - (id)initWithCoder:(NSCoder*)aDecoder
 {
@@ -29,21 +33,30 @@
 }
 
 
-
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.searchResults = [NSMutableArray array];
-
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     
+    self.tableView.tableHeaderView = self.searchBar;
+    
+    self.searchController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
+    
+    self.searchController.searchResultsDataSource = self;
+    self.searchController.searchResultsDelegate = self;
+    self.searchController.delegate = self;
+    
+    
+    CGPoint offset = CGPointMake(0, self.searchBar.frame.size.height);
+    self.tableView.contentOffset = offset;
+    
+    self.searchResults = [NSMutableArray array];
 }
 
 
 - (PFQuery *)queryForTable {
-    PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
+    PFQuery *query = [PFQuery queryWithClassName:@"DriverObject"];
     
     if ([self.objects count] == 0) {
         query.cachePolicy = kPFCachePolicyCacheThenNetwork;
@@ -55,25 +68,29 @@
 }
 
 
--(void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
-     NSLog(@"filterContentForSearchText searchText: %@", searchText);
-   
+- (void)filterResults:(NSString *)searchTerm {
+    
+    [self.searchResults removeAllObjects];
+    
+    PFQuery *query = [PFQuery queryWithClassName: @"DriverObject"];
+    query.limit = 5;
+    [query whereKey:@"licenseNumber" containsString:searchTerm];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+        if (!error) {
+            long qCount = (unsigned long)results.count;
+            NSLog(@"%@ %ld", results, qCount);
+            [self.searchResults addObjectsFromArray:results];
+            
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+    
+    //NSArray *results  = [query findObjects];
 }
 
-- (void)filterResults:(NSString *)searchTerm {
-    [self.searchResults removeAllObjects];
-    NSLog(@"searchTerm: %@", searchTerm);
-    NSLog(@"parseClassName: %@", self.parseClassName);
-    
-    PFQuery *query = [PFQuery queryWithClassName: self.parseClassName];
-    query.limit = 10;
-    NSArray *results  = [query findObjects];
-    
-    
-    NSLog(@"count: %lu", (unsigned long)results.count);
-    
-    [self.searchResults addObjectsFromArray:results];
-}
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     [self filterResults:searchString];
@@ -88,43 +105,42 @@
     }
 }
 
-
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
-    // Tells the table data source to reload when scope bar selection changes
-    [self filterContentForSearchText:self.searchDisplayController.searchBar.text scope:
-     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
-    // Return YES to cause the search result table view to be reloaded.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     
-     NSLog(@"searchDisplayController shouldReloadTableForSearchScope searchText: %ld", (long)searchOption);
+    NSString *uniqueIdentifier = @"taxiCell";
+    UITableViewCell *cell = nil;
     
-    return YES;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath
-                        object:(PFObject *)object {
-    static NSString *CellIdentifier = @"Cell";
+    cell = (UITableViewCell *) [self.tableView dequeueReusableCellWithIdentifier:uniqueIdentifier];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                      reuseIdentifier:CellIdentifier];
+    if (!cell) {
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"UITableViewCell" owner:nil options:nil];
+        
+        for (id currentObject in topLevelObjects)
+        {
+            if([currentObject isKindOfClass:[UITableViewCell class]])
+            {
+                cell = (UITableViewCell *)currentObject;
+                break;
+            }
+        }
     }
     
-    // Configure the cell to show todo item with a priority at the bottom
-    cell.textLabel.text = [object objectForKey:@"driver"];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Type: %@",
-                                 [object objectForKey:@"driverType"]];
     
+    if (tableView != self.searchDisplayController.searchResultsTableView)
+    {
+        cell.textLabel.text = [object objectForKey:@"driver"];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"Type not sr: %@", [object objectForKey:@"driverType"]];
+    }
+    if ([tableView isEqual:self.searchDisplayController.searchResultsTableView])
+    {
+        cell.textLabel.text = [object objectForKey:@"driver"];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"Type IS sr: %@", [object objectForKey:@"driverType"]];
+    }
     return cell;
+    
 }
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-}
 
 
 - (void)didReceiveMemoryWarning

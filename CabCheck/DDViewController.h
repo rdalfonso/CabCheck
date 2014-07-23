@@ -19,5 +19,7 @@
 @property (strong, nonatomic, readwrite) NSString *userCity;
 @property (strong, nonatomic) IBOutlet UILabel *lblCurrentCity;
 @property (strong, nonatomic) IBOutlet UIButton *btnChangeCity;
+@property (strong, nonatomic) IBOutlet UITextField *txtSearch;
+- (IBAction)btnSearch:(id)sender;
 
 @end

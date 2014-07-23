@@ -8,9 +8,6 @@
 
 #import <Parse/Parse.h>
 
-@interface DDCabSearchResultsViewController : PFQueryTableViewController<UISearchBarDelegate, UISearchDisplayDelegate>
-@property (nonatomic, strong) NSMutableArray *searchResults;
-@property (strong, nonatomic) IBOutlet UISearchBar *searchBarTaxis;
+@interface DDCabSearchResultsViewController : PFQueryTableViewController<UITableViewDelegate>
 
-@property (strong,nonatomic) NSMutableArray *filteredTaxiArray;
 @end
