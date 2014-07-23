@@ -52,6 +52,8 @@
     self.tableView.contentOffset = offset;
     
     self.searchResults = [NSMutableArray array];
+    
+   // [self.searchBar becomeFirstResponder];
 }
 
 
@@ -71,6 +73,7 @@
 - (void)filterResults:(NSString *)searchTerm {
     
     [self.searchResults removeAllObjects];
+    //[self.searchBar resignFirstResponder];
     
     PFQuery *query = [PFQuery queryWithClassName: @"DriverObject"];
     query.limit = 5;
@@ -81,6 +84,7 @@
             long qCount = (unsigned long)results.count;
             NSLog(@"%@ %ld", results, qCount);
             [self.searchResults addObjectsFromArray:results];
+            [self loadObjects];
             
         } else {
             // Log details of the failure
@@ -91,6 +95,17 @@
     //NSArray *results  = [query findObjects];
 }
 
+- (void)objectsWillLoad {
+    [super objectsWillLoad];
+    
+    // This method is called before a PFQuery is fired to get more objects
+}
+
+- (void)objectsDidLoad:(NSError *)error {
+    [super objectsDidLoad:error];
+    
+    // This method is called every time objects are loaded from Parse via the PFQuery
+}
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     [self filterResults:searchString];
@@ -105,8 +120,38 @@
     }
 }
 
+- (void)configureSearchResult:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object
+{
+    cell.textLabel.text = [object objectForKey:@"driver"];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Type not sr: %@", [object objectForKey:@"driverType"]];
+    
+    
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     
+    static NSString *CellIdentifier = @"taxiCell";
+    
+    //Custom Cell
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        
+    }
+    
+    if ([self.searchResults count] != 0) {
+        
+        PFObject *object = [PFObject objectWithClassName:@"DriverObject"];
+        object = [self.searchResults objectAtIndex:indexPath.row];
+        [self configureSearchResult:cell atIndexPath:indexPath object:object];
+    }
+    
+    cell.textLabel.text = [object objectForKey:@"driver"];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Type not sr: %@", [object objectForKey:@"driverType"]];
+    
+    return cell;
+    
+    /*
     NSString *uniqueIdentifier = @"taxiCell";
     UITableViewCell *cell = nil;
     
@@ -137,6 +182,7 @@
         cell.detailTextLabel.text = [NSString stringWithFormat:@"Type IS sr: %@", [object objectForKey:@"driverType"]];
     }
     return cell;
+     */
     
 }
 

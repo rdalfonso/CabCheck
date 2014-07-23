@@ -95,6 +95,7 @@
                     </tableView>
                     <connections>
                         <outlet property="searchDisplayController" destination="LlL-AU-6fr" id="1C1-Hm-2vm"/>
+                        <outlet property="selfControllerTop" destination="HE8-M8-jhH" id="pnU-qo-gQj"/>
                     </connections>
                 </tableViewController>
                 <searchDisplayController id="1EZ-4a-Jzr">
@@ -331,7 +332,6 @@
         <!--Navigation Controller - Navigation Controller-->
         <scene sceneID="Ng1-U2-R1f">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bVT-cE-tQD" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController title="Navigation Controller" automaticallyAdjustsScrollViewInsets="NO" id="4aX-Gn-oJF" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -350,6 +350,7 @@
                         <segue destination="HdP-FG-lE3" kind="relationship" relationship="rootViewController" id="FEv-0v-ZXh"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bVT-cE-tQD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3022" y="35"/>
         </scene>
