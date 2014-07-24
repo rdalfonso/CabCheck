@@ -7,22 +7,30 @@
 //
 
 #import "DDCabSearchResultsViewController.h"
+#import "CabSearchResultCell.h"
 
-@interface DDCabSearchResultsViewController()  <UISearchDisplayDelegate, UISearchBarDelegate> {
+@interface DDCabSearchResultsViewController() <UISearchDisplayDelegate, UISearchBarDelegate> {
     
 }
+
 
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UISearchDisplayController *searchController;
 @property (nonatomic, strong) NSMutableArray *searchResults;
+@end
+
+
+@interface DDCabSearchResultsViewController ()
 
 @end
 
 
 @implementation DDCabSearchResultsViewController
+@synthesize globalSearchTerm;
 
 - (id)initWithCoder:(NSCoder*)aDecoder
 {
+    
     if(self = [super initWithCoder:aDecoder]) {
         self.parseClassName = @"DriverObject";
         self.pullToRefreshEnabled = YES;
@@ -32,12 +40,29 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self loadObjects];
+}
+
+-(void)setSearchTerm:(NSString *)searchTerm
+{
+    globalSearchTerm = searchTerm;
+    NSLog(@"searchTerm frm main %@", globalSearchTerm);
+    self.searchBar.text = globalSearchTerm;
+}
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    self.searchBar.placeholder = @"Enter medallion, license, or driver.";
+    if([globalSearchTerm length] > 0)
+    {
+        self.searchBar.text = globalSearchTerm;
+    }
     
     self.tableView.tableHeaderView = self.searchBar;
     
@@ -48,43 +73,33 @@
     self.searchController.delegate = self;
     
     
-    CGPoint offset = CGPointMake(0, self.searchBar.frame.size.height);
-    self.tableView.contentOffset = offset;
+    //CGPoint offset = CGPointMake(20, self.searchBar.frame.size.height);
+    //self.tableView.contentOffset = offset;
     
     self.searchResults = [NSMutableArray array];
-    
-   // [self.searchBar becomeFirstResponder];
 }
-
-
-- (PFQuery *)queryForTable {
-    PFQuery *query = [PFQuery queryWithClassName:@"DriverObject"];
-    
-    if ([self.objects count] == 0) {
-        query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    }
-    
-    [query orderByAscending:@"driver"];
-    
-    return query;
-}
-
 
 - (void)filterResults:(NSString *)searchTerm {
     
     [self.searchResults removeAllObjects];
-    //[self.searchBar resignFirstResponder];
     
     PFQuery *query = [PFQuery queryWithClassName: @"DriverObject"];
     query.limit = 5;
     [query whereKey:@"licenseNumber" containsString:searchTerm];
     
+    NSArray *results  = [query findObjects];
+    [self.searchResults addObjectsFromArray:results];
+    NSLog(@"%@", results);
+    NSLog(@"%u", results.count);
+    
+    /*
     [query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
         if (!error) {
-            long qCount = (unsigned long)results.count;
-            NSLog(@"%@ %ld", results, qCount);
+            
+            
+            NSLog(@"%@", results);
+            NSLog(@"%u", results.count);
             [self.searchResults addObjectsFromArray:results];
-            [self loadObjects];
             
         } else {
             // Log details of the failure
@@ -92,66 +107,28 @@
         }
     }];
     
-    //NSArray *results  = [query findObjects];
+*/
+    
+    
 }
 
-- (void)objectsWillLoad {
-    [super objectsWillLoad];
-    
-    // This method is called before a PFQuery is fired to get more objects
-}
-
-- (void)objectsDidLoad:(NSError *)error {
-    [super objectsDidLoad:error];
-    
-    // This method is called every time objects are loaded from Parse via the PFQuery
-}
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     [self filterResults:searchString];
     return YES;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) {
         return self.objects.count;
+        
     } else {
-        return self.searchResults.count ;
+        return self.searchResults.count;
     }
-}
-
-- (void)configureSearchResult:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object
-{
-    cell.textLabel.text = [object objectForKey:@"driver"];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Type not sr: %@", [object objectForKey:@"driverType"]];
-    
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     
-    static NSString *CellIdentifier = @"taxiCell";
-    
-    //Custom Cell
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        
-    }
-    
-    if ([self.searchResults count] != 0) {
-        
-        PFObject *object = [PFObject objectWithClassName:@"DriverObject"];
-        object = [self.searchResults objectAtIndex:indexPath.row];
-        [self configureSearchResult:cell atIndexPath:indexPath object:object];
-    }
-    
-    cell.textLabel.text = [object objectForKey:@"driver"];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Type not sr: %@", [object objectForKey:@"driverType"]];
-    
-    return cell;
-    
-    /*
     NSString *uniqueIdentifier = @"taxiCell";
     UITableViewCell *cell = nil;
     
@@ -170,23 +147,22 @@
         }
     }
     
-    
-    if (tableView != self.searchDisplayController.searchResultsTableView)
-    {
+    if (tableView != self.searchDisplayController.searchResultsTableView) {
+        
         cell.textLabel.text = [object objectForKey:@"driver"];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"Type not sr: %@", [object objectForKey:@"driverType"]];
+        //cell.driverMedallion = [object objectForKey:@"medallionAgentNumber"];
+        //cell.driverCompany = [object objectForKey:@"dmvLicensePlate"];
     }
-    if ([tableView isEqual:self.searchDisplayController.searchResultsTableView])
-    {
-        cell.textLabel.text = [object objectForKey:@"driver"];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"Type IS sr: %@", [object objectForKey:@"driverType"]];
+    if ([tableView isEqual:self.searchDisplayController.searchResultsTableView]) {
+        
+        PFObject *object = [self.searchResults objectAtIndex:indexPath.row];
+        cell.textLabel.text  = [object objectForKey:@"driver"];
+        //cell.driverMedallion = [object objectForKey:@"medallionAgentNumber"];
+        //cell.driverCompany = [object objectForKey:@"dmvLicensePlate"];
     }
     return cell;
-     */
     
 }
-
-
 
 
 - (void)didReceiveMemoryWarning

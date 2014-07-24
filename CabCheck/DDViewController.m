@@ -7,6 +7,7 @@
 //
 
 #import "DDViewController.h"
+#import "DDCabSearchResultsViewController.h"
 #import <Parse/Parse.h>
 
 
@@ -32,11 +33,41 @@
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
+    
+    [self.txtSearch becomeFirstResponder];
+    [self.txtSearch resignFirstResponder];
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    [self.txtSearch resignFirstResponder];
+    
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    [self.txtSearch resignFirstResponder];
+    
+    return NO;
+    
 }
 
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSLog(@"prepareForSegue: %@", segue.identifier);
+    
+    
+    if ([segue.identifier isEqualToString:@"pushSeqSearchResults"]) {
+        DDCabSearchResultsViewController *destViewController = segue.destinationViewController;
+        if([_txtSearch.text length] > 0) {
+            destViewController.globalSearchTerm = _txtSearch.text;
+        }
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation

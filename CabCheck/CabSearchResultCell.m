@@ -10,10 +10,6 @@
 
 @implementation CabSearchResultCell
 
-@synthesize driverName = _driverName;
-@synthesize driverCompany = _driverCompany;
-@synthesize driverLicensePlate = _driverLicensePlate;
-@synthesize driverMedallion = _driverMedallion;
 
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -30,4 +26,5 @@
     [super setSelected:selected animated:animated];
     // Configure the view for the selected state
 }
+
 @end

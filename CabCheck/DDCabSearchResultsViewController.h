@@ -8,8 +8,6 @@
 
 #import <Parse/Parse.h>
 
-@interface DDCabSearchResultsViewController : PFQueryTableViewController<UITableViewDelegate>
-@property (strong, nonatomic) IBOutlet UISearchBar *selfControllerTop;
-
-
+@interface DDCabSearchResultsViewController : PFQueryTableViewController <UITableViewDelegate>
+@property (nonatomic, strong) NSString *globalSearchTerm;
 @end

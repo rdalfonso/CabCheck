@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="F7h-1m-lHd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="4aX-Gn-oJF">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -60,45 +60,43 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HVp-dq-xkK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3367" y="699"/>
+            <point key="canvasLocation" x="3065" y="651"/>
         </scene>
         <!--Cab Search Results View Controller - SearchController-->
         <scene sceneID="fc9-gq-eO3">
             <objects>
                 <tableViewController title="SearchController" id="F7h-1m-lHd" customClass="DDCabSearchResultsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dFi-A6-y9J">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dFi-A6-y9J">
+                        <rect key="frame" x="0.0" y="44" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" prompt="Enter driver name, medallion, or license" showsSearchResultsButton="YES" showsCancelButton="YES" id="HE8-M8-jhH">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits"/>
-                            <connections>
-                                <outlet property="delegate" destination="F7h-1m-lHd" id="3Ja-NX-Jsa"/>
-                            </connections>
-                        </searchBar>
+                        <color key="sectionIndexColor" red="1" green="0.80000001192092896" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="taxiCell" id="Kja-av-XVT">
-                                <rect key="frame" x="0.0" y="97" width="320" height="44"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="taxiCell" rowHeight="44" id="Kja-av-XVT">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kja-av-XVT" id="iae-lJ-aJd">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="F7h-1m-lHd" id="q2W-aN-cwI"/>
-                            <outlet property="delegate" destination="F7h-1m-lHd" id="vjT-7q-XJi"/>
+                            <outlet property="dataSource" destination="F7h-1m-lHd" id="V4M-t5-eQz"/>
+                            <outlet property="delegate" destination="F7h-1m-lHd" id="dnM-cE-4Se"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="2pG-74-kHu"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <outlet property="searchDisplayController" destination="LlL-AU-6fr" id="1C1-Hm-2vm"/>
-                        <outlet property="selfControllerTop" destination="HE8-M8-jhH" id="pnU-qo-gQj"/>
+                        <outlet property="searchDisplayController" destination="xSO-6m-QLm" id="dyF-u8-pvU"/>
                     </connections>
                 </tableViewController>
-                <searchDisplayController id="1EZ-4a-Jzr">
+                <searchDisplayController searchResultsTitle="Your cab was found" id="1EZ-4a-Jzr">
                     <connections>
                         <outlet property="delegate" destination="F7h-1m-lHd" id="2bI-Zk-1BC"/>
                         <outlet property="searchContentsController" destination="F7h-1m-lHd" id="tKe-VB-rCq"/>
@@ -118,14 +116,21 @@
                 <searchDisplayController id="LlL-AU-6fr">
                     <connections>
                         <outlet property="delegate" destination="F7h-1m-lHd" id="Vra-eT-Yfr"/>
-                        <outlet property="searchBar" destination="HE8-M8-jhH" id="fwB-lm-Hnb"/>
                         <outlet property="searchContentsController" destination="F7h-1m-lHd" id="VWL-nI-d3g"/>
                         <outlet property="searchResultsDataSource" destination="F7h-1m-lHd" id="UjI-ur-l55"/>
                         <outlet property="searchResultsDelegate" destination="F7h-1m-lHd" id="ZWh-tR-wsM"/>
                     </connections>
                 </searchDisplayController>
+                <searchDisplayController id="xSO-6m-QLm">
+                    <connections>
+                        <outlet property="delegate" destination="F7h-1m-lHd" id="Pcd-zK-SkE"/>
+                        <outlet property="searchContentsController" destination="F7h-1m-lHd" id="hre-08-Tf5"/>
+                        <outlet property="searchResultsDataSource" destination="F7h-1m-lHd" id="ELo-Bh-nIX"/>
+                        <outlet property="searchResultsDelegate" destination="F7h-1m-lHd" id="dD5-Hy-dVM"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="3826" y="774"/>
+            <point key="canvasLocation" x="3766" y="27"/>
         </scene>
         <!--View Controller - CabCheck Main-->
         <scene sceneID="eNT-9F-wNd">
@@ -175,7 +180,7 @@
                                 </state>
                                 <connections>
                                     <action selector="btnSearch:" destination="HdP-FG-lE3" eventType="touchUpInside" id="xo6-rs-hvl"/>
-                                    <segue destination="thd-Yf-f74" kind="push" id="FdT-NE-bNe"/>
+                                    <segue destination="F7h-1m-lHd" kind="push" identifier="pushSeqSearchResults" id="sQV-04-UCH"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter driver name, medallion, or license" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ySo-79-VOy">
@@ -214,65 +219,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nQD-oN-awo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3392" y="35"/>
-        </scene>
-        <!--Search Results Controller-->
-        <scene sceneID="ob8-M8-tFY">
-            <objects>
-                <viewController id="thd-Yf-f74" customClass="DDSearchResultsController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="zZS-Xb-pf1"/>
-                        <viewControllerLayoutGuide type="bottom" id="2FZ-og-PnH"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="jOC-R7-fVV">
-                        <rect key="frame" x="0.0" y="44" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter driver name, medallion, or license" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jp9-uc-7QB">
-                                <rect key="frame" x="6" y="39" width="347" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter driver name or medallion number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v7w-t6-x3l">
-                                <rect key="frame" x="6" y="64" width="302" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d7L-OR-QHn">
-                                <rect key="frame" x="6" y="97" width="140" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <state key="normal" title="Find Results">
-                                    <color key="titleColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="btnSearch:" destination="thd-Yf-f74" eventType="touchUpInside" id="Zwf-Qx-A8p"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Search CabCheck" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wdv-ji-8cx">
-                                <rect key="frame" x="6" y="12" width="302" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
-                                <color key="textColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="uZL-fg-Ggv"/>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="320" height="524"/>
-                    <connections>
-                        <outlet property="txtSearchString" destination="v7w-t6-x3l" id="7LG-lC-5KG"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iep-w3-XEg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3733" y="35"/>
         </scene>
         <!--About Controller - CabCheck About-->
         <scene sceneID="IwF-eZ-EE9">
@@ -327,7 +273,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1eX-X0-w6S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4107" y="35"/>
+            <point key="canvasLocation" x="4107" y="-633"/>
         </scene>
         <!--Navigation Controller - Navigation Controller-->
         <scene sceneID="Ng1-U2-R1f">
