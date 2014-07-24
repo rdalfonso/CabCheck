@@ -19,11 +19,7 @@
                   clientKey:@"SGDYQaGgVbDXHpPIKXwR505RJL0plP8D3zYOFwWW"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
-    //[[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
-   // DDCabSearchResultsViewController *controller = [[DDCabSearchResultsViewController alloc] init];
-   // self.window.rootViewController = controller;
-    //[self.window makeKeyAndVisible];
+   [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0 green:.62 blue:.984 alpha:1]];
     
     return YES;
 }

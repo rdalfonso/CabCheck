@@ -36,6 +36,11 @@
     
     [self.txtSearch becomeFirstResponder];
     [self.txtSearch resignFirstResponder];
+    
+    CGRect frameRect = self.txtSearch.frame;
+    frameRect.size.height = 200;
+    self.txtSearch.frame = frameRect;
+
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
