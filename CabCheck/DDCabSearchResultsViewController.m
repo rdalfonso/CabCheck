@@ -105,8 +105,9 @@
     self.searchController.searchResultsTableView.rowHeight = self.tableView.rowHeight;
     
     [self.searchBar resignFirstResponder];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-    [self.view addGestureRecognizer:tap];
+   
+    //UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+   // [self.view addGestureRecognizer:tap];
     
     if([globalSearchTerm length] > 0){
         self.searchBar.text = globalSearchTerm;
@@ -114,7 +115,6 @@
     
     self.edgesForExtendedLayout=UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
-    
 }
 
 - (void)dismissKeyboard
@@ -139,6 +139,7 @@
     NSArray *results  = [query findObjects];
     [self.searchResults addObjectsFromArray:results];
     NSLog(@"filter %lu", (unsigned long)results.count);
+    
 
 }
 
@@ -156,11 +157,11 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) {
-        NSLog(@"self.objects.count: %lu", (unsigned long)self.objects.count);
+       // NSLog(@"self.objects.count: %lu", (unsigned long)self.objects.count);
         return self.objects.count;
         
     } else {
-        NSLog(@"searchResults: %lu", (unsigned long)self.searchResults.count);
+       // NSLog(@"searchResults: %lu", (unsigned long)self.searchResults.count);
         return self.searchResults.count;
     }
 }
@@ -270,23 +271,27 @@
 
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    PFObject *taxiObject = [self.searchResults objectAtIndex:indexPath.row];
-    NSLog(@"taxi object: %@", taxiObject);
-    self.taxi =  taxiObject.objectId;
-    [self performSegueWithIdentifier:@"pushSeqResultToDetails" sender:self];
-}
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
     NSLog(@"prepareForSegue: %@", segue.identifier);
     
-    if ([segue.identifier isEqualToString:@"pushSeqResultToDetails"]) {
+    if ([segue.destinationViewController isKindOfClass:[DDSearchResultDetailController class]]) {
         DDSearchResultDetailController *destViewController = segue.destinationViewController;
         destViewController.taxiUniqueID = self.taxi;
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSLog(@"prepareForSegue: ");
+    // Fetch object
+    PFObject *taxiObject = [self.searchResults objectAtIndex:indexPath.row];
+    NSLog(@"taxi object: %@", taxiObject);
+    self.taxi =  taxiObject.objectId;
+    
+    // Perform Segue
+    [self performSegueWithIdentifier:@"pushSeqResultsToDetail" sender:self];
 }
 
 
@@ -298,15 +303,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
