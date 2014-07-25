@@ -42,6 +42,28 @@
     return self;
 }
 
+- (PFQuery *)queryForTable {
+    PFQuery *searchByMedallion = [PFQuery queryWithClassName:@"DriverObject"];
+    [searchByMedallion whereKey:@"driverName" containsString:globalSearchTerm];
+    
+    PFQuery *searchByDMVLicense = [PFQuery queryWithClassName:@"DriverObject"];
+    [searchByDMVLicense whereKey:@"driverMedallion" containsString:globalSearchTerm];
+    
+    PFQuery *query = [PFQuery orQueryWithSubqueries:@[searchByMedallion,searchByDMVLicense]];
+    query.limit = 50;
+    
+    
+    if (self.pullToRefreshEnabled) {
+        query.cachePolicy = kPFCachePolicyNetworkOnly;
+    }
+    if (self.objects.count == 0) {
+        query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    }
+    
+    [query orderByAscending:@"createdAt"];
+    return query;
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [self loadObjects];
@@ -50,23 +72,32 @@
 -(void)setSearchTerm:(NSString *)searchTerm
 {
     globalSearchTerm = searchTerm;
-    NSLog(@"searchTerm frm main %@", globalSearchTerm);
     self.searchBar.text = globalSearchTerm;
+}
+
+
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)aSearchBar {
+    [self.searchBar resignFirstResponder];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    NSLog(@"globalSearchTerm %@", globalSearchTerm);
+    
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 10)];
     self.searchBar.placeholder = @"Enter medallion number or driver name.";
-    [self.searchBar setShowsCancelButton:YES animated:YES];
-    
-    if([globalSearchTerm length] > 0) {
-        self.searchBar.text = globalSearchTerm;
-    }
-    
+    [self.searchBar setShowsCancelButton:YES animated:NO];
     self.tableView.tableHeaderView = self.searchBar;
+    
+    //List Subviews
+    NSArray *subviews=[self.tableView subviews];
+    NSLog(@"Subviews count: %d",subviews.count);
+    for (UIView *view in subviews) {
+        NSLog(@"CLASS: %@",[view class]);
+    }
     
     self.searchController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
     self.searchController.searchResultsDataSource = self;
@@ -78,9 +109,20 @@
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     
     self.searchController.searchResultsTableView.rowHeight = self.tableView.rowHeight;
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
+    
+}
+
+- (void)dismissKeyboard
+{
+    [self.searchBar resignFirstResponder];
 }
 
 - (void)filterResults:(NSString *)searchTerm {
+    
+    NSLog(@"globalSearchTerm filterResults %@", globalSearchTerm);
     
     [self.searchResults removeAllObjects];
     
@@ -91,13 +133,12 @@
     [searchByDMVLicense whereKey:@"driverMedallion" containsString:searchTerm];
     
     PFQuery *query = [PFQuery orQueryWithSubqueries:@[searchByMedallion,searchByDMVLicense]];
-    query.limit = 5;
+    query.limit = 50;
     
     NSArray *results  = [query findObjects];
     [self.searchResults addObjectsFromArray:results];
-    NSLog(@"%u", results.count);
+    NSLog(@"filter %lu", (unsigned long)results.count);
   
-    
     /*
     [query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
         if (!error) {
@@ -115,6 +156,7 @@
     
 }
 
+/*
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -136,7 +178,7 @@
         destViewController.taxiUniqueID = self.taxi;
     }
 }
-
+*/
 
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
@@ -160,12 +202,15 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    cell.selectedBackgroundView.backgroundColor=[UIColor redColor];
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    
+    if ([self.searchResults count] == 0) {
+        UITableViewCell *cell = [[UITableViewCell alloc] init];
+        cell.backgroundColor=[UIColor blackColor];
+        cell.textLabel.text = @"No records to display";
+        return cell;
+    }
     
     NSString *uniqueIdentifier = @"taxiCell";
     CabSearchResultCell *cell = nil;
@@ -185,7 +230,7 @@
         }
     }
     
-    cell.selectedBackgroundView.backgroundColor=[UIColor redColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (tableView != self.searchDisplayController.searchResultsTableView) {
         
         cell.driverName.text = [object objectForKey:@"driverName"];
@@ -196,12 +241,16 @@
         if([driverCabMake length] > 0) {
             [make appendString:[object objectForKey:@"driverCabMake"]];
         }
+        [make appendString: @" "];
         NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
         if([driverCabModel length] > 0) {
             [make appendString:[object objectForKey:@"driverCabModel"]];
         }
         cell.driverLicense.text = make;
         cell.driverCabMakeModel.text = [object objectForKey:@"driverCabYear"];
+        cell.driverVIN.text = [object objectForKey:@"driverVin"];
+        NSString *longStr = @"AAAAA\nBBBBB\nCCCCC";
+        cell.driverRatingProsAndCons.text = longStr;
         
     }
     if ([tableView isEqual:self.searchDisplayController.searchResultsTableView]) {
@@ -214,12 +263,22 @@
         if([driverCabMake length] > 0) {
             [make appendString:[object objectForKey:@"driverCabMake"]];
         }
+        [make appendString: @" "];
         NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
         if([driverCabModel length] > 0) {
-            [make appendString:[object objectForKey:@"driverCabModel"]];
+            [make appendString: [object objectForKey:@"driverCabModel"]];
         }
         cell.driverLicense.text = make;
+        
         cell.driverCabMakeModel.text = [object objectForKey:@"driverCabYear"];
+        NSString *driverVin =[object objectForKey:@"driverVin"];
+        if([driverVin length] > 0) {
+            cell.driverVIN.text = driverVin;
+        } else {
+            cell.driverVIN.text = @"";
+        }
+        NSString *longStr = @"AAAAA\nBBBBB\nCCCCC";
+        cell.driverRatingProsAndCons.text = longStr;
     }
     return cell;
     

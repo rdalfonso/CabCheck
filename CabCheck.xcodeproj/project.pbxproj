@@ -11,6 +11,7 @@
 		A142A3C5197F0CB3002AAEEE /* DDCabSearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A142A3C4197F0CB3002AAEEE /* DDCabSearchResultsViewController.m */; };
 		A1565EA51981D1A2008E5D2B /* stop-light-red.png in Resources */ = {isa = PBXBuildFile; fileRef = A1565EA41981D1A2008E5D2B /* stop-light-red.png */; };
 		A1565EA81981D3D4008E5D2B /* DDSearchResultDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1565EA71981D3D4008E5D2B /* DDSearchResultDetailController.m */; };
+		A168A28D1982B7060095581B /* traffic-light-bb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A168A28C1982B7060095581B /* traffic-light-bb.jpg */; };
 		A182505E197CC9A600483B5A /* DDAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = A182505D197CC9A600483B5A /* DDAboutController.m */; };
 		A1AB56241979C9B3004D23AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56231979C9B3004D23AD /* Foundation.framework */; };
 		A1AB56261979C9B3004D23AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56251979C9B3004D23AD /* CoreGraphics.framework */; };
@@ -63,6 +64,7 @@
 		A1565EA41981D1A2008E5D2B /* stop-light-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stop-light-red.png"; path = "../../../../../Downloads/stop-light-red.png"; sourceTree = "<group>"; };
 		A1565EA61981D3D4008E5D2B /* DDSearchResultDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDSearchResultDetailController.h; sourceTree = "<group>"; };
 		A1565EA71981D3D4008E5D2B /* DDSearchResultDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDSearchResultDetailController.m; sourceTree = "<group>"; };
+		A168A28C1982B7060095581B /* traffic-light-bb.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "traffic-light-bb.jpg"; path = "../../../../../Downloads/traffic-light-bb.jpg"; sourceTree = "<group>"; };
 		A182505C197CC9A600483B5A /* DDAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAboutController.h; sourceTree = "<group>"; };
 		A182505D197CC9A600483B5A /* DDAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAboutController.m; sourceTree = "<group>"; };
 		A1AB56201979C9B3004D23AD /* CabCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CabCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -202,6 +204,7 @@
 		A1AB562A1979C9B3004D23AD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A168A28C1982B7060095581B /* traffic-light-bb.jpg */,
 				A1565EA41981D1A2008E5D2B /* stop-light-red.png */,
 				A1FE67F2197C430000504D5D /* stop-light.jpg */,
 				A1FE67E6197C3AA700504D5D /* taxi-night-4.jpg */,
@@ -320,6 +323,7 @@
 				A1FE67EF197C3AA700504D5D /* taxi-fare.jpg in Resources */,
 				A1FE67F1197C3AA700504D5D /* taxi_top.jpeg in Resources */,
 				A1FE67EC197C3AA700504D5D /* taxi-night-4.jpg in Resources */,
+				A168A28D1982B7060095581B /* traffic-light-bb.jpg in Resources */,
 				A1AB562E1979C9B3004D23AD /* InfoPlist.strings in Resources */,
 				A1FE67F0197C3AA700504D5D /* taxi_night.jpg in Resources */,
 				A1FE67F3197C430000504D5D /* stop-light.jpg in Resources */,

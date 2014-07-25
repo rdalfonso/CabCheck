@@ -40,8 +40,8 @@
     CGRect frameRect = self.txtSearch.frame;
     frameRect.size.height = 200;
     self.txtSearch.frame = frameRect;
-
 }
+
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
@@ -69,7 +69,11 @@
     
     if ([segue.identifier isEqualToString:@"pushSeqSearchResults"]) {
         DDCabSearchResultsViewController *destViewController = segue.destinationViewController;
+        
+        NSLog(@"_txtSearch length: %lu", (unsigned long)[_txtSearch.text length]);
+        
         if([_txtSearch.text length] > 0) {
+            NSLog(@"_txtSearch: %@", _txtSearch.text);
             destViewController.globalSearchTerm = _txtSearch.text;
         }
     }

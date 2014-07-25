@@ -13,5 +13,11 @@
 @property (strong, nonatomic) IBOutlet UILabel *driverMedallion;
 @property (strong, nonatomic) IBOutlet UILabel *driverLicense;
 @property (strong, nonatomic) IBOutlet UILabel *driverCabMakeModel;
+@property (strong, nonatomic) IBOutlet UILabel *driverVIN;
+@property (strong, nonatomic) IBOutlet UILabel *driverResultHeader;
+@property (strong, nonatomic) IBOutlet UILabel *driverResultMainHeader;
+@property (strong, nonatomic) IBOutlet UILabel *driverRating;
+@property (strong, nonatomic) IBOutlet UIImageView *driverRatingImage;
+@property (strong, nonatomic) IBOutlet UILabel *driverRatingProsAndCons;
 
 @end
