@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A129CD9B198020F300CBA300 /* CabSearchResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A129CD9A198020F300CBA300 /* CabSearchResultCell.m */; };
 		A142A3C5197F0CB3002AAEEE /* DDCabSearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A142A3C4197F0CB3002AAEEE /* DDCabSearchResultsViewController.m */; };
+		A1565EA51981D1A2008E5D2B /* stop-light-red.png in Resources */ = {isa = PBXBuildFile; fileRef = A1565EA41981D1A2008E5D2B /* stop-light-red.png */; };
+		A1565EA81981D3D4008E5D2B /* DDSearchResultDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1565EA71981D3D4008E5D2B /* DDSearchResultDetailController.m */; };
 		A182505E197CC9A600483B5A /* DDAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = A182505D197CC9A600483B5A /* DDAboutController.m */; };
 		A1AB56241979C9B3004D23AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56231979C9B3004D23AD /* Foundation.framework */; };
 		A1AB56261979C9B3004D23AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56251979C9B3004D23AD /* CoreGraphics.framework */; };
@@ -58,6 +60,9 @@
 		A129CD9A198020F300CBA300 /* CabSearchResultCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CabSearchResultCell.m; sourceTree = "<group>"; };
 		A142A3C3197F0CB3002AAEEE /* DDCabSearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCabSearchResultsViewController.h; sourceTree = "<group>"; };
 		A142A3C4197F0CB3002AAEEE /* DDCabSearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCabSearchResultsViewController.m; sourceTree = "<group>"; };
+		A1565EA41981D1A2008E5D2B /* stop-light-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stop-light-red.png"; path = "../../../../../Downloads/stop-light-red.png"; sourceTree = "<group>"; };
+		A1565EA61981D3D4008E5D2B /* DDSearchResultDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDSearchResultDetailController.h; sourceTree = "<group>"; };
+		A1565EA71981D3D4008E5D2B /* DDSearchResultDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDSearchResultDetailController.m; sourceTree = "<group>"; };
 		A182505C197CC9A600483B5A /* DDAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAboutController.h; sourceTree = "<group>"; };
 		A182505D197CC9A600483B5A /* DDAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAboutController.m; sourceTree = "<group>"; };
 		A1AB56201979C9B3004D23AD /* CabCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CabCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -188,6 +193,8 @@
 				A142A3C4197F0CB3002AAEEE /* DDCabSearchResultsViewController.m */,
 				A129CD99198020F300CBA300 /* CabSearchResultCell.h */,
 				A129CD9A198020F300CBA300 /* CabSearchResultCell.m */,
+				A1565EA61981D3D4008E5D2B /* DDSearchResultDetailController.h */,
+				A1565EA71981D3D4008E5D2B /* DDSearchResultDetailController.m */,
 			);
 			path = CabCheck;
 			sourceTree = "<group>";
@@ -195,6 +202,7 @@
 		A1AB562A1979C9B3004D23AD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A1565EA41981D1A2008E5D2B /* stop-light-red.png */,
 				A1FE67F2197C430000504D5D /* stop-light.jpg */,
 				A1FE67E6197C3AA700504D5D /* taxi-night-4.jpg */,
 				A1FE67E7197C3AA700504D5D /* taxi_night-3.jpg */,
@@ -316,6 +324,7 @@
 				A1FE67F0197C3AA700504D5D /* taxi_night.jpg in Resources */,
 				A1FE67F3197C430000504D5D /* stop-light.jpg in Resources */,
 				A1AB56371979C9B3004D23AD /* Main.storyboard in Resources */,
+				A1565EA51981D1A2008E5D2B /* stop-light-red.png in Resources */,
 				A1FE67ED197C3AA700504D5D /* taxi_night-3.jpg in Resources */,
 				A1FE67EE197C3AA700504D5D /* taxi_night_blur.jpeg in Resources */,
 			);
@@ -339,6 +348,7 @@
 				A142A3C5197F0CB3002AAEEE /* DDCabSearchResultsViewController.m in Sources */,
 				A1AB56341979C9B3004D23AD /* DDAppDelegate.m in Sources */,
 				A182505E197CC9A600483B5A /* DDAboutController.m in Sources */,
+				A1565EA81981D3D4008E5D2B /* DDSearchResultDetailController.m in Sources */,
 				A129CD9B198020F300CBA300 /* CabSearchResultCell.m in Sources */,
 				A1AB563A1979C9B3004D23AD /* DDViewController.m in Sources */,
 				A1AB56301979C9B3004D23AD /* main.m in Sources */,

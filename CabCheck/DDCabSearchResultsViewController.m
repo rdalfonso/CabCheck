@@ -7,6 +7,7 @@
 //
 
 #import "DDCabSearchResultsViewController.h"
+#import "DDSearchResultDetailController.h"
 #import "CabSearchResultCell.h"
 
 @interface DDCabSearchResultsViewController() <UISearchDisplayDelegate, UISearchBarDelegate> {
@@ -53,17 +54,12 @@
     self.searchBar.text = globalSearchTerm;
 }
 
-- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView
-{
-    self.tableView.backgroundColor = [UIColor blackColor];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 10)];
-    self.searchBar.placeholder = @"Enter medallion, license, or driver.";
+    self.searchBar.placeholder = @"Enter medallion number or driver name.";
     [self.searchBar setShowsCancelButton:YES animated:YES];
     
     if([globalSearchTerm length] > 0) {
@@ -72,9 +68,7 @@
     
     self.tableView.tableHeaderView = self.searchBar;
     
-    
     self.searchController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
-    
     self.searchController.searchResultsDataSource = self;
     self.searchController.searchResultsDelegate = self;
     self.searchController.delegate = self;
@@ -82,7 +76,8 @@
 
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
-
+    
+    self.searchController.searchResultsTableView.rowHeight = self.tableView.rowHeight;
 }
 
 - (void)filterResults:(NSString *)searchTerm {
@@ -90,10 +85,10 @@
     [self.searchResults removeAllObjects];
     
     PFQuery *searchByMedallion = [PFQuery queryWithClassName:@"DriverObject"];
-    [searchByMedallion whereKey:@"licenseNumber" containsString:searchTerm];
+    [searchByMedallion whereKey:@"driverName" containsString:searchTerm];
     
     PFQuery *searchByDMVLicense = [PFQuery queryWithClassName:@"DriverObject"];
-    [searchByDMVLicense whereKey:@"dmvLicensePlate" containsString:searchTerm];
+    [searchByDMVLicense whereKey:@"driverMedallion" containsString:searchTerm];
     
     PFQuery *query = [PFQuery orQueryWithSubqueries:@[searchByMedallion,searchByDMVLicense]];
     query.limit = 5;
@@ -120,10 +115,33 @@
     
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    // Fetch Author
+    PFObject *taxiObject = [self.searchResults objectAtIndex:indexPath.row];
+    
+    NSLog(@"taxi object: %@", taxiObject);
+    self.taxi =  taxiObject.objectId;
+    [self performSegueWithIdentifier:@"pushSeqResultToDetails" sender:self];
+}
+
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSLog(@"prepareForSegue: %@", segue.identifier);
+    
+    if ([segue.identifier isEqualToString:@"pushSeqResultToDetails"]) {
+        DDSearchResultDetailController *destViewController = segue.destinationViewController;
+        destViewController.taxiUniqueID = self.taxi;
+    }
+}
+
+
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     
-    if([searchString length] > 3)
+    if([searchString length] > 2)
     {
         [self filterResults:searchString];
         return YES;
@@ -131,6 +149,7 @@
         return NO;
     }
 }
+
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) {
@@ -141,38 +160,66 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    cell.selectedBackgroundView.backgroundColor=[UIColor redColor];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     
     NSString *uniqueIdentifier = @"taxiCell";
-    UITableViewCell *cell = nil;
+    CabSearchResultCell *cell = nil;
     
-    cell = (UITableViewCell *) [self.tableView dequeueReusableCellWithIdentifier:uniqueIdentifier];
+    cell = (CabSearchResultCell *) [self.tableView dequeueReusableCellWithIdentifier:uniqueIdentifier];
     
     if (!cell) {
         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"UITableViewCell" owner:nil options:nil];
         
         for (id currentObject in topLevelObjects)
         {
-            if([currentObject isKindOfClass:[UITableViewCell class]])
+            if([currentObject isKindOfClass:[CabSearchResultCell class]])
             {
-                cell = (UITableViewCell *)currentObject;
+                cell = (CabSearchResultCell *)currentObject;
                 break;
             }
         }
     }
     
+    cell.selectedBackgroundView.backgroundColor=[UIColor redColor];
     if (tableView != self.searchDisplayController.searchResultsTableView) {
         
-        cell.textLabel.text = [object objectForKey:@"driver"];
-        //cell.driverMedallion = [object objectForKey:@"medallionAgentNumber"];
-        //cell.driverCompany = [object objectForKey:@"dmvLicensePlate"];
+        cell.driverName.text = [object objectForKey:@"driverName"];
+        cell.driverMedallion.text = [object objectForKey:@"driverMedallion"];
+        
+        NSMutableString *make = [NSMutableString stringWithString:@""];
+        NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
+        if([driverCabMake length] > 0) {
+            [make appendString:[object objectForKey:@"driverCabMake"]];
+        }
+        NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
+        if([driverCabModel length] > 0) {
+            [make appendString:[object objectForKey:@"driverCabModel"]];
+        }
+        cell.driverLicense.text = make;
+        cell.driverCabMakeModel.text = [object objectForKey:@"driverCabYear"];
+        
     }
     if ([tableView isEqual:self.searchDisplayController.searchResultsTableView]) {
         
         PFObject *object = [self.searchResults objectAtIndex:indexPath.row];
-        cell.textLabel.text  = [object objectForKey:@"driver"];
-        //cell.driverMedallion = [object objectForKey:@"medallionAgentNumber"];
-        //cell.driverCompany = [object objectForKey:@"dmvLicensePlate"];
+        cell.driverName.text = [object objectForKey:@"driverName"];
+        cell.driverMedallion.text = [object objectForKey:@"driverMedallion"];
+        NSMutableString *make = [NSMutableString stringWithString:@""];
+        NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
+        if([driverCabMake length] > 0) {
+            [make appendString:[object objectForKey:@"driverCabMake"]];
+        }
+        NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
+        if([driverCabModel length] > 0) {
+            [make appendString:[object objectForKey:@"driverCabModel"]];
+        }
+        cell.driverLicense.text = make;
+        cell.driverCabMakeModel.text = [object objectForKey:@"driverCabYear"];
     }
     return cell;
     
