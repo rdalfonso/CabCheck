@@ -37,12 +37,17 @@
         self.parseClassName = @"DriverObject";
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
-        self.objectsPerPage = 5;
+        self.objectsPerPage = 20;
     }
     return self;
 }
 
+/*
+
 - (PFQuery *)queryForTable {
+    
+    NSLog(@"globalSearchTerm queryForTable: %@",globalSearchTerm);
+    
     PFQuery *searchByMedallion = [PFQuery queryWithClassName:@"DriverObject"];
     [searchByMedallion whereKey:@"driverName" containsString:globalSearchTerm];
     
@@ -50,19 +55,20 @@
     [searchByDMVLicense whereKey:@"driverMedallion" containsString:globalSearchTerm];
     
     PFQuery *query = [PFQuery orQueryWithSubqueries:@[searchByMedallion,searchByDMVLicense]];
-    query.limit = 50;
+    query.limit = 5;
     
     
     if (self.pullToRefreshEnabled) {
-        query.cachePolicy = kPFCachePolicyNetworkOnly;
+       query.cachePolicy = kPFCachePolicyNetworkOnly;
     }
     if (self.objects.count == 0) {
-        query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+       query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
     
     [query orderByAscending:@"createdAt"];
     return query;
 }
+*/
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -72,7 +78,6 @@
 -(void)setSearchTerm:(NSString *)searchTerm
 {
     globalSearchTerm = searchTerm;
-    self.searchBar.text = globalSearchTerm;
 }
 
 
@@ -85,19 +90,11 @@
 {
     [super viewDidLoad];
     
-    NSLog(@"globalSearchTerm %@", globalSearchTerm);
+   self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 10)];
+   self.searchBar.placeholder = @"Enter medallion number or driver name.";
+   [self.searchBar setShowsCancelButton:NO animated:NO];
     
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 10)];
-    self.searchBar.placeholder = @"Enter medallion number or driver name.";
-    [self.searchBar setShowsCancelButton:YES animated:NO];
     self.tableView.tableHeaderView = self.searchBar;
-    
-    //List Subviews
-    NSArray *subviews=[self.tableView subviews];
-    NSLog(@"Subviews count: %d",subviews.count);
-    for (UIView *view in subviews) {
-        NSLog(@"CLASS: %@",[view class]);
-    }
     
     self.searchController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
     self.searchController.searchResultsDataSource = self;
@@ -105,13 +102,18 @@
     self.searchController.delegate = self;
     self.searchResults = [NSMutableArray array];
 
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
-    
     self.searchController.searchResultsTableView.rowHeight = self.tableView.rowHeight;
     
+    [self.searchBar resignFirstResponder];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
+    
+    if([globalSearchTerm length] > 0){
+        self.searchBar.text = globalSearchTerm;
+    }
+    
+    self.edgesForExtendedLayout=UIRectEdgeNone;
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     
 }
 
@@ -123,7 +125,6 @@
 - (void)filterResults:(NSString *)searchTerm {
     
     NSLog(@"globalSearchTerm filterResults %@", globalSearchTerm);
-    
     [self.searchResults removeAllObjects];
     
     PFQuery *searchByMedallion = [PFQuery queryWithClassName:@"DriverObject"];
@@ -133,53 +134,13 @@
     [searchByDMVLicense whereKey:@"driverMedallion" containsString:searchTerm];
     
     PFQuery *query = [PFQuery orQueryWithSubqueries:@[searchByMedallion,searchByDMVLicense]];
-    query.limit = 50;
+    query.limit = 20;
     
     NSArray *results  = [query findObjects];
     [self.searchResults addObjectsFromArray:results];
     NSLog(@"filter %lu", (unsigned long)results.count);
-  
-    /*
-    [query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
-        if (!error) {
-            NSLog(@"%u", results.count);
-            [self.searchResults addObjectsFromArray:results];
-            
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
-    */
 
-    
-    
 }
-
-/*
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    // Fetch Author
-    PFObject *taxiObject = [self.searchResults objectAtIndex:indexPath.row];
-    
-    NSLog(@"taxi object: %@", taxiObject);
-    self.taxi =  taxiObject.objectId;
-    [self performSegueWithIdentifier:@"pushSeqResultToDetails" sender:self];
-}
-
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    NSLog(@"prepareForSegue: %@", segue.identifier);
-    
-    if ([segue.identifier isEqualToString:@"pushSeqResultToDetails"]) {
-        DDSearchResultDetailController *destViewController = segue.destinationViewController;
-        destViewController.taxiUniqueID = self.taxi;
-    }
-}
-*/
-
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     
@@ -195,22 +156,17 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) {
+        NSLog(@"self.objects.count: %lu", (unsigned long)self.objects.count);
         return self.objects.count;
         
     } else {
+        NSLog(@"searchResults: %lu", (unsigned long)self.searchResults.count);
         return self.searchResults.count;
     }
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
-    
-    if ([self.searchResults count] == 0) {
-        UITableViewCell *cell = [[UITableViewCell alloc] init];
-        cell.backgroundColor=[UIColor blackColor];
-        cell.textLabel.text = @"No records to display";
-        return cell;
-    }
     
     NSString *uniqueIdentifier = @"taxiCell";
     CabSearchResultCell *cell = nil;
@@ -249,9 +205,25 @@
         cell.driverLicense.text = make;
         cell.driverCabMakeModel.text = [object objectForKey:@"driverCabYear"];
         cell.driverVIN.text = [object objectForKey:@"driverVin"];
-        NSString *longStr = @"AAAAA\nBBBBB\nCCCCC";
-        cell.driverRatingProsAndCons.text = longStr;
         
+        /*
+        NSString *driverObjectId = object.objectId;
+        PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
+        [driverRatings whereKey:@"driverObjectID" containsString:@"b7KSFF9EBG"];
+        [driverRatings findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+            if (!error) {
+                for (PFObject *object in results) {
+                    cell.lblSafeDriver.text = [object objectForKey:@"driverIsGoodDriver"];
+                    cell.lblSpeaksEnglish.text = [object objectForKey:@"driverSpeaksEnglish"];
+                    cell.lblHonestFare.text = [object objectForKey:@"driverIsFairMeter"];
+                    cell.lblKnowsDirections.text = [object objectForKey:@"driverKnowsCity"];
+                    cell.lblIsCourteous.text = [object objectForKey:@"driverIsCrazy"];
+                }
+            } else {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            }
+        }];
+        */
     }
     if ([tableView isEqual:self.searchDisplayController.searchResultsTableView]) {
         
@@ -264,25 +236,60 @@
             [make appendString:[object objectForKey:@"driverCabMake"]];
         }
         [make appendString: @" "];
-        NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
+        NSString *driverCabModel = [object objectForKey:@"driverCabModel"];
         if([driverCabModel length] > 0) {
             [make appendString: [object objectForKey:@"driverCabModel"]];
         }
         cell.driverLicense.text = make;
-        
         cell.driverCabMakeModel.text = [object objectForKey:@"driverCabYear"];
-        NSString *driverVin =[object objectForKey:@"driverVin"];
-        if([driverVin length] > 0) {
-            cell.driverVIN.text = driverVin;
-        } else {
-            cell.driverVIN.text = @"";
-        }
-        NSString *longStr = @"AAAAA\nBBBBB\nCCCCC";
-        cell.driverRatingProsAndCons.text = longStr;
+        cell.driverVIN.text = [object objectForKey:@"driverVin"];
+        
+        /*
+         NSString *driverObjectId = object.objectId;
+         PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
+         [driverRatings whereKey:@"driverObjectID" containsString:@"b7KSFF9EBG"];
+         [driverRatings findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+         if (!error) {
+         for (PFObject *object in results) {
+         cell.lblSafeDriver.text = [object objectForKey:@"driverIsGoodDriver"];
+         cell.lblSpeaksEnglish.text = [object objectForKey:@"driverSpeaksEnglish"];
+         cell.lblHonestFare.text = [object objectForKey:@"driverIsFairMeter"];
+         cell.lblKnowsDirections.text = [object objectForKey:@"driverKnowsCity"];
+         cell.lblIsCourteous.text = [object objectForKey:@"driverIsCrazy"];
+         }
+         } else {
+         NSLog(@"Error: %@ %@", error, [error userInfo]);
+         }
+         }];
+         */
     }
+    
     return cell;
     
 }
+
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    PFObject *taxiObject = [self.searchResults objectAtIndex:indexPath.row];
+    NSLog(@"taxi object: %@", taxiObject);
+    self.taxi =  taxiObject.objectId;
+    [self performSegueWithIdentifier:@"pushSeqResultToDetails" sender:self];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSLog(@"prepareForSegue: %@", segue.identifier);
+    
+    if ([segue.identifier isEqualToString:@"pushSeqResultToDetails"]) {
+        DDSearchResultDetailController *destViewController = segue.destinationViewController;
+        destViewController.taxiUniqueID = self.taxi;
+    }
+}
+
+
 
 
 - (void)didReceiveMemoryWarning
