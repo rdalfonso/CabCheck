@@ -484,7 +484,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="btnSaveReview:" destination="mTn-1w-69Z" eventType="touchUpInside" id="qdS-kO-SsC"/>
+                                    <action selector="btnSaveReview:" destination="mTn-1w-69Z" eventType="touchUpInside" id="Xqp-V8-AQT"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -495,10 +495,9 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="568"/>
                     <connections>
-                        <outlet property="btnSaveReview" destination="LfT-M7-d7p" id="KpX-2l-unv"/>
                         <outlet property="reviewCarService" destination="8EK-Va-kf1" id="Zcy-vh-edU"/>
                         <outlet property="reviewComments" destination="lCz-fk-LER" id="y8I-Ul-5h2"/>
-                        <outlet property="reviewCourteous" destination="LT4-C0-g9D" id="COo-Qo-xje"/>
+                        <outlet property="reviewCourteous" destination="LT4-C0-g9D" id="ptA-eK-gIR"/>
                         <outlet property="reviewDriveSafe" destination="dlZ-Rg-a93" id="0mb-As-eoG"/>
                         <outlet property="reviewFollowDirections" destination="jqU-yK-mxj" id="UIy-dV-zbH"/>
                         <outlet property="reviewHonestFare" destination="ERD-E1-XCu" id="MUA-m1-XsV"/>

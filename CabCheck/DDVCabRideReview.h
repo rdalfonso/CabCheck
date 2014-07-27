@@ -15,9 +15,11 @@
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewFollowDirections;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewKnowCity;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewHonestFare;
-@property (strong, nonatomic) IBOutlet UISegmentedControl *reviewActCouteous;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *reviewCourteous;
 @property (strong, nonatomic) IBOutlet UITextField *reviewComments;
+
 - (IBAction)btnSaveReview:(id)sender;
+
 
 
 

@@ -15,14 +15,15 @@
 
 @implementation DDVCabRideReview
 
-int reviewOverall;
-int reviewCarService;
-int reviewDriveSafe;
-int reviewFollowDirections;
-int reviewKnowCity;
-int reviewCourteous;
-int reviewHonestFare;
+int reviewOverallValue;
+int reviewCarServiceValue;
+int reviewDriveSafeValue;
+int reviewFollowDirectionsValue;
+int reviewKnowCityValue;
+int reviewCourteousValue;
+int reviewHonestFareValue;
 NSString *reviewComments;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -47,6 +48,8 @@ NSString *reviewComments;
 {
     [super viewDidLoad];
     
+    [self refreshUserDefaults];
+    
     // Do any additional setup after loading the view.
     [self.reviewComments becomeFirstResponder];
     [self.reviewComments resignFirstResponder];
@@ -55,6 +58,60 @@ NSString *reviewComments;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
 }
+
+
+- (IBAction)btnSaveReview:(id)sender {
+    
+    
+    NSLog(@"btnSaveReview");
+    
+    reviewOverallValue = (int)_reviewOverall.selectedSegmentIndex;
+    NSLog(@"reviewOverall %d", reviewOverallValue);
+    
+    reviewCarServiceValue = (int)_reviewCarService.selectedSegmentIndex;
+    NSLog(@"reviewCarService %d", reviewCarServiceValue);
+    
+    reviewDriveSafeValue = (int)_reviewDriveSafe.selectedSegmentIndex;
+    NSLog(@"reviewDriveSafe %d", reviewDriveSafeValue);
+    
+    reviewFollowDirectionsValue = (int)_reviewFollowDirections.selectedSegmentIndex;
+    NSLog(@"reviewFollowDirections %d", reviewFollowDirectionsValue);
+    
+    reviewKnowCityValue = (int)_reviewKnowCity.selectedSegmentIndex;
+    NSLog(@"reviewKnowCity %d", reviewKnowCityValue);
+    
+    reviewHonestFareValue = (int)_reviewHonestFare.selectedSegmentIndex;
+    NSLog(@"reviewHonestFare %d", reviewHonestFareValue);
+    
+    reviewCourteousValue = (int)_reviewCourteous.selectedSegmentIndex;
+    NSLog(@"reviewCourteous %d", reviewCourteousValue);
+    
+    reviewComments = _reviewComments.text;
+    NSLog(@"reviewComments %@", reviewComments);
+    
+    NSLog(@"self.deviceID %@", self.deviceID);
+    
+    PFObject *reviewCab = [PFObject objectWithClassName:@"DriverReviewObject"];
+    reviewCab[@"deviceID"] =        self.deviceID;
+    reviewCab[@"reviewOverall"] =           [NSString stringWithFormat:@"%d",reviewOverallValue];
+    reviewCab[@"reviewCarService"] =        [NSString stringWithFormat:@"%d",reviewCarServiceValue];
+    reviewCab[@"reviewDriveSafe"] =         [NSString stringWithFormat:@"%d",reviewDriveSafeValue];
+    reviewCab[@"reviewFollowDirections"] =  [NSString stringWithFormat:@"%d",reviewFollowDirectionsValue];
+    reviewCab[@"reviewKnowCity"] =          [NSString stringWithFormat:@"%d",reviewKnowCityValue];
+    reviewCab[@"reviewHonestFare"] =        [NSString stringWithFormat:@"%d",reviewHonestFareValue];
+    reviewCab[@"reviewActCourteous"] =       [NSString stringWithFormat:@"%d",reviewCourteousValue];
+    reviewCab[@"reviewComments"] =       reviewComments;
+    
+    [reviewCab saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSString *rvObjectId = [reviewCab objectId];
+            NSLog(@" Saved bcObjectId %@", rvObjectId);
+        } else {
+            NSLog(@"%@", error);
+        }
+    }];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -71,40 +128,6 @@ NSString *reviewComments;
     [self.reviewComments resignFirstResponder];
     return NO;
 }
-
-- (IBAction)btnSaveReview:(id)sender {
-    
-    reviewOverall = (int)_reviewOverall.selectedSegmentIndex;
-    reviewCarService = (int)_reviewCarService.selectedSegmentIndex;
-    reviewDriveSafe = (int)_reviewDriveSafe.selectedSegmentIndex;
-    reviewFollowDirections = (int)_reviewFollowDirections.selectedSegmentIndex;
-    reviewKnowCity = (int)_reviewKnowCity.selectedSegmentIndex;
-    reviewHonestFare = (int)_reviewHonestFare.selectedSegmentIndex;
-    reviewCourteous = (int)_reviewActCouteous.selectedSegmentIndex;
-    reviewComments = _reviewComments.text;
-    
-    PFObject *reviewCab = [PFObject objectWithClassName:@"DriverReviewObject"];
-    reviewCab[@"deviceID"] =        self.deviceID;
-    reviewCab[@"reviewOverall"] =           _reviewOverall;
-    reviewCab[@"reviewCarService"] =        _reviewCarService;
-    reviewCab[@"reviewDriveSafe"] =         _reviewDriveSafe;
-    reviewCab[@"reviewFollowDirections"] =   _reviewFollowDirections;
-    reviewCab[@"reviewKnowCity"] =          _reviewKnowCity;
-    reviewCab[@"reviewHonestFare"] =        _reviewHonestFare;
-    reviewCab[@"reviewActCourteous"] =       0;
-    reviewCab[@"reviewComments"] =       _reviewComments;
-    
-    [reviewCab saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            NSString *rvObjectId = [reviewCab objectId];
-            NSLog(@" Saved bcObjectId %@", rvObjectId);
-        } else {
-            NSLog(@"%@", error);
-        }
-    }];
-}
-
-
 
 
 /*
