@@ -80,6 +80,10 @@
     _driverIsHonest.text = @"YES";
     _driverKnowsDirections.text = @"YES";
     _driverIsCourteous.text = @"YES";
+    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
+    
     /*
     PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
     [driverRatings whereKey:@"driverObjectID" containsString:@"b7KSFF9EBG"];
