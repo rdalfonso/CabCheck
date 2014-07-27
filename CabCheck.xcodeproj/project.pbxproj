@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A129CD9B198020F300CBA300 /* CabSearchResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A129CD9A198020F300CBA300 /* CabSearchResultCell.m */; };
+		A1307E851984CA13009C9BAE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1307E841984CA13009C9BAE /* MessageUI.framework */; };
 		A142A3C5197F0CB3002AAEEE /* DDCabSearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A142A3C4197F0CB3002AAEEE /* DDCabSearchResultsViewController.m */; };
 		A1565EA51981D1A2008E5D2B /* stop-light-red.png in Resources */ = {isa = PBXBuildFile; fileRef = A1565EA41981D1A2008E5D2B /* stop-light-red.png */; };
 		A1565EA81981D3D4008E5D2B /* DDSearchResultDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1565EA71981D3D4008E5D2B /* DDSearchResultDetailController.m */; };
@@ -60,6 +61,7 @@
 /* Begin PBXFileReference section */
 		A129CD99198020F300CBA300 /* CabSearchResultCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CabSearchResultCell.h; sourceTree = "<group>"; };
 		A129CD9A198020F300CBA300 /* CabSearchResultCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CabSearchResultCell.m; sourceTree = "<group>"; };
+		A1307E841984CA13009C9BAE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		A142A3C3197F0CB3002AAEEE /* DDCabSearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCabSearchResultsViewController.h; sourceTree = "<group>"; };
 		A142A3C4197F0CB3002AAEEE /* DDCabSearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCabSearchResultsViewController.m; sourceTree = "<group>"; };
 		A1565EA41981D1A2008E5D2B /* stop-light-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stop-light-red.png"; path = "../../../../../Downloads/stop-light-red.png"; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1307E851984CA13009C9BAE /* MessageUI.framework in Frameworks */,
 				A1AB566B1979CA66004D23AD /* SystemConfiguration.framework in Frameworks */,
 				A1AB56691979CA5A004D23AD /* StoreKit.framework in Frameworks */,
 				A1AB56671979CA4B004D23AD /* Security.framework in Frameworks */,
@@ -164,6 +167,7 @@
 		A1AB56221979C9B3004D23AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A1307E841984CA13009C9BAE /* MessageUI.framework */,
 				A1AB566A1979CA66004D23AD /* SystemConfiguration.framework */,
 				A1AB56681979CA5A004D23AD /* StoreKit.framework */,
 				A1AB56661979CA4B004D23AD /* Security.framework */,

@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import <MessageUI/MessageUI.h>
 
-@interface DDSearchResultDetailController : UIViewController
+@interface DDSearchResultDetailController : UIViewController<MFMessageComposeViewControllerDelegate>
+{
+}
 @property (nonatomic, strong) NSString *taxiUniqueID;
 
 @property (strong, nonatomic) IBOutlet UILabel *driverName;
@@ -24,5 +27,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *driverIsHonest;
 @property (strong, nonatomic) IBOutlet UILabel *driverKnowsDirections;
 @property (strong, nonatomic) IBOutlet UILabel *driverIsCourteous;
+- (IBAction)btnSendData:(id)sender;
 
 @end
