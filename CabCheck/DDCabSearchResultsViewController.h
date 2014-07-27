@@ -10,5 +10,6 @@
 
 @interface DDCabSearchResultsViewController : PFQueryTableViewController <UITableViewDelegate>
 @property (nonatomic, strong) NSString *globalSearchTerm;
+@property (strong, nonatomic) IBOutlet UILabel *lblSearchResults;
 @property NSString *taxi;
 @end

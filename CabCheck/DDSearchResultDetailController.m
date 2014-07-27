@@ -15,6 +15,7 @@
 @implementation DDSearchResultDetailController
 @synthesize taxiUniqueID;
 
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -24,26 +25,50 @@
     return self;
 }
 
+
+-(void)setUniqueTaxiID:(NSString *)uniqueTaxiID
+{
+    taxiUniqueID = uniqueTaxiID;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-     NSLog(@"taxiUniqueID: %@", taxiUniqueID);
+    
+    NSLog(@"taxiUniqueID: %@", taxiUniqueID);
     
     self.edgesForExtendedLayout=UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     
     PFQuery *searchDriver = [PFQuery queryWithClassName:@"DriverObject"];
-    [searchDriver whereKey:@"objectId" containsString:taxiUniqueID];
-    searchDriver.limit = 20;
+    [searchDriver whereKey:@"objectId" equalTo:taxiUniqueID];
+    searchDriver.limit = 1;
     [searchDriver findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
         if (!error) {
+            
+            long qCount = (unsigned long)results.count;
+            NSLog(@"qCount %ld", qCount);
+            
             for (PFObject *object in results) {
-                _driverName.text = [object objectForKey:@"driverIsGoodDriver"];
-                _driverMedallion.text = [object objectForKey:@"driverSpeaksEnglish"];
-                _driverLicense.text = [object objectForKey:@"driverIsFairMeter"];
-                _driverCabMakeModel.text = [object objectForKey:@"driverKnowsCity"];
-                _driverVIN.text = [object objectForKey:@"driverIsCrazy"];
+                
+                _driverName.text = [object objectForKey:@"driverName"];
+                _driverMedallion.text = [object objectForKey:@"driverMedallion"];
+                
+                NSMutableString *make = [NSMutableString stringWithString:@""];
+                NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
+                if([driverCabMake length] > 0) {
+                    [make appendString:[object objectForKey:@"driverCabMake"]];
+                }
+                [make appendString: @" "];
+                NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
+                if([driverCabModel length] > 0) {
+                    [make appendString:[object objectForKey:@"driverCabModel"]];
+                }
+                _driverLicense.text = make;
+                _driverCabMakeModel.text = [object objectForKey:@"driverCabYear"];
+                _driverVIN.text = [object objectForKey:@"driverVin"];
+                
+                
             }
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);

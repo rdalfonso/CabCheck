@@ -13,6 +13,7 @@
 		A1565EA81981D3D4008E5D2B /* DDSearchResultDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1565EA71981D3D4008E5D2B /* DDSearchResultDetailController.m */; };
 		A168A28D1982B7060095581B /* traffic-light-bb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A168A28C1982B7060095581B /* traffic-light-bb.jpg */; };
 		A182505E197CC9A600483B5A /* DDAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = A182505D197CC9A600483B5A /* DDAboutController.m */; };
+		A19CA74E1984B1D100E5AC04 /* DDVCabRideReview.m in Sources */ = {isa = PBXBuildFile; fileRef = A19CA74D1984B1D100E5AC04 /* DDVCabRideReview.m */; };
 		A1AB56241979C9B3004D23AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56231979C9B3004D23AD /* Foundation.framework */; };
 		A1AB56261979C9B3004D23AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56251979C9B3004D23AD /* CoreGraphics.framework */; };
 		A1AB56281979C9B3004D23AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56271979C9B3004D23AD /* UIKit.framework */; };
@@ -67,6 +68,8 @@
 		A168A28C1982B7060095581B /* traffic-light-bb.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "traffic-light-bb.jpg"; path = "../../../../../Downloads/traffic-light-bb.jpg"; sourceTree = "<group>"; };
 		A182505C197CC9A600483B5A /* DDAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAboutController.h; sourceTree = "<group>"; };
 		A182505D197CC9A600483B5A /* DDAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAboutController.m; sourceTree = "<group>"; };
+		A19CA74C1984B1D100E5AC04 /* DDVCabRideReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDVCabRideReview.h; sourceTree = "<group>"; };
+		A19CA74D1984B1D100E5AC04 /* DDVCabRideReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDVCabRideReview.m; sourceTree = "<group>"; };
 		A1AB56201979C9B3004D23AD /* CabCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CabCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1AB56231979C9B3004D23AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A1AB56251979C9B3004D23AD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -197,6 +200,8 @@
 				A129CD9A198020F300CBA300 /* CabSearchResultCell.m */,
 				A1565EA61981D3D4008E5D2B /* DDSearchResultDetailController.h */,
 				A1565EA71981D3D4008E5D2B /* DDSearchResultDetailController.m */,
+				A19CA74C1984B1D100E5AC04 /* DDVCabRideReview.h */,
+				A19CA74D1984B1D100E5AC04 /* DDVCabRideReview.m */,
 			);
 			path = CabCheck;
 			sourceTree = "<group>";
@@ -356,6 +361,7 @@
 				A129CD9B198020F300CBA300 /* CabSearchResultCell.m in Sources */,
 				A1AB563A1979C9B3004D23AD /* DDViewController.m in Sources */,
 				A1AB56301979C9B3004D23AD /* main.m in Sources */,
+				A19CA74E1984B1D100E5AC04 /* DDVCabRideReview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
