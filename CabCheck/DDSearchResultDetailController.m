@@ -10,7 +10,6 @@
 #import "DDVCabRideReview.h"
 #import "DDCabReviews.h"
 
-
 @interface DDSearchResultDetailController ()
 
 @end
@@ -58,12 +57,9 @@
     
     NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
     [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-    [theDateFormatter setDateFormat:@"EEEE"];
-    
-    NSString *weekDay =  [theDateFormatter stringFromDate:[NSDate date]];
+    [theDateFormatter setDateFormat:@"EEE, MMM d, h:mm a"];
     
     self.userDate = todayDate;
-    self.userWeekDay = weekDay;
     
     if (currentLocation != nil) {
         
@@ -83,7 +79,8 @@
                  
                  PFObject *object = self.taxiObject;
                  _driverPickUp.text = address;
-                 _driverPickupTime.text = [NSString stringWithFormat:@"%@, %@", weekDay, todayDate] ;
+                 _driverPickupTime.text = [NSString stringWithFormat:@"%@", [theDateFormatter stringFromDate:todayDate]];
+                 
                  _driverName.text = [object objectForKey:@"driverName"];
                  _driverMedallion.text = [object objectForKey:@"driverMedallion"];
                  
@@ -199,7 +196,7 @@
             destViewController.taxiUniqueID = self.taxiUniqueID;
         }
     }
-    if ([segue.identifier isEqualToString:@"pushSeqReadAllReviews"]) {
+    if ([segue.identifier isEqualToString:@"pushSeqDetailToReviews"]) {
         DDCabReviews *destViewController = segue.destinationViewController;
         
         NSLog(@"self.taxiUniqueID: %@",self.taxiUniqueID);
@@ -218,7 +215,10 @@
         return;
     }
     
-    NSArray *recipents = @[@"2019686897"];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *userSMSNumbers = [NSMutableArray arrayWithArray:[defaults objectForKey:@"userSMSNumbers"]];
+    NSArray *recipents = [userSMSNumbers copy];
     PFObject *object = self.taxiObject;
     
     NSString *driverName = [object objectForKey:@"driverName"];
@@ -244,7 +244,7 @@
     }
     NSString *driverVin = [object objectForKey:@"driverVin"];
     
-    NSString *message = [NSString stringWithFormat:@"CabCheck App Message:\n I just got into a %@ taxi near %@ on %@, %@.\n Taxi:%@\nDriver: %@\nMedallion Number: %@\nVIN: %@.", @"Uber", self.userAddress, self.userWeekDay, self.userDate, driverMake, driverName, driverMedallion, driverVin];
+    NSString *message = [NSString stringWithFormat:@"CabCheck App Message:\n I just got into a %@ taxi near %@ on %@.\n Taxi:%@\nDriver: %@\nMedallion Number: %@\nVIN: %@.", @"Uber", self.userAddress, self.userDate, driverMake, driverName, driverMedallion, driverVin];
     
     MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
     messageController.messageComposeDelegate = self;

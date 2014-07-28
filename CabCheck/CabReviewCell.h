@@ -10,6 +10,8 @@
 
 @interface CabReviewCell : PFTableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *reviewText;
-@property (strong, nonatomic) IBOutlet UILabel *reviewItems;
+@property (strong, nonatomic) IBOutlet UILabel *reviewDetails;
 @property (strong, nonatomic) IBOutlet UILabel *reviewDate;
+@property (strong, nonatomic) IBOutlet UIImageView *reviewImage;
+
 @end

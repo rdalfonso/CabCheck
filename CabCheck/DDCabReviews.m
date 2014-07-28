@@ -96,11 +96,16 @@
         }
     }
     
+    NSDate *createdAt = [object createdAt];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"EEE, MMM d, h:mm a"];
+
+    NSString *reviewText = [object objectForKey:@"reviewComments"];
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.reviewText.text = [object objectForKey:@"reviewComments"];
-    cell.reviewItems.text = @"Bad Driver, Speaks English";
-    
-    
+    cell.reviewText.text = reviewText;
+    cell.reviewDetails.text = @"Bad Driver, Speaks English";
+    cell.reviewDate.text = [NSString stringWithFormat:@"Reviewed: %@", [dateFormat stringFromDate:createdAt]];
     
     return cell;
 }
