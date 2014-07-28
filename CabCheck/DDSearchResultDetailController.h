@@ -17,9 +17,12 @@
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
 }
+@property (strong, nonatomic) IBOutlet UILabel *driverReviewTags;
+@property (strong, nonatomic) IBOutlet UIButton *btnReviewLink;
 
 @property (nonatomic, strong) NSString *taxiUniqueID;
 @property (nonatomic, strong) PFObject *taxiObject;
+@property (strong, nonatomic) IBOutlet UILabel *lblSearchResultDetailHeader;
 
 @property (strong, nonatomic) IBOutlet UILabel *driverName;
 @property (strong, nonatomic) IBOutlet UILabel *driverMedallion;

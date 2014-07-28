@@ -70,7 +70,6 @@
 }
 
 
-
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.objects.count;
 }
@@ -101,11 +100,51 @@
     [dateFormat setDateFormat:@"EEE, MMM d, h:mm a"];
 
     NSString *reviewText = [object objectForKey:@"reviewComments"];
+    NSInteger reviewActCourteous = [[object objectForKey:@"reviewActCourteous"] integerValue];
+    NSInteger reviewDriveSafe = [[object objectForKey:@"reviewDriveSafe"] integerValue];
+    NSInteger reviewFollowDirections = [[object objectForKey:@"reviewFollowDirections"] integerValue];
+    NSInteger reviewHonestFare = [[object objectForKey:@"reviewHonestFare"] integerValue];
+    NSInteger reviewKnowCity = [[object objectForKey:@"reviewKnowCity"] integerValue];
+    
+    NSMutableString *reviewTags = [NSMutableString stringWithString:@""];
+    
+    int iconScore = (reviewActCourteous + reviewDriveSafe + reviewFollowDirections + reviewKnowCity);
+    
+    if(reviewActCourteous == 1){
+       [reviewTags appendString:@"Rude Driver. "];
+    }
+    if(reviewDriveSafe == 1){
+        [reviewTags appendString:@"Terrible Driver. "];
+    }
+    if(reviewFollowDirections == 1){
+        [reviewTags appendString:@"Poor English. "];
+    }
+    if(reviewHonestFare == 1){
+       [reviewTags appendString:@"Dishonest Fare. "];
+    }
+    if(reviewKnowCity == 1){
+        [reviewTags appendString:@"No Sense of Direction."];
+    }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.reviewText.text = reviewText;
-    cell.reviewDetails.text = @"Bad Driver, Speaks English";
+    cell.reviewDetails.text = reviewTags;
     cell.reviewDate.text = [NSString stringWithFormat:@"Reviewed: %@", [dateFormat stringFromDate:createdAt]];
+    
+    if(iconScore <= 1){
+        UIImage *image = [UIImage imageNamed: @"stop-light-horizontal.jpg"];
+        [cell.reviewImage setImage:image];
+    }
+    
+    if(iconScore > 2 && iconScore < 4){
+        UIImage *image = [UIImage imageNamed: @"stop-light-horizontal.jpg"];
+        [cell.reviewImage setImage:image];
+    }
+    
+    if(iconScore > 3){
+        UIImage *image = [UIImage imageNamed: @"stop-light-horizontal.jpg"];
+        [cell.reviewImage setImage:image];
+    }
     
     return cell;
 }

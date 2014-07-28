@@ -31,7 +31,6 @@
 }
 
 - (PFQuery *)queryForTable {
-    NSLog(@"globalSearchTerm queryForTable: %@",globalSearchTerm);
     
     PFQuery *searchByMedallion = [PFQuery queryWithClassName:@"DriverObject"];
     [searchByMedallion whereKey:@"driverName" containsString:globalSearchTerm];
@@ -72,10 +71,10 @@
     self.edgesForExtendedLayout=UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     [self.tableView setBackgroundColor:[UIColor blackColor]];
-    
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
    return self.objects.count;
 }
 
