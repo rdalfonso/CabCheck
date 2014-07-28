@@ -32,15 +32,15 @@
     
     self.taxiUniqueID = self.taxiObject.objectId;
     
-   //Initialize CoreLocation
+    //Initialize CoreLocation
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     locationManager.distanceFilter=10.0;
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
-    
     geocoder = [[CLGeocoder alloc] init];
     
+     //Layout changes
     self.edgesForExtendedLayout=UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
 }
@@ -49,8 +49,8 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     CLLocation *currentLocation = newLocation;
-    
     NSDate *todayDate = [NSDate date];
+    
     __block int GoodCount = 0;
     __block int OkCount = 0;
     __block int BadCount = 0;
@@ -120,13 +120,13 @@
                      {
                          long qCount = (unsigned long)results.count;
                          
-                         if(qCount > 0) {
-                         NSString *btnMessage = [NSString stringWithFormat:@"Read all %ld reviews of this taxi >", qCount];
+                         /*
+                         if(qCount > 0)
+                         {
+                             NSString *btnMessage = [NSString stringWithFormat:@"Read all %ld reviews of this taxi >", qCount];
                              _btnReviewLink.titleLabel.text = btnMessage;
-                         } else {
-                             _btnReviewLink.hidden = true;
                          }
-                         
+                         */
                          for (PFObject *object in results)
                          {
                              NSInteger reviewOverall = [[object objectForKey:@"reviewOverall"] integerValue];
@@ -215,6 +215,7 @@
                              } else {
                                  NSLog(@"Default Light ");
                                  _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                                 _driverReviewTags.text = @"No Reviews Yet.";
                              }
                          }
                          
@@ -262,16 +263,15 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    
     NSLog(@"segue.identifier: %@",segue.identifier);
-    if ([segue.identifier isEqualToString:@"pushSeqDetailsToReview"]) {
+    if ([segue.identifier isEqualToString:@"pushSeqDetailToReviewTaxi"]) {
         DDVCabRideReview *destViewController = segue.destinationViewController;
         
-        if([self.taxiUniqueID length] > 0) {
-            destViewController.taxiUniqueID = self.taxiUniqueID;
+        if([self.taxiObject.objectId length] > 0) {
+            destViewController.taxiObject = self.taxiObject;
         }
     }
-    if ([segue.identifier isEqualToString:@"pushSeqDetailToReviews"]) {
+    if ([segue.identifier isEqualToString:@"pushSeqDetailToAllReviews"]) {
         DDCabReviews *destViewController = segue.destinationViewController;
         
         NSLog(@"self.taxiUniqueID: %@",self.taxiUniqueID);

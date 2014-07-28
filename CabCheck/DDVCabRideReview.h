@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 @interface DDVCabRideReview : UIViewController
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewOverall;
@@ -17,7 +18,7 @@
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewHonestFare;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewCourteous;
 @property (strong, nonatomic) IBOutlet UITextField *reviewComments;
-@property (nonatomic, strong) NSString *taxiUniqueID;
+@property (nonatomic, strong) PFObject *taxiObject;
 - (IBAction)btnSaveReview:(id)sender;
 
 

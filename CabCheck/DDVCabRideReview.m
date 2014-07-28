@@ -7,6 +7,7 @@
 //
 
 #import "DDVCabRideReview.h"
+#import "DDSearchResultDetailController.h"
 #import <Parse/Parse.h>
 
 @interface DDVCabRideReview ()
@@ -14,7 +15,6 @@
 @end
 
 @implementation DDVCabRideReview
-@synthesize taxiUniqueID;
 
 int reviewOverallValue;
 int reviewCarServiceValue;
@@ -51,7 +51,7 @@ NSString *reviewComments;
     
     [self refreshUserDefaults];
     
-     NSLog(@"taxiUniqueID: %@", taxiUniqueID);
+    NSLog(@"self.taxiObject: %@", self.taxiObject);
     
     // Do any additional setup after loading the view.
     [self.reviewComments becomeFirstResponder];
@@ -96,7 +96,7 @@ NSString *reviewComments;
     
     PFObject *reviewCab = [PFObject objectWithClassName:@"DriverReviewObject"];
     reviewCab[@"deviceID"] =        self.deviceID;
-    reviewCab[@"taxiUniqueID"] =        taxiUniqueID;
+    reviewCab[@"taxiUniqueID"] =       self.taxiObject.objectId;
     reviewCab[@"reviewOverall"] =           [NSString stringWithFormat:@"%d",reviewOverallValue];
     reviewCab[@"reviewCarService"] =        [NSString stringWithFormat:@"%d",reviewCarServiceValue];
     reviewCab[@"reviewDriveSafe"] =         [NSString stringWithFormat:@"%d",reviewDriveSafeValue];
@@ -114,6 +114,21 @@ NSString *reviewComments;
             NSLog(@"%@", error);
         }
     }];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSLog(@"segue.identifier: %@",segue.identifier);
+    
+    if ([segue.identifier isEqualToString:@"pushSeqPostReviewToDetail"]) {
+        DDSearchResultDetailController *destViewController = segue.destinationViewController;
+        
+        if([self.taxiObject.objectId length] > 0) {
+            NSLog(@"self.taxiObject: %@", self.taxiObject);
+            destViewController.taxiObject = self.taxiObject;
+        }
+    }
+    
 }
 
 

@@ -373,7 +373,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="mTn-1w-69Z" kind="push" identifier="pushSeqDetailsToReview" id="Tu8-Uh-0jl"/>
+                                    <segue destination="mTn-1w-69Z" kind="push" identifier="pushSeqDetailToReviewTaxi" id="Tu8-Uh-0jl"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S61-4Z-mkc">
@@ -429,7 +429,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="yhl-67-Nqm" kind="modal" identifier="pushSeqDetailToReviews" modalTransitionStyle="partialCurl" id="2XG-33-apO"/>
+                                    <segue destination="yhl-67-Nqm" kind="modal" identifier="pushSeqDetailToAllReviews" modalTransitionStyle="partialCurl" id="2XG-33-apO"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -614,6 +614,7 @@
                                 </state>
                                 <connections>
                                     <action selector="btnSaveReview:" destination="mTn-1w-69Z" eventType="touchUpInside" id="Xqp-V8-AQT"/>
+                                    <segue destination="Ylr-RS-wdl" kind="push" identifier="pushSeqPostReviewToDetail" id="ygD-nH-KYA"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -642,7 +643,7 @@
         <scene sceneID="RpB-Iw-tYQ">
             <objects>
                 <tableViewController id="yhl-67-Nqm" customClass="DDCabReviews" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="75" sectionHeaderHeight="22" sectionFooterHeight="22" id="K6S-X2-mNX">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="75" sectionHeaderHeight="22" sectionFooterHeight="22" id="K6S-X2-mNX">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -892,6 +893,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="ygD-nH-KYA"/>
         <segue reference="w9i-iL-ABM"/>
     </inferredMetricsTieBreakers>
 </document>
