@@ -10,16 +10,6 @@
 #import "DDSearchResultDetailController.h"
 #import "CabSearchResultCell.h"
 
-@interface DDCabSearchResultsViewController() <UISearchDisplayDelegate, UISearchBarDelegate> {
-}
-
-@property (nonatomic, strong) UILabel *CabCheckHeader;
-@property (nonatomic, strong) UILabel *CabCheckSubHeader;
-@property (nonatomic, strong) UISearchBar *searchBar;
-@property (nonatomic, strong) UISearchDisplayController *searchController;
-@property (nonatomic, strong) NSMutableArray *searchResults;
-@end
-
 
 @interface DDCabSearchResultsViewController ()
 @end
@@ -39,8 +29,6 @@
     }
     return self;
 }
-
-
 
 - (PFQuery *)queryForTable {
     NSLog(@"globalSearchTerm queryForTable: %@",globalSearchTerm);

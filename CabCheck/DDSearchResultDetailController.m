@@ -8,6 +8,8 @@
 
 #import "DDSearchResultDetailController.h"
 #import "DDVCabRideReview.h"
+#import "DDCabReviews.h"
+
 
 @interface DDSearchResultDetailController ()
 
@@ -25,6 +27,25 @@
     return self;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.taxiUniqueID = self.taxiObject.objectId;
+    
+    //Initialize CoreLocation
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.distanceFilter=10.0;
+    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    [locationManager startUpdatingLocation];
+    
+    geocoder = [[CLGeocoder alloc] init];
+    
+    self.edgesForExtendedLayout=UIRectEdgeNone;
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
+}
+
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
@@ -40,6 +61,9 @@
     [theDateFormatter setDateFormat:@"EEEE"];
     
     NSString *weekDay =  [theDateFormatter stringFromDate:[NSDate date]];
+    
+    self.userDate = todayDate;
+    self.userWeekDay = weekDay;
     
     if (currentLocation != nil) {
         
@@ -78,83 +102,61 @@
                  _driverVIN.text = [object objectForKey:@"driverVin"];
                  
                  
-                PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
-                  [driverRatings whereKey:@"taxiUniqueID" equalTo:taxiUniqueID];
-                  [driverRatings findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
-                  if (!error)
-                  {
-                      long qCount = (unsigned long)results.count;
-                    
-                      for (PFObject *object in results)
-                      {
-                          NSInteger reviewOverall = [[object objectForKey:@"reviewOverall"] integerValue];
-                          
-                          if(reviewOverall == 0){
-                              GoodCount++;
-                          }
-                          
-                          if(reviewOverall == 1){
-                              OkCount++;
-                          }
-                          
-                          if(reviewOverall == 2){
-                              BadCount++;
-                          }
-                      }
-                      NSLog(@"qCount %ld", qCount);
-                      NSLog(@"GoodCount %d", GoodCount);
-                      NSLog(@"OkCount %d", OkCount);
-                      NSLog(@"BadCount %d", BadCount);
-                      
-                      if(GoodCount > BadCount ) {
-                          NSLog(@"Green Light ");
-                          _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
-                      }
-                      else if(GoodCount < BadCount) {
-                          NSLog(@"Red Light ");
-                          _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
-                      }
-                      else if( (GoodCount == BadCount) || (OkCount > GoodCount) ) {
-                          NSLog(@"Yellow Light ");
-                         _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
-                      } else {
-                          NSLog(@"Default Light ");
-                          _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
-                      }
-                      
-                  }
-                  else {
-                    NSLog(@"Error: %@ %@", error, [error userInfo]);
-                  }
-                }];
-                
+                 PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
+                 [driverRatings whereKey:@"taxiUniqueID" equalTo:taxiUniqueID];
+                 [driverRatings findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+                     if (!error)
+                     {
+                         long qCount = (unsigned long)results.count;
+                         
+                         for (PFObject *object in results)
+                         {
+                             NSInteger reviewOverall = [[object objectForKey:@"reviewOverall"] integerValue];
+                             
+                             if(reviewOverall == 0){
+                                 GoodCount++;
+                             }
+                             
+                             if(reviewOverall == 1){
+                                 OkCount++;
+                             }
+                             
+                             if(reviewOverall == 2){
+                                 BadCount++;
+                             }
+                         }
+                         NSLog(@"qCount %ld", qCount);
+                         NSLog(@"GoodCount %d", GoodCount);
+                         NSLog(@"OkCount %d", OkCount);
+                         NSLog(@"BadCount %d", BadCount);
+                         
+                         if(GoodCount > BadCount ) {
+                             NSLog(@"Green Light ");
+                             _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                         }
+                         else if(GoodCount < BadCount) {
+                             NSLog(@"Red Light ");
+                             _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                         }
+                         else if( (GoodCount == BadCount) || (OkCount > GoodCount) ) {
+                             NSLog(@"Yellow Light ");
+                             _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                         } else {
+                             NSLog(@"Default Light ");
+                             _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                         }
+                         
+                     }
+                     else {
+                         NSLog(@"Error: %@ %@", error, [error userInfo]);
+                     }
+                 }];
+                 
              } else {
                  NSLog(@"ERROR: %@", error.debugDescription);
              }
          } ];
     }
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    NSLog(@"taxiObject: %@", self.taxiObject);
-    NSLog(@"taxiObject id: %@", self.taxiObject.objectId);
-    self.taxiUniqueID = self.taxiObject.objectId;
-     NSLog(@"taxiUniqueID: %@", self.taxiUniqueID);
-    
-    //Initialize CoreLocation
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.distanceFilter=10.0;
-    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-    [locationManager startUpdatingLocation];
-    
-    geocoder = [[CLGeocoder alloc] init];
-    
-    self.edgesForExtendedLayout=UIRectEdgeNone;
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
 }
 
 - (IBAction)btnSendData:(id)sender {
@@ -188,6 +190,8 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    
+    NSLog(@"segue.identifier: %@",segue.identifier);
     if ([segue.identifier isEqualToString:@"pushSeqDetailsToReview"]) {
         DDVCabRideReview *destViewController = segue.destinationViewController;
         
@@ -195,6 +199,15 @@
             destViewController.taxiUniqueID = self.taxiUniqueID;
         }
     }
+    if ([segue.identifier isEqualToString:@"pushSeqReadAllReviews"]) {
+        DDCabReviews *destViewController = segue.destinationViewController;
+        
+        NSLog(@"self.taxiUniqueID: %@",self.taxiUniqueID);
+        if([self.taxiUniqueID length] > 0) {
+            destViewController.taxiUniqueID = self.taxiUniqueID;
+        }
+    }
+    
 }
 
 - (void)showTaxiInformationSMS:(PFObject*)taxiObject {
@@ -231,8 +244,7 @@
     }
     NSString *driverVin = [object objectForKey:@"driverVin"];
     
-
-    NSString *message = [NSString stringWithFormat:@"CabCheck App Message:\n I just got into a %@ taxi near %@.\n Taxi:%@\nDriver: %@\nMedallion Number: %@\nVIN: %@.", @"Uber", self.userAddress, driverMake, driverName, driverMedallion, driverVin];
+    NSString *message = [NSString stringWithFormat:@"CabCheck App Message:\n I just got into a %@ taxi near %@ on %@, %@.\n Taxi:%@\nDriver: %@\nMedallion Number: %@\nVIN: %@.", @"Uber", self.userAddress, self.userWeekDay, self.userDate, driverMake, driverName, driverMedallion, driverVin];
     
     MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
     messageController.messageComposeDelegate = self;

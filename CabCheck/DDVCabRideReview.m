@@ -35,11 +35,6 @@ NSString *reviewComments;
     return self;
 }
 
--(void)setUniqueTaxiID:(NSString *)uniqueTaxiID
-{
-    taxiUniqueID = uniqueTaxiID;
-}
-
 -(void) refreshUserDefaults
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

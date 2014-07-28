@@ -29,8 +29,12 @@
 @property (strong, nonatomic) IBOutlet UILabel *driverSpeaksEnglish;
 @property (strong, nonatomic) IBOutlet UIImageView *driverRatingImage;
 
+@property (strong, nonatomic, readwrite) NSString *userWeekDay;
+@property (strong, nonatomic, readwrite) NSDate *userDate;
+
 @property (strong, nonatomic, readwrite) NSString *userCity;
 @property (strong, nonatomic, readwrite) NSString *userAddress;
+
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
 @property (strong, nonatomic) IBOutlet UILabel *driverPickUp;
