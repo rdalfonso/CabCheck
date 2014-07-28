@@ -17,7 +17,7 @@
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewHonestFare;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewCourteous;
 @property (strong, nonatomic) IBOutlet UITextField *reviewComments;
-
+@property (nonatomic, strong) NSString *taxiUniqueID;
 - (IBAction)btnSaveReview:(id)sender;
 
 

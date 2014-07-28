@@ -9,11 +9,17 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import <MessageUI/MessageUI.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface DDSearchResultDetailController : UIViewController<MFMessageComposeViewControllerDelegate>
+@interface DDSearchResultDetailController : UIViewController<MFMessageComposeViewControllerDelegate, CLLocationManagerDelegate>
 {
+    CLLocationManager *locationManager;
+    CLGeocoder *geocoder;
+    CLPlacemark *placemark;
 }
+
 @property (nonatomic, strong) NSString *taxiUniqueID;
+@property (nonatomic, strong) PFObject *taxiObject;
 
 @property (strong, nonatomic) IBOutlet UILabel *driverName;
 @property (strong, nonatomic) IBOutlet UILabel *driverMedallion;
@@ -21,12 +27,15 @@
 @property (strong, nonatomic) IBOutlet UILabel *driverCabMakeModel;
 @property (strong, nonatomic) IBOutlet UILabel *driverVIN;
 @property (strong, nonatomic) IBOutlet UILabel *driverSpeaksEnglish;
-
 @property (strong, nonatomic) IBOutlet UIImageView *driverRatingImage;
-@property (strong, nonatomic) IBOutlet UILabel *driverIsSafeDriver;
-@property (strong, nonatomic) IBOutlet UILabel *driverIsHonest;
-@property (strong, nonatomic) IBOutlet UILabel *driverKnowsDirections;
-@property (strong, nonatomic) IBOutlet UILabel *driverIsCourteous;
+
+@property (strong, nonatomic, readwrite) NSString *userCity;
+@property (strong, nonatomic, readwrite) NSString *userAddress;
+@property (strong, nonatomic, readwrite) NSString *userLat;
+@property (strong, nonatomic, readwrite) NSString *userLong;
+@property (strong, nonatomic) IBOutlet UILabel *driverPickUp;
+@property (strong, nonatomic) IBOutlet UILabel *driverPickupTime;
+
 - (IBAction)btnSendData:(id)sender;
 
 @end

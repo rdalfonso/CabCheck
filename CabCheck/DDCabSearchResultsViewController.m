@@ -84,6 +84,7 @@
     self.edgesForExtendedLayout=UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     [self.tableView setBackgroundColor:[UIColor blackColor]];
+    
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -137,7 +138,7 @@
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     
     PFObject *taxiObject = [self.objects objectAtIndex:indexPath.row];
-    self.taxi =  taxiObject.objectId;
+    self.taxiObject = taxiObject;
     
     // Perform Segue
     [self performSegueWithIdentifier:@"pushSeqResultsToDetail" sender:self];
@@ -149,8 +150,8 @@
     if ([segue.identifier isEqualToString:@"pushSeqResultsToDetail"]) {
         DDSearchResultDetailController *destViewController = segue.destinationViewController;
         
-        if([self.taxi length] > 0) {
-            destViewController.taxiUniqueID = self.taxi;
+        if([self.taxiObject.objectId length] > 0) {
+            destViewController.taxiObject = self.taxiObject;
         }
     }
 }

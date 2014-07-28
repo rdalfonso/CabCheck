@@ -14,6 +14,7 @@
 @end
 
 @implementation DDVCabRideReview
+@synthesize taxiUniqueID;
 
 int reviewOverallValue;
 int reviewCarServiceValue;
@@ -34,6 +35,11 @@ NSString *reviewComments;
     return self;
 }
 
+-(void)setUniqueTaxiID:(NSString *)uniqueTaxiID
+{
+    taxiUniqueID = uniqueTaxiID;
+}
+
 -(void) refreshUserDefaults
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -49,6 +55,8 @@ NSString *reviewComments;
     [super viewDidLoad];
     
     [self refreshUserDefaults];
+    
+     NSLog(@"taxiUniqueID: %@", taxiUniqueID);
     
     // Do any additional setup after loading the view.
     [self.reviewComments becomeFirstResponder];
@@ -93,6 +101,7 @@ NSString *reviewComments;
     
     PFObject *reviewCab = [PFObject objectWithClassName:@"DriverReviewObject"];
     reviewCab[@"deviceID"] =        self.deviceID;
+    reviewCab[@"taxiUniqueID"] =        taxiUniqueID;
     reviewCab[@"reviewOverall"] =           [NSString stringWithFormat:@"%d",reviewOverallValue];
     reviewCab[@"reviewCarService"] =        [NSString stringWithFormat:@"%d",reviewCarServiceValue];
     reviewCab[@"reviewDriveSafe"] =         [NSString stringWithFormat:@"%d",reviewDriveSafeValue];

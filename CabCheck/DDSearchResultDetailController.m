@@ -7,6 +7,7 @@
 //
 
 #import "DDSearchResultDetailController.h"
+#import "DDVCabRideReview.h"
 
 @interface DDSearchResultDetailController ()
 
@@ -14,7 +15,6 @@
 
 @implementation DDSearchResultDetailController
 @synthesize taxiUniqueID;
-
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,81 +26,140 @@
 }
 
 
--(void)setUniqueTaxiID:(NSString *)uniqueTaxiID
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    taxiUniqueID = uniqueTaxiID;
+    CLLocation *currentLocation = newLocation;
+    
+    NSDate *todayDate = [NSDate date];
+    __block int GoodCount = 0;
+    __block int OkCount = 0;
+    __block int BadCount = 0;
+    
+    NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
+    [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [theDateFormatter setDateFormat:@"EEEE"];
+    
+    NSString *weekDay =  [theDateFormatter stringFromDate:[NSDate date]];
+    
+    if (currentLocation != nil) {
+        
+        _userLat = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
+        _userLong = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
+        
+        [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
+         {
+             if (error == nil && [placemarks count] > 0)
+             {
+                 placemark = [placemarks lastObject];
+                 _userCity = placemark.locality;
+                 
+                 NSString *address = [NSString stringWithFormat:@"%@ %@,%@ %@", [placemark subThoroughfare],[placemark thoroughfare],[placemark locality], [placemark administrativeArea]];
+                 
+                 self.userAddress =address;
+                 
+                 PFObject *object = self.taxiObject;
+                 _driverPickUp.text = address;
+                 _driverPickupTime.text = [NSString stringWithFormat:@"%@, %@", weekDay, todayDate] ;
+                 _driverName.text = [object objectForKey:@"driverName"];
+                 _driverMedallion.text = [object objectForKey:@"driverMedallion"];
+                 
+                 NSMutableString *make = [NSMutableString stringWithString:@""];
+                 NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
+                 if([driverCabMake length] > 0) {
+                     [make appendString:driverCabMake];
+                 }
+                 [make appendString: @" "];
+                 NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
+                 if([driverCabModel length] > 0) {
+                     [make appendString:driverCabModel];
+                 }
+                 _driverLicense.text = make;
+                 _driverCabMakeModel.text = [object objectForKey:@"driverCabYear"];
+                 _driverVIN.text = [object objectForKey:@"driverVin"];
+                 
+                 
+                PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
+                  [driverRatings whereKey:@"taxiUniqueID" equalTo:taxiUniqueID];
+                  [driverRatings findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+                  if (!error)
+                  {
+                      long qCount = (unsigned long)results.count;
+                    
+                      for (PFObject *object in results)
+                      {
+                          NSInteger reviewOverall = [[object objectForKey:@"reviewOverall"] integerValue];
+                          
+                          if(reviewOverall == 0){
+                              GoodCount++;
+                          }
+                          
+                          if(reviewOverall == 1){
+                              OkCount++;
+                          }
+                          
+                          if(reviewOverall == 2){
+                              BadCount++;
+                          }
+                      }
+                      NSLog(@"qCount %ld", qCount);
+                      NSLog(@"GoodCount %d", GoodCount);
+                      NSLog(@"OkCount %d", OkCount);
+                      NSLog(@"BadCount %d", BadCount);
+                      
+                      if(GoodCount > BadCount ) {
+                          NSLog(@"Green Light ");
+                          _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                      }
+                      else if(GoodCount < BadCount) {
+                          NSLog(@"Red Light ");
+                          _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                      }
+                      else if( (GoodCount == BadCount) || (OkCount > GoodCount) ) {
+                          NSLog(@"Yellow Light ");
+                         _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                      } else {
+                          NSLog(@"Default Light ");
+                          _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                      }
+                      
+                  }
+                  else {
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                  }
+                }];
+                
+             } else {
+                 NSLog(@"ERROR: %@", error.debugDescription);
+             }
+         } ];
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    NSLog(@"taxiUniqueID: %@", taxiUniqueID);
+    NSLog(@"taxiObject: %@", self.taxiObject);
+    NSLog(@"taxiObject id: %@", self.taxiObject.objectId);
+    self.taxiUniqueID = self.taxiObject.objectId;
+     NSLog(@"taxiUniqueID: %@", self.taxiUniqueID);
+    
+    //Initialize CoreLocation
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.distanceFilter=10.0;
+    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    [locationManager startUpdatingLocation];
+    
+    geocoder = [[CLGeocoder alloc] init];
     
     self.edgesForExtendedLayout=UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
+}
+
+- (IBAction)btnSendData:(id)sender {
     
-    PFQuery *searchDriver = [PFQuery queryWithClassName:@"DriverObject"];
-    [searchDriver whereKey:@"objectId" equalTo:taxiUniqueID];
-    searchDriver.limit = 1;
-    [searchDriver findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
-        if (!error) {
-            
-            long qCount = (unsigned long)results.count;
-            NSLog(@"qCount %ld", qCount);
-            
-            for (PFObject *object in results) {
-                
-                _driverName.text = [object objectForKey:@"driverName"];
-                _driverMedallion.text = [object objectForKey:@"driverMedallion"];
-                
-                NSMutableString *make = [NSMutableString stringWithString:@""];
-                NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
-                if([driverCabMake length] > 0) {
-                    [make appendString:[object objectForKey:@"driverCabMake"]];
-                }
-                [make appendString: @" "];
-                NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
-                if([driverCabModel length] > 0) {
-                    [make appendString:[object objectForKey:@"driverCabModel"]];
-                }
-                _driverLicense.text = make;
-                _driverCabMakeModel.text = [object objectForKey:@"driverCabYear"];
-                _driverVIN.text = [object objectForKey:@"driverVin"];
-                
-                
-            }
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
-    
-    _driverIsSafeDriver.text = @"YES";
-    _driverSpeaksEnglish.text = @"YES";
-    _driverIsHonest.text = @"YES";
-    _driverKnowsDirections.text = @"YES";
-    _driverIsCourteous.text = @"YES";
-    
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
-    
-    /*
-    PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
-    [driverRatings whereKey:@"driverObjectID" containsString:@"b7KSFF9EBG"];
-    [driverRatings findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
-        if (!error) {
-            for (PFObject *object in results) {
-                _driverIsSafeDriver.text = @"YES"; //[object objectForKey:@"driverIsGoodDriver"];
-                _driverSpeaksEnglish.text = @"YES"; //[object objectForKey:@"driverSpeaksEnglish"];
-                _driverIsHonest.text = @"YES"; //[object objectForKey:@"driverIsFairMeter"];
-                _driverKnowsDirections.text = @"YES"; //[object objectForKey:@"driverKnowsCity"];
-                _driverIsCourteous.text = @"YES"; //[object objectForKey:@"driverIsCrazy"];
-            }
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
-     */
+    [self showTaxiInformationSMS:self.taxiObject];
 }
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
@@ -126,7 +185,19 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)showSMS:(NSString*)file {
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"pushSeqDetailsToReview"]) {
+        DDVCabRideReview *destViewController = segue.destinationViewController;
+        
+        if([self.taxiUniqueID length] > 0) {
+            destViewController.taxiUniqueID = self.taxiUniqueID;
+        }
+    }
+}
+
+- (void)showTaxiInformationSMS:(PFObject*)taxiObject {
     
     if(![MFMessageComposeViewController canSendText]) {
         UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your device doesn't support SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -135,7 +206,33 @@
     }
     
     NSArray *recipents = @[@"2019686897"];
-    NSString *message = [NSString stringWithFormat:@"Just sent the %@ file to your email. Please check!", file];
+    PFObject *object = self.taxiObject;
+    
+    NSString *driverName = [object objectForKey:@"driverName"];
+    NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
+    
+    NSMutableString *driverMake = [NSMutableString stringWithString:@""];
+    
+    NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
+    if([driverCabMake length] > 0) {
+        [driverMake appendString:driverCabMake];
+        [driverMake appendString:@" "];
+    }
+    
+    NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
+    if([driverCabModel length] > 0) {
+        [driverMake appendString:driverCabModel];
+        [driverMake appendString:@" "];
+    }
+    
+    NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
+    if([driverCabYear length] > 0) {
+        [driverMake appendString:driverCabYear];
+    }
+    NSString *driverVin = [object objectForKey:@"driverVin"];
+    
+
+    NSString *message = [NSString stringWithFormat:@"CabCheck App Message:\n I just got into a %@ taxi near %@.\n Taxi:%@\nDriver: %@\nMedallion Number: %@\nVIN: %@.", @"Uber", self.userAddress, driverMake, driverName, driverMedallion, driverVin];
     
     MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
     messageController.messageComposeDelegate = self;
@@ -146,11 +243,49 @@
     [self presentViewController:messageController animated:YES completion:nil];
 }
 
+-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    
+    if (status == kCLAuthorizationStatusDenied) {
+        NSLog(@"kCLAuthorizationStatusDenied");
+    }
+    else if (status == kCLAuthorizationStatusAuthorized) {
+        NSLog(@"kCLAuthorizationStatusAuthorized");
+    }
+    
+    if([CLLocationManager locationServicesEnabled]){
+        
+        if([CLLocationManager authorizationStatus]==kCLAuthorizationStatusDenied){
+            UIAlertView    *alert = [[UIAlertView alloc] initWithTitle:@"App Permission Denied"
+                                                               message:@"To re-enable, please go to Settings and turn on Location Service for this app."
+                                                              delegate:nil
+                                                     cancelButtonTitle:@"OK"
+                                                     otherButtonTitles:nil];
+            [alert show];
+        }
+    }
+    
+}
+
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
+    
+    if([CLLocationManager locationServicesEnabled]){
+        if([CLLocationManager authorizationStatus]==kCLAuthorizationStatusDenied){
+            UIAlertView    *alert = [[UIAlertView alloc] initWithTitle:@"App Permission Denied"
+                                                               message:@"To re-enable, please go to Settings and turn on Location Service for this app."
+                                                              delegate:nil
+                                                     cancelButtonTitle:@"OK"
+                                                     otherButtonTitles:nil];
+            [alert show];
+        }
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 /*
 #pragma mark - Navigation
@@ -163,9 +298,5 @@
 }
 */
 
-- (IBAction)btnSendData:(id)sender {
-    
-    NSString *selectedFile = @"testing";
-    [self showSMS:selectedFile];
-}
+
 @end
