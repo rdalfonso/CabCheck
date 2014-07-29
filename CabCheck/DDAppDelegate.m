@@ -19,7 +19,8 @@
                   clientKey:@"SGDYQaGgVbDXHpPIKXwR505RJL0plP8D3zYOFwWW"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
-   [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0 green:.62 blue:.984 alpha:1]];
+   //Make navigation bar items blue globally
+    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0 green:.62 blue:.984 alpha:1]];
     
     return YES;
 }

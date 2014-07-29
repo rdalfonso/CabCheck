@@ -11,5 +11,6 @@
 @interface DDCabReviews : PFQueryTableViewController <UITableViewDelegate>
 
 @property NSString *taxiUniqueID;
+@property (strong, nonatomic) IBOutlet UILabel *lblCabReviewsHeader;
 @property (nonatomic, strong) PFObject *taxiObject;
 @end

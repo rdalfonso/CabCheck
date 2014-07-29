@@ -25,7 +25,6 @@
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
         self.objectsPerPage = 20;
-        self.lblSearchResults.backgroundColor = [UIColor redColor];
     }
     return self;
 }
@@ -68,9 +67,17 @@
 {
     [super viewDidLoad];
     
-    self.edgesForExtendedLayout=UIRectEdgeNone;
+    //self.edgesForExtendedLayout=UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     [self.tableView setBackgroundColor:[UIColor blackColor]];
+    
+    UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self action:nil];
+    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:nil];
+    
+    NSArray *actionButtonItems = @[shareItem, searchItem];
+    self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
+   
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

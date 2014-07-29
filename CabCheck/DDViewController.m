@@ -31,15 +31,12 @@
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
     
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    //self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     
     [self.txtSearch becomeFirstResponder];
     [self.txtSearch resignFirstResponder];
     
-    CGRect frameRect = self.txtSearch.frame;
-    frameRect.size.height = 200;
-    self.txtSearch.frame = frameRect;
 }
 
 
@@ -55,11 +52,6 @@
     
     return NO;
     
-}
-
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

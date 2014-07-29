@@ -49,7 +49,7 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     CLLocation *currentLocation = newLocation;
-    NSDate *todayDate = [NSDate date];
+    
     
     __block int GoodCount = 0;
     __block int OkCount = 0;
@@ -61,10 +61,10 @@
     __block int RespectCount = 0;
     __block int DirectionsCount = 0;
     
+    NSDate *todayDate = [NSDate date];
     NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
     [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
     [theDateFormatter setDateFormat:@"EEE, MMM d, h:mm a"];
-    
     self.userDate = todayDate;
     
     if (currentLocation != nil) {
@@ -88,13 +88,12 @@
                      NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
                      
                      NSMutableString *detailHeader = [NSMutableString stringWithString:@""];
-                     [detailHeader appendString:@" Driver Details - "];
+                     [detailHeader appendString:@"Driver Details - "];
                      [detailHeader appendString:driverMedallion];
                      _lblSearchResultDetailHeader.text = detailHeader;
                      
-                     _driverPickUp.text = address;
+                     _driverPickUp.text = [address stringByReplacingOccurrencesOfString:@"," withString:@"\n"];
                      _driverPickupTime.text = [NSString stringWithFormat:@"%@", [theDateFormatter stringFromDate:todayDate]];
-                     
                      _driverName.text = [object objectForKey:@"driverName"];
                      _driverMedallion.text = driverMedallion;
                      
@@ -119,14 +118,15 @@
                      if (!error)
                      {
                          long qCount = (unsigned long)results.count;
-                         
-                         /*
-                         if(qCount > 0)
-                         {
-                             NSString *btnMessage = [NSString stringWithFormat:@"Read all %ld reviews of this taxi >", qCount];
+                        
+                         if(qCount > 0) {
+                             NSString *btnMessage = [NSString stringWithFormat:@"Read %ld reviews of this taxi >", qCount];
                              _btnReviewLink.titleLabel.text = btnMessage;
+                             _btnReviewLink.hidden = false;
+                         } else {
+                             _btnReviewLink.hidden = true;
                          }
-                         */
+                         
                          for (PFObject *object in results)
                          {
                              NSInteger reviewOverall = [[object objectForKey:@"reviewOverall"] integerValue];
@@ -164,7 +164,6 @@
                              if(reviewKnowCity == 1){
                                  DirectionsCount++;
                              }
-                             
                          }
                          
                          NSMutableString *reviewTags = [NSMutableString stringWithString:@""];
