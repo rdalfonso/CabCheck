@@ -26,7 +26,7 @@
 
 - (IBAction)btnSaveUserSettings:(id)sender {
     
-    NSString *userHomeCity = _userHomeCity.text;
+   // NSString *userHomeCity = _userHomeCity.text;
     int userTaxiPreferValue = (int)_userTaxiPrefer.selectedSegmentIndex;
     NSString *userSMS1 = _userSMSContact1.text;
     NSString *userSMS2 = _userSMSContact2.text;
@@ -46,7 +46,7 @@
     
     // Store the data
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setValue:userHomeCity forKey:@"userHomeCity"];
+    //[defaults setValue:userHomeCity forKey:@"userHomeCity"];
     [defaults setInteger:userTaxiPreferValue forKey:@"userTaxiPreferValue"];
     [defaults setObject:smsNumbers forKey:@"userSMSNumbers"];
     
@@ -54,21 +54,24 @@
     
 }
 
+-(IBAction) searchBtnUserClick
+{}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    [self.userHomeCity resignFirstResponder];
+    //[self.userHomeCity resignFirstResponder];
     [self.userSMSContact1 resignFirstResponder];
     [self.userSMSContact2 resignFirstResponder];
     [self.userSMSContact3 resignFirstResponder];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    NSString *userHomeCity = [defaults stringForKey:@"userHomeCity"];
-    if([userHomeCity length] > 0) {
-        _userHomeCity.text = userHomeCity;
-    }
+    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchBtnUserClick:)];
+    NSArray *actionButtonItems = @[searchItem];
+    self.navigationItem.rightBarButtonItems = actionButtonItems;
     
     int userTaxiPreferValue =(int)[defaults integerForKey:@"userTaxiPreferValue"];
     [_userTaxiPrefer setSelectedSegmentIndex:userTaxiPreferValue];
@@ -101,15 +104,20 @@
     
 }
 
+-(void)searchBtnUserClick:(id)sender
+{
+    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
+}
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.userHomeCity resignFirstResponder];
+    //[self.userHomeCity resignFirstResponder];
     [self.userSMSContact1 resignFirstResponder];
     [self.userSMSContact2 resignFirstResponder];
     [self.userSMSContact3 resignFirstResponder];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [self.userHomeCity resignFirstResponder];
+    //[self.userHomeCity resignFirstResponder];
     [self.userSMSContact1 resignFirstResponder];
     [self.userSMSContact2 resignFirstResponder];
     [self.userSMSContact3 resignFirstResponder];

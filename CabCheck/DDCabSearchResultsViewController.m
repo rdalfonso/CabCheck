@@ -8,6 +8,7 @@
 
 #import "DDCabSearchResultsViewController.h"
 #import "DDSearchResultDetailController.h"
+#import "CabCheckSearchViewController.h"
 #import "CabSearchResultCell.h"
 
 
@@ -71,13 +72,18 @@
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     [self.tableView setBackgroundColor:[UIColor blackColor]];
     
-    UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self action:nil];
-    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:nil];
-    
-    NSArray *actionButtonItems = @[shareItem, searchItem];
+    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchBtnUserClick:)];
+    NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
    
+}
+
+-(void)searchBtnUserClick:(id)sender
+{
+    NSLog(@"\n Search pressed");
+    
+    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

@@ -1,22 +1,29 @@
 //
-//  DDViewController.m
+//  CabCheckSearchViewController.m
 //  CabCheck
 //
-//  Created by Rich DAlfonso on 7/18/14.
+//  Created by Rich DAlfonso on 7/30/14.
 //  Copyright (c) 2014 DuomoDigital. All rights reserved.
 //
 
-#import "DDViewController.h"
+#import "CabCheckSearchViewController.h"
 #import "DDCabSearchResultsViewController.h"
 #import <Parse/Parse.h>
 
-
-@interface DDViewController ()
+@interface CabCheckSearchViewController ()
 
 @end
 
-@implementation DDViewController
+@implementation CabCheckSearchViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -31,9 +38,12 @@
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
     
-    //Front-end control manipulation
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    //self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
+    
+    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchBtnUserClick:)];
+    NSArray *actionButtonItems = @[searchItem];
+    self.navigationItem.rightBarButtonItems = actionButtonItems;
     
     if ([self.txtSearch respondsToSelector:@selector(setAttributedPlaceholder:)]) {
         UIColor *color = [UIColor grayColor];
@@ -42,24 +52,16 @@
         NSLog(@"Cannot set placeholder text's color, because deployment target is earlier than iOS 6.0");
     }
     
-    //Respondrs to textfields
+    
     [self.txtSearch becomeFirstResponder];
     [self.txtSearch resignFirstResponder];
-    
-    
-    
+
 }
 
-- (BOOL)txtSearch:(UITextField *)txtSearch shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-    int MAXLENGTH = 30;
-    if ([txtSearch.text length] > MAXLENGTH) {
-        txtSearch.text = [txtSearch.text substringToIndex:MAXLENGTH-1];
-        return NO;
-    }
-    return YES;
+-(void)searchBtnUserClick:(id)sender
+{
+    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
 }
-
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
@@ -74,6 +76,8 @@
     return NO;
     
 }
+
+
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -156,12 +160,23 @@
     }
 }
 
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
 
 - (IBAction)btnSearch:(id)sender {
 }

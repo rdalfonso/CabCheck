@@ -7,6 +7,7 @@
 //
 
 #import "DDAboutController.h"
+#import "CabCheckSearchViewController.h"
 
 @interface DDAboutController ()
 
@@ -27,10 +28,22 @@
 {
     [super viewDidLoad];
     
-    //self.edgesForExtendedLayout = UIRectEdgeNone;
+    //Front-end control manipulation
+    self.edgesForExtendedLayout = UIRectEdgeAll;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
-
+    
+    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchBtnUserClick:)];
+    NSArray *actionButtonItems = @[searchItem];
+    self.navigationItem.rightBarButtonItems = actionButtonItems;
 }
+
+-(void)searchBtnUserClick:(id)sender
+{
+    NSLog(@"\n Search pressed");
+    
+    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
+}
+
 
 - (void)didReceiveMemoryWarning
 {

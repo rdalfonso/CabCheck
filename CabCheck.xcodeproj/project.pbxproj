@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1113855198941CA00CCABF0 /* CabCheckSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1113854198941CA00CCABF0 /* CabCheckSearchViewController.m */; };
 		A129CD9B198020F300CBA300 /* CabSearchResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A129CD9A198020F300CBA300 /* CabSearchResultCell.m */; };
 		A1307E851984CA13009C9BAE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1307E841984CA13009C9BAE /* MessageUI.framework */; };
 		A142A3C5197F0CB3002AAEEE /* DDCabSearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A142A3C4197F0CB3002AAEEE /* DDCabSearchResultsViewController.m */; };
@@ -65,6 +66,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A1113853198941CA00CCABF0 /* CabCheckSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CabCheckSearchViewController.h; sourceTree = "<group>"; };
+		A1113854198941CA00CCABF0 /* CabCheckSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CabCheckSearchViewController.m; sourceTree = "<group>"; };
 		A129CD99198020F300CBA300 /* CabSearchResultCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CabSearchResultCell.h; sourceTree = "<group>"; };
 		A129CD9A198020F300CBA300 /* CabSearchResultCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CabSearchResultCell.m; sourceTree = "<group>"; };
 		A1307E841984CA13009C9BAE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -227,6 +230,8 @@
 				A14458851986A37400BDEA28 /* CabReviewCell.m */,
 				A14458871986B13400BDEA28 /* DDUserSettingsViewController.h */,
 				A14458881986B13400BDEA28 /* DDUserSettingsViewController.m */,
+				A1113853198941CA00CCABF0 /* CabCheckSearchViewController.h */,
+				A1113854198941CA00CCABF0 /* CabCheckSearchViewController.m */,
 			);
 			path = CabCheck;
 			sourceTree = "<group>";
@@ -387,6 +392,7 @@
 			files = (
 				A14458891986B13400BDEA28 /* DDUserSettingsViewController.m in Sources */,
 				A142A3C5197F0CB3002AAEEE /* DDCabSearchResultsViewController.m in Sources */,
+				A1113855198941CA00CCABF0 /* CabCheckSearchViewController.m in Sources */,
 				A1AB56341979C9B3004D23AD /* DDAppDelegate.m in Sources */,
 				A182505E197CC9A600483B5A /* DDAboutController.m in Sources */,
 				A1565EA81981D3D4008E5D2B /* DDSearchResultDetailController.m in Sources */,

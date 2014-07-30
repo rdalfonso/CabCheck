@@ -45,21 +45,38 @@ NSString *reviewComments;
     }
 }
 
+-(IBAction) searchBtnUserClick
+{}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self refreshUserDefaults];
     
-    NSLog(@"self.taxiObject: %@", self.taxiObject);
+     //Front-end control manipulation
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     
-    // Do any additional setup after loading the view.
+    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchBtnUserClick:)];
+    NSArray *actionButtonItems = @[searchItem];
+    self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
+    if ([self.reviewComments respondsToSelector:@selector(setAttributedPlaceholder:)]) {
+        UIColor *color = [UIColor grayColor];
+        self.reviewComments.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Give feedback on this cab ride." attributes:@{NSForegroundColorAttributeName: color}];
+    } else {
+        NSLog(@"Cannot set placeholder text's color, because deployment target is earlier than iOS 6.0");
+    }
+    
     [self.reviewComments becomeFirstResponder];
     [self.reviewComments resignFirstResponder];
+}
+
+-(void)searchBtnUserClick:(id)sender
+{
+    NSLog(@"\n Search pressed");
     
-    
-    //self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
+    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
 }
 
 
