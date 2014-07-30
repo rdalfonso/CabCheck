@@ -38,30 +38,36 @@
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
     
-    //self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     
-    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchBtnUserClick:)];
-    NSArray *actionButtonItems = @[searchItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems;
+    UIBarButtonItem *settingsItem = [[UIBarButtonItem alloc] initWithTitle:@"\u2699"
+         style:UIBarButtonItemStylePlain target:self action:@selector(settingsBtnUserClick:)];
     
+    UIFont *customFont = [UIFont fontWithName:@"Helvetica" size:24.0];
+    NSDictionary *fontDictionary = @{NSFontAttributeName : customFont};
+    [settingsItem setTitleTextAttributes:fontDictionary forState:UIControlStateNormal];
+    
+    NSArray *actionButtonItems = @[settingsItem];
+    self.navigationItem.rightBarButtonItems = actionButtonItems;
     if ([self.txtSearch respondsToSelector:@selector(setAttributedPlaceholder:)]) {
         UIColor *color = [UIColor grayColor];
         self.txtSearch.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter Medallion, License, or Driver Name." attributes:@{NSForegroundColorAttributeName: color}];
     } else {
         NSLog(@"Cannot set placeholder text's color, because deployment target is earlier than iOS 6.0");
     }
-    
+    [self.navigationItem setHidesBackButton:YES animated:YES];
     
     [self.txtSearch becomeFirstResponder];
     [self.txtSearch resignFirstResponder];
-
 }
 
--(void)searchBtnUserClick:(id)sender
+-(void)settingsBtnUserClick:(id)sender
 {
-    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
+    NSLog(@"\n showSettings pressed");
+    [self performSegueWithIdentifier:@"pushSeqToSettings" sender:sender];
 }
+
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
@@ -81,16 +87,10 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSLog(@"prepareForSegue: %@", segue.identifier);
-    
-    
     if ([segue.identifier isEqualToString:@"pushSeqSearchResults"]) {
         DDCabSearchResultsViewController *destViewController = segue.destinationViewController;
         
-        NSLog(@"_txtSearch length: %lu", (unsigned long)[_txtSearch.text length]);
-        
         if([_txtSearch.text length] > 0) {
-            NSLog(@"_txtSearch: %@", _txtSearch.text);
             destViewController.globalSearchTerm = _txtSearch.text;
         }
     }

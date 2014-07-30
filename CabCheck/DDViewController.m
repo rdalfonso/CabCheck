@@ -35,6 +35,15 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     
+    UIBarButtonItem *settingsItem = [[UIBarButtonItem alloc] initWithTitle:@"\u2699"
+                                                                     style:UIBarButtonItemStylePlain target:self action:@selector(settingsBtnUserClick:)];
+    UIFont *customFont = [UIFont fontWithName:@"Helvetica" size:24.0];
+    NSDictionary *fontDictionary = @{NSFontAttributeName : customFont};
+    [settingsItem setTitleTextAttributes:fontDictionary forState:UIControlStateNormal];
+    
+    NSArray *actionButtonItems = @[settingsItem];
+    self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
     if ([self.txtSearch respondsToSelector:@selector(setAttributedPlaceholder:)]) {
         UIColor *color = [UIColor grayColor];
         self.txtSearch.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter Medallion, License, or Driver Name." attributes:@{NSForegroundColorAttributeName: color}];
@@ -48,6 +57,12 @@
     
     
     
+}
+
+-(void)settingsBtnUserClick:(id)sender
+{
+    NSLog(@"\n showSettings pressed");
+    [self performSegueWithIdentifier:@"pushSeqToSettings" sender:sender];
 }
 
 - (BOOL)txtSearch:(UITextField *)txtSearch shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

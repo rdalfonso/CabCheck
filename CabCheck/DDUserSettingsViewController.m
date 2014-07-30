@@ -68,11 +68,6 @@
     [self.userSMSContact3 resignFirstResponder];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchBtnUserClick:)];
-    NSArray *actionButtonItems = @[searchItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems;
-    
     int userTaxiPreferValue =(int)[defaults integerForKey:@"userTaxiPreferValue"];
     [_userTaxiPrefer setSelectedSegmentIndex:userTaxiPreferValue];
     
@@ -101,13 +96,8 @@
             _userSMSContact3.text = userSMS3;
         }
     }
-    
 }
 
--(void)searchBtnUserClick:(id)sender
-{
-    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
-}
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     //[self.userHomeCity resignFirstResponder];

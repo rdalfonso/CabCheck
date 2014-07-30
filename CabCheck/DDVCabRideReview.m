@@ -57,10 +57,6 @@ NSString *reviewComments;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     
-    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchBtnUserClick:)];
-    NSArray *actionButtonItems = @[searchItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems;
-    
     if ([self.reviewComments respondsToSelector:@selector(setAttributedPlaceholder:)]) {
         UIColor *color = [UIColor grayColor];
         self.reviewComments.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Give feedback on this cab ride." attributes:@{NSForegroundColorAttributeName: color}];
@@ -72,12 +68,6 @@ NSString *reviewComments;
     [self.reviewComments resignFirstResponder];
 }
 
--(void)searchBtnUserClick:(id)sender
-{
-    NSLog(@"\n Search pressed");
-    
-    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
-}
 
 
 - (IBAction)btnSaveReview:(id)sender {

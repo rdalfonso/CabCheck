@@ -16,7 +16,7 @@
                         <color key="sectionIndexColor" red="1" green="0.80000001192092896" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="sectionIndexTrackingBackgroundColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
-                        <label key="tableHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Search Results" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6vs-gU-wQS">
+                        <label key="tableHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Search Results" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6vs-gU-wQS">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -124,6 +124,7 @@
                     <connections>
                         <segue destination="Ylr-RS-wdl" kind="push" identifier="pushSeqResultsToDetail" id="SSa-XP-2Na"/>
                         <segue destination="XBF-hd-MkJ" kind="push" identifier="seqPushToSearchController" id="F3W-Dt-tPU"/>
+                        <segue destination="Q19-jI-55q" kind="push" identifier="pushSeqToSettings" id="4EQ-th-Lku"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gbh-58-b03" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -194,6 +195,7 @@
                     <connections>
                         <outlet property="lblCurrentCity" destination="8sq-tx-23i" id="8jg-8n-dEL"/>
                         <outlet property="txtSearch" destination="Bnx-Tk-kNs" id="0rB-hK-lUX"/>
+                        <segue destination="Q19-jI-55q" kind="push" identifier="pushSeqToSettings" id="Z0R-lc-qz6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qCk-45-5pA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -313,7 +315,6 @@
                         <outlet property="userSMSContact2" destination="wws-hP-RPj" id="B3S-bW-Wgq"/>
                         <outlet property="userSMSContact3" destination="1Et-Lv-CMO" id="kSu-DN-zGn"/>
                         <outlet property="userTaxiPrefer" destination="lye-XZ-ABE" id="OqT-Gv-fCk"/>
-                        <segue destination="XBF-hd-MkJ" kind="push" identifier="seqPushToSearchController" id="6BR-me-nm3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fzw-2b-bvd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -432,7 +433,7 @@
                                 <rect key="frame" x="11" y="201" width="299" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="Let friends know what taxi your in >">
+                                <state key="normal" title="Text this taxi info to friends >">
                                     <color key="titleColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -502,6 +503,7 @@
                         <outlet property="driverVIN" destination="C7P-7d-Ymn" id="Kjm-0n-zM5"/>
                         <outlet property="lblSearchResultDetailHeader" destination="1Ar-kS-gtD" id="UFc-f0-Rdk"/>
                         <segue destination="XBF-hd-MkJ" kind="push" identifier="seqPushToSearchController" id="Y2J-tB-XMh"/>
+                        <segue destination="Q19-jI-55q" kind="push" identifier="pushSeqToSettings" id="YA9-8g-xED"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Net-Ol-Sfo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -683,6 +685,7 @@
                         <outlet property="reviewKnowCity" destination="pDU-06-YZW" id="KWi-u5-R9x"/>
                         <outlet property="reviewOverall" destination="DeY-4p-Vkx" id="ZvU-Nm-Mmm"/>
                         <segue destination="XBF-hd-MkJ" kind="push" identifier="seqPushToSearchController" id="qXz-QX-WFD"/>
+                        <segue destination="Q19-jI-55q" kind="push" identifier="pushSeqToSettings" id="7fa-js-3hT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2qj-Mg-eBh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -828,13 +831,7 @@
                         <barButtonItem key="leftBarButtonItem" title="About" style="done" id="YPe-I8-sf7">
                             <color key="tintColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <segue destination="qGG-1S-Lwy" kind="push" id="MQ4-Pb-IMd"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Settings" id="HID-a2-ld3">
-                            <color key="tintColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <segue destination="Q19-jI-55q" kind="push" id="3tt-x9-bPf"/>
+                                <segue destination="qGG-1S-Lwy" kind="push" id="CK0-hk-6Ob"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -842,6 +839,7 @@
                     <connections>
                         <outlet property="lblCurrentCity" destination="u6s-mH-gcw" id="iJQ-pa-w5H"/>
                         <outlet property="txtSearch" destination="YNU-lA-GEe" id="mZ3-Y6-AmO"/>
+                        <segue destination="Q19-jI-55q" kind="push" identifier="pushSeqToSettings" id="qJq-zf-38t"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nQD-oN-awo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -903,9 +901,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ciq-Ib-saw"/>
                     <size key="freeformSize" width="320" height="524"/>
-                    <connections>
-                        <segue destination="XBF-hd-MkJ" kind="push" identifier="seqPushToSearchController" id="Zxw-5j-SBT"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1eX-X0-w6S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -947,9 +942,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="6BR-me-nm3"/>
         <segue reference="w9i-iL-ABM"/>
-        <segue reference="ftS-L1-IkS"/>
-        <segue reference="ygD-nH-KYA"/>
+        <segue reference="YA9-8g-xED"/>
+        <segue reference="SSa-XP-2Na"/>
+        <segue reference="sQV-04-UCH"/>
+        <segue reference="Y2J-tB-XMh"/>
     </inferredMetricsTieBreakers>
 </document>
