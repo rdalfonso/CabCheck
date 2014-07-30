@@ -200,27 +200,6 @@
                          float pcOk = [self getReviewPercent:TotalCount withInteger:OkCount];
                          float pcBad = [self getReviewPercent:TotalCount withInteger:BadCount];
                          
-                         float pcRespect = [self getReviewPercent:TotalCount withInteger:RespectCount];
-                         float pcDriving = [self getReviewPercent:TotalCount withInteger:DrivingCount];
-                         float pcEnglish = [self getReviewPercent:TotalCount withInteger:EnglishCount];
-                         float pcHonest = [self getReviewPercent:TotalCount withInteger:HonestCount];
-                         float pcDirections = [self getReviewPercent:TotalCount withInteger:DirectionsCount];
-                         
-                         NSLog(@"pcGood: %f", pcGood);
-                         NSLog(@"pcOk: %f", pcOk);
-                         NSLog(@"pcBad: %f", pcBad);
-                         
-                         NSLog(@"pcRespect: %f", pcRespect);
-                         NSLog(@"pcDriving: %f", pcDriving);
-                         NSLog(@"pcEnglish: %f", pcEnglish);
-                         
-                         NSLog(@"pcRespect: %f", pcRespect);
-                         NSLog(@"pcDriving: %f", pcDriving);
-                         NSLog(@"pcEnglish: %f", pcEnglish);
-                         NSLog(@"pcHonest: %f", pcHonest);
-                         NSLog(@"pcDirections: %f", pcDirections);
-                         NSLog(@"PERCENT_LEVEL: %f", PERCENT_LEVEL);
-                         
                          if( (GoodCount + OkCount + BadCount) == 0){
                              NSLog(@"Green Light ");
                              _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
@@ -228,45 +207,55 @@
                          }
                          else
                          {
-                             if(pcDirections >= PERCENT_LEVEL) {
-                                 [reviewTags appendString:@"Bad Sense of Direction\n"];
-                             }
                              
-                             if(pcDriving >= PERCENT_LEVEL) {
-                                 [reviewTags appendString:@"Bad Driver. "];
-                             }
-                             
-                             if(pcRespect >= PERCENT_LEVEL) {
-                                 [reviewTags appendString:@"Rude. "];
-                             }
-                             
-                             if(pcHonest >= PERCENT_LEVEL) {
-                                 [reviewTags appendString:@"Dishonest Fare. "];
-                             }
-                             
-                             if(pcEnglish >= PERCENT_LEVEL) {
-                                 [reviewTags appendString:@"Poor English. "];
-                             }
-                             
-                             if( pcGood >= 50.0 )
+                             if( pcGood >= 50.0  )
                              {
-                                    NSLog(@"Green Light ");
+                                  NSLog(@"Green Light ");
                                  _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
                                  _driverReviewTags.text = @"Good Driver. Few Complaints.";
                              }
+                             else
+                             {
+                                
+                                 float pcRespect = [self getReviewPercent:TotalCount withInteger:RespectCount];
+                                 float pcDriving = [self getReviewPercent:TotalCount withInteger:DrivingCount];
+                                 float pcEnglish = [self getReviewPercent:TotalCount withInteger:EnglishCount];
+                                 float pcHonest = [self getReviewPercent:TotalCount withInteger:HonestCount];
+                                 float pcDirections = [self getReviewPercent:TotalCount withInteger:DirectionsCount];
+                                 
+                                 if(pcDirections >= PERCENT_LEVEL) {
+                                     [reviewTags appendString:@"Bad Sense of Direction\n"];
+                                 }
+                                 
+                                 if(pcDriving >= PERCENT_LEVEL) {
+                                     [reviewTags appendString:@"Bad Driver. "];
+                                 }
+                                 
+                                 if(pcRespect >= PERCENT_LEVEL) {
+                                     [reviewTags appendString:@"Rude. "];
+                                 }
+                                 
+                                 if(pcHonest >= PERCENT_LEVEL) {
+                                     [reviewTags appendString:@"Dishonest Fare. "];
+                                 }
+                                 
+                                 if(pcEnglish >= PERCENT_LEVEL) {
+                                     [reviewTags appendString:@"Poor English. "];
+                                 }
                              
-                             if( pcOk > 30.0 &&  pcGood < 40.0) {
-                                  NSLog(@"Yellow Light ");
-                                 _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
-                                 _driverReviewTags.text = reviewTags;
+                                 if( (pcOk > 30.0) || (pcGood ==  pcBad) ) {
+                                      NSLog(@"Yellow Light ");
+                                     _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                                     _driverReviewTags.text = reviewTags;
+                                 }
+                                 
+                                 if( pcBad >= 50.0 ) {
+                                     NSLog(@"Red Light ");
+                                     _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                                     _driverReviewTags.text = reviewTags;
+                                 }
                              }
-                             
-                             if( pcBad >= 50.0 )
-                                 NSLog(@"Red Light ");
-                                 _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
-                                 _driverReviewTags.text = reviewTags;
-                             }
-                         }
+                        }
                          
                      }
                      else {
@@ -372,6 +361,7 @@
     
     //Get Taxi Object information
     PFObject *object = self.taxiObject;
+    
     NSString *driverType = [object objectForKey:@"driverType"];
     NSString *driverName = [object objectForKey:@"driverName"];
     NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
@@ -385,7 +375,7 @@
     NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
     
     NSMutableString *driverMake = [NSMutableString stringWithString:@""];
-    
+
     
     if([driverCabMake length] > 0) {
         [driverMake appendString:driverCabMake];
@@ -400,12 +390,36 @@
     if([driverCabYear length] > 0) {
         [driverMake appendString:driverCabYear];
     }
-    NSString *message = [NSString stringWithFormat:@"CabCheck App Message:\n I just got into a %@ Taxi near %@ on %@.\n Taxi:%@\nDriver: %@\nLicense Plate: %@\nMedallion Number: %@\nVIN: %@.", driverType, self.userAddress, self.userDate, driverMake, driverName, driverDMVLicense, driverMedallion, driverVIN];
+    
+    NSMutableString *passengerSMS = [NSMutableString stringWithString:@""];
+    [passengerSMS appendString:@"CabCheck App Message:\n"];
+    [passengerSMS appendString:@"I just got into a "];
+    
+    if ([driverType isEqualToString:@"Y"])
+    {
+        [passengerSMS appendString:@"Yellow Medallion Taxi\n"];
+    }
+    else if ([driverType isEqualToString:@"L"])
+    {
+        [passengerSMS appendString:@"TLC Street Hail Livery Tax\n"];
+    }
+    [passengerSMS appendString:[NSString stringWithFormat:@"near %@ on %@.\n", self.userAddress, self.userDate]];
+    [passengerSMS appendString:[NSString stringWithFormat:@"Taxi: %@.\n", driverMake]];
+    [passengerSMS appendString:[NSString stringWithFormat:@"Driver: %@.\n", driverName]];
+    [passengerSMS appendString:[NSString stringWithFormat:@"Medallion Number: %@.\n", driverMedallion]];
+    if ([driverVIN length] > 0)
+    {
+        [passengerSMS appendString:[NSString stringWithFormat:@"VIN: %@.\n", driverVIN]];
+    }
+    else if ([driverType isEqualToString:@"L"])
+    {
+        [passengerSMS appendString:[NSString stringWithFormat:@"License Plate: %@.\n", driverDMVLicense]];
+    }
     
     MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
     messageController.messageComposeDelegate = self;
     [messageController setRecipients:recipents];
-    [messageController setBody:message];
+    [messageController setBody:passengerSMS];
     
     // Present message view controller on screen
     [self presentViewController:messageController animated:YES completion:nil];
