@@ -99,6 +99,9 @@
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"EEE, MMM d, h:mm a"];
 
+    NSMutableString *reviewTags = [NSMutableString stringWithString:@""];
+    NSMutableString *reviewTextFill = [NSMutableString stringWithString:@""];
+    
     NSString *reviewText = [object objectForKey:@"reviewComments"];
     NSInteger reviewActCourteous = [[object objectForKey:@"reviewActCourteous"] integerValue];
     NSInteger reviewDriveSafe = [[object objectForKey:@"reviewDriveSafe"] integerValue];
@@ -106,12 +109,15 @@
     NSInteger reviewHonestFare = [[object objectForKey:@"reviewHonestFare"] integerValue];
     NSInteger reviewKnowCity = [[object objectForKey:@"reviewKnowCity"] integerValue];
     
-    NSMutableString *reviewTags = [NSMutableString stringWithString:@""];
+    
     
     int iconScore = (reviewActCourteous + reviewDriveSafe + reviewFollowDirections + reviewKnowCity);
     
+    if(reviewKnowCity == 1){
+        [reviewTags appendString:@"Bad Sense of Direction\n "];
+    }
     if(reviewActCourteous == 1){
-       [reviewTags appendString:@"Rude Driver. "];
+       [reviewTags appendString:@"Rude. "];
     }
     if(reviewDriveSafe == 1){
         [reviewTags appendString:@"Terrible Driver. "];
@@ -122,13 +128,22 @@
     if(reviewHonestFare == 1){
        [reviewTags appendString:@"Dishonest Fare. "];
     }
-    if(reviewKnowCity == 1){
-        [reviewTags appendString:@"No Sense of Direction."];
-    }
+    
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.reviewText.text = reviewText;
-    cell.reviewDetails.text = reviewTags;
+    if([reviewText length] > 0) {
+        [reviewTextFill appendString:@"\""];
+        [reviewTextFill appendString:reviewText];
+        [reviewTextFill appendString:@"\""];
+        cell.reviewText.text = reviewTextFill;
+    } else {
+         cell.reviewText.text = @"No comments from passenger.";
+    }
+    if([reviewTags length] > 0) {
+        cell.reviewDetails.text = reviewTags;
+    } else {
+        cell.reviewDetails.text = @"Good Driver. No complaints.";
+    }
     cell.reviewDate.text = [NSString stringWithFormat:@"Reviewed: %@", [dateFormat stringFromDate:createdAt]];
     
     if(iconScore <= 1){

@@ -120,6 +120,15 @@
     cell.driverName.text = [object objectForKey:@"driverName"];
     cell.driverMedallion.text = [object objectForKey:@"driverMedallion"];
     
+    NSString *driverType =[object objectForKey:@"driverType"];
+    if ([driverType isEqualToString:@"Y"]) {
+        cell.driverType.text = @"Yellow Medallion Taxi";
+    } else if ([driverType isEqualToString:@"L"]) {
+        cell.driverType.text = @"TLC Street Hail Livery";
+    } else {
+        cell.driverType.text = @"Yellow Medallion Taxi";
+    }
+    
     NSMutableString *make = [NSMutableString stringWithString:@""];
     NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
     if([driverCabMake length] > 0) {

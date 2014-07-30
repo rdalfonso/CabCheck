@@ -10,6 +10,8 @@
 #import "DDVCabRideReview.h"
 #import "DDCabReviews.h"
 
+#define PERCENT_LEVEL 25.0
+
 @interface DDSearchResultDetailController ()
 
 @end
@@ -45,13 +47,12 @@
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-                                                                                target:self action:@selector(searchBtnUserClick:)];
+        target:self action:@selector(searchBtnUserClick:)];
     
     NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
-    
-    [self.navigationItem setHidesBackButton:YES animated:YES];
+    [self.navigationItem setHidesBackButton:NO animated:YES];
 }
 
 
@@ -76,6 +77,7 @@
     __block int EnglishCount = 0;
     __block int RespectCount = 0;
     __block int DirectionsCount = 0;
+    __block long TotalCount = 0;
     
     NSDate *todayDate = [NSDate date];
     NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
@@ -108,6 +110,15 @@
                      [detailHeader appendString:driverMedallion];
                      _lblSearchResultDetailHeader.text = detailHeader;
                      
+                     NSString *driverType =[object objectForKey:@"driverType"];
+                     if ([driverType isEqualToString:@"Y"]) {
+                         _driverType.text = @"Yellow Medallion";
+                     } else if ([driverType isEqualToString:@"L"]) {
+                         _driverType.text = @"TLC Street Hail Livery";
+                     } else {
+                         _driverType.text = @"Yellow Medallion";
+                     }
+                     
                      _driverPickUp.text = [address stringByReplacingOccurrencesOfString:@"," withString:@"\n"];
                      _driverPickupTime.text = [NSString stringWithFormat:@"%@", [theDateFormatter stringFromDate:todayDate]];
                      _driverName.text = [object objectForKey:@"driverName"];
@@ -133,19 +144,24 @@
                  [driverRatings findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
                      if (!error)
                      {
-                         long qCount = (unsigned long)results.count;
+                         TotalCount = (unsigned long)results.count;
                         
-                         if(qCount > 0) {
-                             NSString *btnMessage = [NSString stringWithFormat:@"Read %ld reviews of this taxi >", qCount];
+                         if(TotalCount > 0) {
+                             NSString *btnMessage = [NSString stringWithFormat:@"Read %ld reviews of this taxi >", TotalCount];
                              _btnReviewLink.titleLabel.text = btnMessage;
                              _btnReviewLink.hidden = false;
                          } else {
-                             _btnReviewLink.hidden = true;
+                             _btnReviewLink.hidden = false;
                          }
                          
                          for (PFObject *object in results)
                          {
                              NSInteger reviewOverall = [[object objectForKey:@"reviewOverall"] integerValue];
+                             NSInteger reviewActCourteous = [[object objectForKey:@"reviewActCourteous"] integerValue];
+                             NSInteger reviewDriveSafe = [[object objectForKey:@"reviewDriveSafe"] integerValue];
+                             NSInteger reviewFollowDirections = [[object objectForKey:@"reviewFollowDirections"] integerValue];
+                             NSInteger reviewHonestFare = [[object objectForKey:@"reviewHonestFare"] integerValue];
+                             NSInteger reviewKnowCity = [[object objectForKey:@"reviewKnowCity"] integerValue];
                              
                              if(reviewOverall == 0){
                                  GoodCount++;
@@ -158,12 +174,6 @@
                              if(reviewOverall == 2){
                                  BadCount++;
                              }
-                             
-                            NSInteger reviewActCourteous = [[object objectForKey:@"reviewActCourteous"] integerValue];
-                            NSInteger reviewDriveSafe = [[object objectForKey:@"reviewDriveSafe"] integerValue];
-                            NSInteger reviewFollowDirections = [[object objectForKey:@"reviewFollowDirections"] integerValue];
-                            NSInteger reviewHonestFare = [[object objectForKey:@"reviewHonestFare"] integerValue];
-                            NSInteger reviewKnowCity = [[object objectForKey:@"reviewKnowCity"] integerValue];
                              
                              if(reviewActCourteous == 1){
                                  RespectCount++;
@@ -180,30 +190,23 @@
                              if(reviewKnowCity == 1){
                                  DirectionsCount++;
                              }
+                             
+                             NSLog(@"RespectCount %d", RespectCount);
+                             NSLog(@"DrivingCount %d", DrivingCount);
+                             NSLog(@"EnglishCount %d", EnglishCount);
+                             NSLog(@"HonestCount %d", HonestCount);
+                             NSLog(@"DirectionsCount %d", DirectionsCount);
                          }
                          
+                         //Calculate scores
+                         int OverallScore = 0;
                          NSMutableString *reviewTags = [NSMutableString stringWithString:@""];
-                         if(RespectCount > 5)
-                         {
-                             [reviewTags appendString:@"Rude Driver."];
-                         }
-                         if(DrivingCount > 5)
-                         {
-                             [reviewTags appendString:@"Terrible Driver"];
-                         }
-                         if(EnglishCount > 5)
-                         {
-                             [reviewTags appendString:@"Poor English."];
-                         }
-                         if(HonestCount > 5)
-                         {
-                             [reviewTags appendString:@"Dishonest Fare."];
-                         }
                          
-                         if(DirectionsCount > 5)
-                         {
-                             [reviewTags appendString:@"Poor Knowledge of the city."];
-                         }
+                         float pcRespect = [self getReviewPercent:TotalCount withInteger:RespectCount];
+                         float pcDriving = [self getReviewPercent:TotalCount withInteger:DrivingCount];
+                         float pcEnglish = [self getReviewPercent:TotalCount withInteger:EnglishCount];
+                         float pcHonest = [self getReviewPercent:TotalCount withInteger:HonestCount];
+                         float pcDirections = [self getReviewPercent:TotalCount withInteger:DirectionsCount];
                          
                          if( (GoodCount + OkCount + BadCount) == 0){
                              NSLog(@"Green Light ");
@@ -212,25 +215,49 @@
                          }
                          else
                          {
-                         
-                             if(GoodCount > BadCount ) {
+                             if(pcDirections >= PERCENT_LEVEL) {
+                                 OverallScore++;
+                                 [reviewTags appendString:@"Bad Sense of Direction\n"];
+                             }
+                             
+                             if(pcRespect >= PERCENT_LEVEL) {
+                                 OverallScore++;
+                                 [reviewTags appendString:@"Rude. "];
+                             }
+                             
+                             if(pcDriving >= PERCENT_LEVEL) {
+                                 OverallScore++;
+                                 [reviewTags appendString:@"Terrible Driver. "];
+                             }
+                             
+                             if(pcHonest >= PERCENT_LEVEL) {
+                                 OverallScore++;
+                                 [reviewTags appendString:@"Dishonest Fare "];
+                             }
+                             
+                             if(pcEnglish >= PERCENT_LEVEL) {
+                                 OverallScore++;
+                                 [reviewTags appendString:@"Poor English. "];
+                             }
+                             
+                             NSString *reviewTagsNew = [reviewTags stringByReplacingOccurrencesOfString: @"," withString:@"\n"];
+                             
+                             if( (GoodCount > OkCount) && (OkCount > BadCount) )
+                             {
                                  NSLog(@"Green Light ");
                                  _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
-                                 _driverReviewTags.text = @"Good Driver. Honest.";
+                                 _driverReviewTags.text = @"Good Driver. Few Complaints.";
                              }
-                             else if(GoodCount < BadCount) {
-                                 NSLog(@"Red Light ");
-                                 _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
-                                 _driverReviewTags.text = reviewTags;
-                             }
-                             else if( (GoodCount == BadCount) || (OkCount > GoodCount) ) {
+                             if( (GoodCount < OkCount) && (GoodCount > BadCount) ) {
                                  NSLog(@"Yellow Light ");
                                  _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
-                                 _driverReviewTags.text = reviewTags;
-                             } else {
-                                 NSLog(@"Default Light ");
+                                 _driverReviewTags.text = reviewTagsNew;
+                             }
+                             
+                             if( (GoodCount < BadCount) || (OverallScore >= 2)) {
+                                 NSLog(@"Red Light ");
                                  _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
-                                 _driverReviewTags.text = @"No Reviews Yet.";
+                                 _driverReviewTags.text = reviewTagsNew;
                              }
                          }
                          
@@ -246,6 +273,15 @@
          } ];
     }
 }
+
+-(float) getReviewPercent:(int)TotalCount withInteger:(int)categoryCount
+{
+    float precentage = (100 * categoryCount)/TotalCount;
+    NSLog(@"%i of %i reviews were negative. That are %.1f percent!",categoryCount,TotalCount,precentage);
+    
+    return precentage;
+}
+
 
 - (IBAction)btnSendData:(id)sender {
     
@@ -311,6 +347,7 @@
     NSArray *recipents = [userSMSNumbers copy];
     PFObject *object = self.taxiObject;
     
+    NSString *driverType = [object objectForKey:@"driverType"];
     NSString *driverName = [object objectForKey:@"driverName"];
     NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
     
@@ -334,7 +371,7 @@
     }
     NSString *driverVin = [object objectForKey:@"driverVin"];
     
-    NSString *message = [NSString stringWithFormat:@"CabCheck App Message:\n I just got into a %@ taxi near %@ on %@.\n Taxi:%@\nDriver: %@\nMedallion Number: %@\nVIN: %@.", @"Uber", self.userAddress, self.userDate, driverMake, driverName, driverMedallion, driverVin];
+    NSString *message = [NSString stringWithFormat:@"CabCheck App Message:\n I just got into a %@ Taxi near %@ on %@.\n Taxi:%@\nDriver: %@\nMedallion Number: %@\nVIN: %@.", driverType, self.userAddress, self.userDate, driverMake, driverName, driverMedallion, driverVin];
     
     MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
     messageController.messageComposeDelegate = self;

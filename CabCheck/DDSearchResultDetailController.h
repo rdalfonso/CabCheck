@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSString *taxiUniqueID;
 @property (nonatomic, strong) PFObject *taxiObject;
 @property (strong, nonatomic) IBOutlet UILabel *lblSearchResultDetailHeader;
+@property (strong, nonatomic) IBOutlet UILabel *driverType;
 
 @property (strong, nonatomic) IBOutlet UILabel *driverName;
 @property (strong, nonatomic) IBOutlet UILabel *driverMedallion;

@@ -26,6 +26,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *lblIsCourteous;
 
 @property (strong, nonatomic) IBOutlet UILabel *lblHonestFare;
+@property (strong, nonatomic) IBOutlet UILabel *driverType;
 
 
 @end
