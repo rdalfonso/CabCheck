@@ -19,6 +19,7 @@
 }
 @property (strong, nonatomic) IBOutlet UILabel *driverReviewTags;
 @property (strong, nonatomic) IBOutlet UIButton *btnReviewLink;
+@property (strong, nonatomic) IBOutlet UILabel *driverVINLabel;
 
 @property (nonatomic, strong) NSString *taxiUniqueID;
 @property (nonatomic, strong) PFObject *taxiObject;

@@ -64,7 +64,6 @@
 
 -(void)settingsBtnUserClick:(id)sender
 {
-    NSLog(@"\n showSettings pressed");
     [self performSegueWithIdentifier:@"pushSeqToSettings" sender:sender];
 }
 

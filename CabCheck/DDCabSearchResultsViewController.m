@@ -22,7 +22,7 @@
 {
     
     if(self = [super initWithCoder:aDecoder]) {
-        self.parseClassName = @"DriverObject";
+        self.parseClassName = @"DriverCompleteObject";
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
         self.objectsPerPage = 20;
@@ -32,13 +32,16 @@
 
 - (PFQuery *)queryForTable {
     
-    PFQuery *searchByMedallion = [PFQuery queryWithClassName:@"DriverObject"];
-    [searchByMedallion whereKey:@"driverName" containsString:globalSearchTerm];
+    PFQuery *searchByName = [PFQuery queryWithClassName:@"DriverCompleteObject"];
+    [searchByName whereKey:@"driverName" containsString:globalSearchTerm];
     
-    PFQuery *searchByDMVLicense = [PFQuery queryWithClassName:@"DriverObject"];
-    [searchByDMVLicense whereKey:@"driverMedallion" containsString:globalSearchTerm];
+    PFQuery *searchByMedallion = [PFQuery queryWithClassName:@"DriverCompleteObject"];
+    [searchByMedallion whereKey:@"driverMedallion" containsString:globalSearchTerm];
     
-    PFQuery *query = [PFQuery orQueryWithSubqueries:@[searchByMedallion,searchByDMVLicense]];
+    PFQuery *searchByDMVLicense = [PFQuery queryWithClassName:@"DriverCompleteObject"];
+    [searchByDMVLicense whereKey:@"driverDMVLicense" containsString:globalSearchTerm];
+    
+    PFQuery *query = [PFQuery orQueryWithSubqueries:@[searchByName, searchByMedallion,searchByDMVLicense]];
     query.limit = 5;
     
     if (self.pullToRefreshEnabled) {
@@ -68,7 +71,7 @@
 {
     [super viewDidLoad];
     
-    //self.edgesForExtendedLayout=UIRectEdgeNone;
+    self.edgesForExtendedLayout=UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     [self.tableView setBackgroundColor:[UIColor blackColor]];
     
@@ -117,32 +120,43 @@
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.driverName.text = [object objectForKey:@"driverName"];
-    cell.driverMedallion.text = [object objectForKey:@"driverMedallion"];
     
-    NSString *driverType =[object objectForKey:@"driverType"];
-    if ([driverType isEqualToString:@"Y"]) {
-        cell.driverType.text = @"Yellow Medallion Taxi";
-    } else if ([driverType isEqualToString:@"L"]) {
-        cell.driverType.text = @"TLC Street Hail Livery";
-    } else {
-        cell.driverType.text = @"Yellow Medallion Taxi";
+    NSString *driverType = [object objectForKey:@"driverType"];
+    NSString *driverName = [object objectForKey:@"driverName"];
+    NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
+    NSString *driverDMVLicense = [object objectForKey:@"driverDMVLicense"];
+    if([driverDMVLicense length] <= 0){
+        driverDMVLicense = @"N/A";
     }
-    
-    NSMutableString *make = [NSMutableString stringWithString:@""];
+    NSString *driverVIN = [object objectForKey:@"driverVIN"];
     NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
-    if([driverCabMake length] > 0) {
-        [make appendString:[object objectForKey:@"driverCabMake"]];
-    }
-    [make appendString: @" "];
     NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
-    if([driverCabModel length] > 0) {
-        [make appendString:[object objectForKey:@"driverCabModel"]];
-    }
-    cell.driverLicense.text = make;
-    cell.driverCabMakeModel.text = [object objectForKey:@"driverCabYear"];
-    cell.driverVIN.text = [object objectForKey:@"driverVin"];
+    NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
     
+    cell.driverName.text = driverName;
+    
+    if ([driverType isEqualToString:@"Y"])
+    {
+        cell.driverType.text = @"Yellow Medallion Taxi";
+        cell.driverVinLabel.text = @"VIN:";
+        cell.driverVIN.text = driverVIN;
+        cell.driverLicense.text = [NSString stringWithFormat:@"%@ %@", driverCabMake, driverCabModel];
+        cell.driverCabMakeModel.text = driverCabYear;
+        
+    } else if ([driverType isEqualToString:@"L"])
+    {
+        cell.driverType.text = @"TLC Street Hail Livery";
+        cell.driverVinLabel.text = @"License:";
+        cell.driverVIN.text = driverDMVLicense;
+        cell.driverLicense.text = @"Livery Sedan";
+        cell.driverCabMakeModel.text = @"";
+    }
+    
+    if([driverMedallion length] > 0) {
+        cell.driverMedallion.text = driverMedallion;
+    }
+    
+
     return cell;
 }
 
