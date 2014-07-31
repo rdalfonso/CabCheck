@@ -121,6 +121,13 @@ NSString *reviewComments;
             NSLog(@"%@", error);
         }
     }];
+    
+    // Store the data
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setValue:self.taxiObject.objectId forKey:@"userlastCabReviewed"];
+    [defaults setObject:[NSDate date] forKey:@"userLastCabReviewDate"];
+    
+    [defaults synchronize];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

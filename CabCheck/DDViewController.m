@@ -10,13 +10,10 @@
 #import "DDCabSearchResultsViewController.h"
 #import <Parse/Parse.h>
 
-
 @interface DDViewController ()
-
 @end
 
 @implementation DDViewController
-
 
 - (void)viewDidLoad
 {
@@ -44,6 +41,7 @@
     NSArray *actionButtonItems = @[settingsItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
+    //Change Placeholder
     if ([self.txtSearch respondsToSelector:@selector(setAttributedPlaceholder:)]) {
         UIColor *color = [UIColor grayColor];
         self.txtSearch.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter Medallion, License, or Driver Name." attributes:@{NSForegroundColorAttributeName: color}];
@@ -51,58 +49,36 @@
         NSLog(@"Cannot set placeholder text's color, because deployment target is earlier than iOS 6.0");
     }
     
-    //Respondrs to textfields
+    //Responders to textfields
     [self.txtSearch becomeFirstResponder];
     [self.txtSearch resignFirstResponder];
-    
-    
-    
+
 }
 
 -(void)settingsBtnUserClick:(id)sender
 {
-    NSLog(@"\n showSettings pressed");
     [self performSegueWithIdentifier:@"pushSeqToSettings" sender:sender];
-}
-
-- (BOOL)txtSearch:(UITextField *)txtSearch shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-    int MAXLENGTH = 30;
-    if ([txtSearch.text length] > MAXLENGTH) {
-        txtSearch.text = [txtSearch.text substringToIndex:MAXLENGTH-1];
-        return NO;
-    }
-    return YES;
 }
 
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    
     [self.txtSearch resignFirstResponder];
-    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    
     [self.txtSearch resignFirstResponder];
     
     return NO;
-    
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSLog(@"prepareForSegue: %@", segue.identifier);
-    
     
     if ([segue.identifier isEqualToString:@"pushSeqSearchResults"]) {
         DDCabSearchResultsViewController *destViewController = segue.destinationViewController;
         
-        NSLog(@"_txtSearch length: %lu", (unsigned long)[_txtSearch.text length]);
-        
         if([_txtSearch.text length] > 0) {
-            NSLog(@"_txtSearch: %@", _txtSearch.text);
-            destViewController.globalSearchTerm = _txtSearch.text;
+            destViewController.globalSearchTerm = [_txtSearch.text uppercaseString];
         }
     }
 }
@@ -124,9 +100,7 @@
                  _userCity = placemark.locality;
                  
                  _lblCurrentCity.text =_userCity;
-                 
-                 NSLog(@"_userCity: %@", _userCity);
-                 
+                
              } else {
                  NSLog(@"ERROR: %@", error.debugDescription);
              }
@@ -147,10 +121,8 @@
         
         if([CLLocationManager authorizationStatus]==kCLAuthorizationStatusDenied){
             UIAlertView    *alert = [[UIAlertView alloc] initWithTitle:@"App Permission Denied"
-                                                               message:@"To re-enable, please go to Settings and turn on Location Service for this app."
-                                                              delegate:nil
-                                                     cancelButtonTitle:@"OK"
-                                                     otherButtonTitles:nil];
+                    message:@"To re-enable, please go to Settings and turn on Location Service for this app."
+                    delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
         }
     }
@@ -162,10 +134,8 @@
     if([CLLocationManager locationServicesEnabled]){
         if([CLLocationManager authorizationStatus]==kCLAuthorizationStatusDenied){
             UIAlertView    *alert = [[UIAlertView alloc] initWithTitle:@"App Permission Denied"
-                                                               message:@"To re-enable, please go to Settings and turn on Location Service for this app."
-                                                              delegate:nil
-                                                     cancelButtonTitle:@"OK"
-                                                     otherButtonTitles:nil];
+                    message:@"To re-enable, please go to Settings and turn on Location Service for this app."
+                    delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
         }
     }

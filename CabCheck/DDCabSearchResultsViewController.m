@@ -25,24 +25,24 @@
         self.parseClassName = @"DriverCompleteObject";
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
-        self.objectsPerPage = 20;
+        self.objectsPerPage = 10;
     }
     return self;
 }
 
 - (PFQuery *)queryForTable {
     
-    PFQuery *searchByName = [PFQuery queryWithClassName:@"DriverCompleteObject"];
+    PFQuery *searchByName = [PFQuery queryWithClassName:@"DriverObjectComplete"];
     [searchByName whereKey:@"driverName" containsString:globalSearchTerm];
     
-    PFQuery *searchByMedallion = [PFQuery queryWithClassName:@"DriverCompleteObject"];
+    PFQuery *searchByMedallion = [PFQuery queryWithClassName:@"DriverObjectComplete"];
     [searchByMedallion whereKey:@"driverMedallion" containsString:globalSearchTerm];
     
-    PFQuery *searchByDMVLicense = [PFQuery queryWithClassName:@"DriverCompleteObject"];
+    PFQuery *searchByDMVLicense = [PFQuery queryWithClassName:@"DriverObjectComplete"];
     [searchByDMVLicense whereKey:@"driverDMVLicense" containsString:globalSearchTerm];
     
     PFQuery *query = [PFQuery orQueryWithSubqueries:@[searchByName, searchByMedallion,searchByDMVLicense]];
-    query.limit = 5;
+    query.limit = 20;
     
     if (self.pullToRefreshEnabled) {
        query.cachePolicy = kPFCachePolicyNetworkOnly;
@@ -85,18 +85,15 @@
 }
 
 
-
 -(void)searchBtnUserClick:(id)sender
 {
-    NSLog(@"\n Search pressed");
-    
     [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-   return self.objects.count;
+    return [self.objects count];
 }
+
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
@@ -105,8 +102,9 @@
     CabSearchResultCell *cell = nil;
     
     cell = (CabSearchResultCell *) [self.tableView dequeueReusableCellWithIdentifier:uniqueIdentifier];
-    
+    /*
     if (!cell) {
+        
         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"UITableViewCell" owner:nil options:nil];
         
         for (id currentObject in topLevelObjects)
@@ -118,7 +116,7 @@
             }
         }
     }
-    
+    */
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     NSString *driverType = [object objectForKey:@"driverType"];
@@ -140,8 +138,7 @@
         cell.driverType.text = @"Yellow Medallion Taxi";
         cell.driverVinLabel.text = @"VIN:";
         cell.driverVIN.text = driverVIN;
-        cell.driverLicense.text = [NSString stringWithFormat:@"%@ %@", driverCabMake, driverCabModel];
-        cell.driverCabMakeModel.text = driverCabYear;
+        cell.driverLicense.text = [NSString stringWithFormat:@"%@ %@ %@", driverCabMake, driverCabModel, driverCabYear];
         
     } else if ([driverType isEqualToString:@"L"])
     {
@@ -149,7 +146,6 @@
         cell.driverVinLabel.text = @"License:";
         cell.driverVIN.text = driverDMVLicense;
         cell.driverLicense.text = @"Livery Sedan";
-        cell.driverCabMakeModel.text = @"";
     }
     
     if([driverMedallion length] > 0) {

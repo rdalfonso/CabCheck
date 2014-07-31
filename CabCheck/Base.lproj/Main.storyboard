@@ -8,7 +8,7 @@
         <scene sceneID="fc9-gq-eO3">
             <objects>
                 <tableViewController title="SearchController" id="F7h-1m-lHd" customClass="DDCabSearchResultsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="215" sectionHeaderHeight="22" sectionFooterHeight="22" id="dFi-A6-y9J">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="171" sectionHeaderHeight="22" sectionFooterHeight="22" id="dFi-A6-y9J">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -25,11 +25,11 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="taxiCell" rowHeight="215" id="Kja-av-XVT" customClass="CabSearchResultCell">
-                                <rect key="frame" x="0.0" y="55" width="320" height="215"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="taxiCell" rowHeight="171" id="Kja-av-XVT" customClass="CabSearchResultCell">
+                                <rect key="frame" x="0.0" y="55" width="320" height="171"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kja-av-XVT" id="iae-lJ-aJd">
-                                    <rect key="frame" x="0.0" y="0.0" width="287" height="214"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="171"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="driverName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YR8-Zv-IkN">
@@ -48,13 +48,6 @@
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="driverLicense" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NZX-ND-nf7">
                                             <rect key="frame" x="92" y="72" width="298" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2014" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYA-R9-iwS">
-                                            <rect key="frame" x="246" y="72" width="41" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -119,7 +112,6 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <outlet property="driverCabMakeModel" destination="TYA-R9-iwS" id="0BF-eX-dbY"/>
                                     <outlet property="driverLicense" destination="NZX-ND-nf7" id="C2g-wh-dWh"/>
                                     <outlet property="driverMedallion" destination="gOi-kf-ikN" id="xCn-ab-xr7"/>
                                     <outlet property="driverName" destination="YR8-Zv-IkN" id="tgD-Ka-Zgw"/>
@@ -365,14 +357,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="driverLicense" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1e2-qg-geY">
-                                <rect key="frame" x="99" y="106" width="164" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2014" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="12i-qX-pmb">
-                                <rect key="frame" x="266" y="104" width="37" height="25"/>
+                                <rect key="frame" x="99" y="106" width="212" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -491,7 +476,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gna-ht-7BS">
-                                <rect key="frame" x="14" y="336" width="283" height="30"/>
+                                <rect key="frame" x="14" y="324" width="283" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Read all reviews of your driver >">
@@ -523,7 +508,7 @@
                     <size key="freeformSize" width="320" height="568"/>
                     <connections>
                         <outlet property="btnReviewLink" destination="gna-ht-7BS" id="AMi-c6-KLj"/>
-                        <outlet property="driverCabMakeModel" destination="12i-qX-pmb" id="FI2-5y-h6H"/>
+                        <outlet property="btnReviewTaxi" destination="FCy-8Z-Dri" id="EMf-bU-9gB"/>
                         <outlet property="driverLicense" destination="1e2-qg-geY" id="BYb-en-eLi"/>
                         <outlet property="driverMedallion" destination="WUN-Mq-FKV" id="b3g-uZ-mk4"/>
                         <outlet property="driverName" destination="4UG-1A-L2R" id="BCi-MP-WZP"/>
@@ -975,10 +960,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="w9i-iL-ABM"/>
-        <segue reference="4EQ-th-Lku"/>
-        <segue reference="sQV-04-UCH"/>
-        <segue reference="F3W-Dt-tPU"/>
+        <segue reference="YA9-8g-xED"/>
         <segue reference="SSa-XP-2Na"/>
+        <segue reference="sQV-04-UCH"/>
+        <segue reference="w9i-iL-ABM"/>
+        <segue reference="Y2J-tB-XMh"/>
     </inferredMetricsTieBreakers>
 </document>

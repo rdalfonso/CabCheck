@@ -20,6 +20,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *driverReviewTags;
 @property (strong, nonatomic) IBOutlet UIButton *btnReviewLink;
 @property (strong, nonatomic) IBOutlet UILabel *driverVINLabel;
+@property (strong, nonatomic) IBOutlet UIButton *btnReviewTaxi;
 
 @property (nonatomic, strong) NSString *taxiUniqueID;
 @property (nonatomic, strong) PFObject *taxiObject;
@@ -36,15 +37,15 @@
 
 
 @property (strong, nonatomic, readwrite) NSDate *userDate;
+
 @property (strong, nonatomic, readwrite) NSString *userSMS1;
 @property (strong, nonatomic, readwrite) NSString *userSMS2;
 @property (strong, nonatomic, readwrite) NSString *userSMS3;
-
 @property (strong, nonatomic, readwrite) NSString *userCity;
 @property (strong, nonatomic, readwrite) NSString *userAddress;
-
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
+
 @property (strong, nonatomic) IBOutlet UILabel *driverPickUp;
 @property (strong, nonatomic) IBOutlet UILabel *driverPickupTime;
 

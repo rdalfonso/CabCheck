@@ -69,20 +69,13 @@
 
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    
     [self.txtSearch resignFirstResponder];
-    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    
     [self.txtSearch resignFirstResponder];
-    
     return NO;
-    
 }
-
-
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -90,7 +83,7 @@
         DDCabSearchResultsViewController *destViewController = segue.destinationViewController;
         
         if([_txtSearch.text length] > 0) {
-            destViewController.globalSearchTerm = _txtSearch.text;
+            destViewController.globalSearchTerm = [_txtSearch.text uppercaseString];
         }
     }
 }
@@ -110,11 +103,7 @@
              {
                  placemark = [placemarks lastObject];
                  _userCity = placemark.locality;
-                 
                  _lblCurrentCity.text =_userCity;
-                 
-                 NSLog(@"_userCity: %@", _userCity);
-                 
              } else {
                  NSLog(@"ERROR: %@", error.debugDescription);
              }

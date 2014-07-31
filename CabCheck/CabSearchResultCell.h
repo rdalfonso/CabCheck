@@ -20,14 +20,15 @@
 @property (strong, nonatomic) IBOutlet UILabel *driverRating;
 @property (strong, nonatomic) IBOutlet UIImageView *driverRatingImage;
 @property (strong, nonatomic) IBOutlet UILabel *driverRatingProsAndCons;
+@property (strong, nonatomic) IBOutlet UILabel *driverVinLabel;
+@property (strong, nonatomic) IBOutlet UILabel *driverType;
+
 @property (strong, nonatomic) IBOutlet UILabel *lblSafeDriver;
 @property (strong, nonatomic) IBOutlet UILabel *lblSpeaksEnglish;
 @property (strong, nonatomic) IBOutlet UILabel *lblKnowsDirections;
 @property (strong, nonatomic) IBOutlet UILabel *lblIsCourteous;
-@property (strong, nonatomic) IBOutlet UILabel *driverVinLabel;
-
 @property (strong, nonatomic) IBOutlet UILabel *lblHonestFare;
-@property (strong, nonatomic) IBOutlet UILabel *driverType;
+
 
 
 @end

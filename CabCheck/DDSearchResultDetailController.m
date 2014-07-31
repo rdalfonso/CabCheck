@@ -13,11 +13,32 @@
 #define PERCENT_LEVEL 25.0
 
 @interface DDSearchResultDetailController ()
-
+@property NSString *deviceID;
+@property NSString *lastCabReviewed;
+@property NSDate *lastCabReviewDate;
 @end
 
 @implementation DDSearchResultDetailController
 @synthesize taxiUniqueID;
+
+-(void) refreshUserDefaults
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if([defaults objectForKey:@"deviceID"] == nil) {
+        self.deviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    } else {
+        self.deviceID = [defaults stringForKey:@"deviceID"];
+    }
+    
+    if([defaults objectForKey:@"userlastCabReviewed"] != nil) {
+       self.lastCabReviewed = [defaults stringForKey:@"userlastCabReviewed"];
+    }
+    
+    if([defaults objectForKey:@"userLastCabReviewDate"] != nil) {
+        self.lastCabReviewDate = [defaults objectForKey:@"userLastCabReviewDate"];
+    }
+}
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,6 +52,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self refreshUserDefaults];
     
     self.taxiUniqueID = self.taxiObject.objectId;
     
@@ -53,13 +75,25 @@
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
     [self.navigationItem setHidesBackButton:NO animated:YES];
+    
+    NSLog(@"lastCabReviewed: %@", self.lastCabReviewed);
+    NSLog(@"taxiUniqueID: %@", self.taxiUniqueID);
+    
+    if( [self.lastCabReviewed isEqualToString:self.taxiUniqueID] )
+    {
+        NSLog(@"hiding");
+        _btnReviewTaxi.hidden = true;
+    }
+    else
+    {
+         NSLog(@"showing");
+        _btnReviewTaxi.hidden = false;
+    }
 }
 
 
 -(void)searchBtnUserClick:(id)sender
 {
-    NSLog(@"\n Search pressed");
-    
     [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
 }
 
@@ -115,15 +149,14 @@
                      NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
                      NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
                      
-                     _lblSearchResultDetailHeader.text = [NSString stringWithFormat:@"Driver Details - %@.", driverMedallion];
+                     _lblSearchResultDetailHeader.text = [NSString stringWithFormat:@"Driver Details - %@", driverMedallion];
                      
                      if ([driverType isEqualToString:@"Y"])
                      {
                          _driverType.text = @"Yellow Medallion Taxi";
                          _driverVINLabel.text = @"VIN:";
                          _driverVIN.text = driverVIN;
-                         _driverLicense.text = [NSString stringWithFormat:@"%@ %@", driverCabMake, driverCabModel];
-                         _driverCabMakeModel.text = driverCabYear;
+                         _driverLicense.text = [NSString stringWithFormat:@"%@ %@ %@", driverCabMake, driverCabModel, driverCabYear];
                          
                      } else if ([driverType isEqualToString:@"L"])
                      {
@@ -131,7 +164,6 @@
                          _driverVINLabel.text = @"License:";
                          _driverVIN.text = driverDMVLicense;
                          _driverLicense.text = @"Livery Sedan";
-                         _driverCabMakeModel.text = @"";
                      }
                      
                      _driverName.text = driverName;
@@ -270,6 +302,12 @@
     }
 }
 
+
+-(BOOL) hasUserReviewedThisCab:(int)TotalCount withInteger:(int)categoryCount
+{
+    return FALSE;
+}
+
 -(float) getReviewPercent:(int)TotalCount withInteger:(int)categoryCount
 {
  
@@ -364,6 +402,7 @@
     
     NSString *driverType = [object objectForKey:@"driverType"];
     NSString *driverName = [object objectForKey:@"driverName"];
+    NSString *driverCompany = [object objectForKey:@"driverCompany"];
     NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
     NSString *driverDMVLicense = [object objectForKey:@"driverDMVLicense"];
     if([driverDMVLicense length] <= 0){
@@ -391,7 +430,7 @@
         [driverMake appendString:driverCabYear];
     }
     
-    NSMutableString *passengerSMS = [NSMutableString stringWithString:@""];
+     NSMutableString *passengerSMS = [NSMutableString stringWithString:@""];
     [passengerSMS appendString:@"CabCheck App Message:\n"];
     [passengerSMS appendString:@"I just got into a "];
     
@@ -399,12 +438,16 @@
     {
         [passengerSMS appendString:@"Yellow Medallion Taxi\n"];
     }
-    else if ([driverType isEqualToString:@"L"])
+    else
     {
-        [passengerSMS appendString:@"TLC Street Hail Livery Tax\n"];
+        [passengerSMS appendString:@"TLC Street Hail Livery Taxi\n"];
     }
     [passengerSMS appendString:[NSString stringWithFormat:@"near %@ on %@.\n", self.userAddress, self.userDate]];
-    [passengerSMS appendString:[NSString stringWithFormat:@"Taxi: %@.\n", driverMake]];
+    if([driverMake length] > 0) {
+        [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Model: %@.\n", driverMake]];
+    } else {
+        [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Company: %@.\n", driverCompany]];
+    }
     [passengerSMS appendString:[NSString stringWithFormat:@"Driver: %@.\n", driverName]];
     [passengerSMS appendString:[NSString stringWithFormat:@"Medallion Number: %@.\n", driverMedallion]];
     if ([driverVIN length] > 0)

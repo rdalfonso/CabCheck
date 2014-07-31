@@ -46,7 +46,6 @@
     
     // Store the data
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    //[defaults setValue:userHomeCity forKey:@"userHomeCity"];
     [defaults setInteger:userTaxiPreferValue forKey:@"userTaxiPreferValue"];
     [defaults setObject:smsNumbers forKey:@"userSMSNumbers"];
     
@@ -55,7 +54,8 @@
 }
 
 -(IBAction) searchBtnUserClick
-{}
+{
+}
 
 
 - (void)viewDidLoad
