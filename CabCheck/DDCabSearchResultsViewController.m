@@ -80,9 +80,7 @@
     
     NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
-    
     [self.navigationItem setHidesBackButton:NO animated:YES];
-
 }
 
 

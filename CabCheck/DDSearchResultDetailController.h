@@ -17,28 +17,12 @@
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
 }
-@property (strong, nonatomic) IBOutlet UILabel *driverReviewTags;
-@property (strong, nonatomic) IBOutlet UILabel *driverVINLabel;
+
 
 @property (strong, nonatomic) IBOutlet UIButton *btnReviewTaxi;
-@property (strong, nonatomic) IBOutlet UIButton *btnReviewLink;
+@property (strong, nonatomic) IBOutlet UIButton *btnTaxiReviews;
 
 @property (nonatomic, strong) NSString *taxiUniqueID;
-@property (nonatomic, strong) PFObject *taxiObject;
-@property (strong, nonatomic) IBOutlet UILabel *lblSearchResultDetailHeader;
-@property (strong, nonatomic) IBOutlet UILabel *driverType;
-
-@property (strong, nonatomic) IBOutlet UILabel *driverName;
-@property (strong, nonatomic) IBOutlet UILabel *driverMedallion;
-@property (strong, nonatomic) IBOutlet UILabel *driverLicense;
-@property (strong, nonatomic) IBOutlet UILabel *driverCabMakeModel;
-@property (strong, nonatomic) IBOutlet UILabel *driverVIN;
-@property (strong, nonatomic) IBOutlet UILabel *driverSpeaksEnglish;
-@property (strong, nonatomic) IBOutlet UIImageView *driverRatingImage;
-
-
-@property (strong, nonatomic, readwrite) NSDate *userDate;
-
 @property (strong, nonatomic, readwrite) NSString *userSMS1;
 @property (strong, nonatomic, readwrite) NSString *userSMS2;
 @property (strong, nonatomic, readwrite) NSString *userSMS3;
@@ -47,8 +31,25 @@
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
 
+@property (nonatomic, strong) PFObject *taxiObject;
+@property (strong, nonatomic) IBOutlet UILabel *lblLastReviewDate;
+@property (strong, nonatomic) IBOutlet UILabel *driverReviewTags;
+@property (strong, nonatomic) IBOutlet UILabel *driverVINLabel;
+@property (strong, nonatomic) IBOutlet UILabel *lblSearchResultDetailHeader;
+@property (strong, nonatomic) IBOutlet UILabel *driverType;
+@property (strong, nonatomic) IBOutlet UILabel *driverName;
+@property (strong, nonatomic) IBOutlet UILabel *driverMedallion;
+@property (strong, nonatomic) IBOutlet UILabel *driverLicense;
+@property (strong, nonatomic) IBOutlet UILabel *driverVIN;
 @property (strong, nonatomic) IBOutlet UILabel *driverPickUp;
 @property (strong, nonatomic) IBOutlet UILabel *driverPickupTime;
+
+@property (strong, nonatomic) IBOutlet UIImageView *driverRatingImage;
+@property (strong, nonatomic, readwrite) NSDate *userDate;
+
+
+
+
 
 - (IBAction)btnSendData:(id)sender;
 - (IBAction)btnReviewTaxi:(id)sender;

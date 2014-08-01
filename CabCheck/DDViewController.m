@@ -11,6 +11,7 @@
 #import <Parse/Parse.h>
 
 @interface DDViewController ()
+@property NSString *deviceID;
 @end
 
 @implementation DDViewController
@@ -18,6 +19,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self refreshUserDefaults];
     
     //Initialize CoreLocation
     geocoder = [[CLGeocoder alloc] init];
@@ -28,7 +31,7 @@
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
     
-    //Front-end control manipulation
+    //Layout and Navigation
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     
@@ -45,14 +48,28 @@
     if ([self.txtSearch respondsToSelector:@selector(setAttributedPlaceholder:)]) {
         UIColor *color = [UIColor grayColor];
         self.txtSearch.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter Medallion, License, or Driver Name." attributes:@{NSForegroundColorAttributeName: color}];
-    } else {
-        NSLog(@"Cannot set placeholder text's color, because deployment target is earlier than iOS 6.0");
     }
     
-    //Responders to textfields
+    //Responders to Textfields
     [self.txtSearch becomeFirstResponder];
     [self.txtSearch resignFirstResponder];
+    
+    
 
+}
+
+-(void) refreshUserDefaults
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if([defaults objectForKey:@"deviceID"] == nil) {
+        NSLog(@"New DeviceID");
+        [defaults setObject:[[[UIDevice currentDevice] identifierForVendor] UUIDString] forKey:@"deviceID"];
+        [defaults synchronize];
+    }
+    self.deviceID = [defaults stringForKey:@"deviceID"];
+    NSLog(@"deviceID: %@", self.deviceID);
+    
+    
 }
 
 -(void)settingsBtnUserClick:(id)sender

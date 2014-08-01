@@ -39,7 +39,7 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
-    [driverRatings whereKey:@"taxiUniqueID" equalTo:taxiUniqueID];
+    [driverRatings whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
     driverRatings.limit = 20;
     
     if (self.pullToRefreshEnabled) {
@@ -64,9 +64,12 @@
 {
     [super viewDidLoad];
     
-    //self.edgesForExtendedLayout=UIRectEdgeNone;
+    self.edgesForExtendedLayout=UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     [self.tableView setBackgroundColor:[UIColor blackColor]];
+    
+    NSString *driverMedallion = [self.taxiObject objectForKey:@"driverMedallion"];
+    _lblCabReviewsHeader.text = [NSString stringWithFormat:@"Taxi Reviews - %@", driverMedallion];
 }
 
 
@@ -111,11 +114,12 @@
     
     NSUInteger iconScore = (reviewActCourteous + reviewDriveSafe + reviewFollowDirections + reviewKnowCity);
     
-    if(reviewKnowCity == 1){
-        [reviewTags appendString:@"Bad Sense of Direction\n "];
-    }
     if(reviewActCourteous == 1){
-       [reviewTags appendString:@"Rude. "];
+        [reviewTags appendString:@"Rude. "];
+    }
+    
+    if(reviewKnowCity == 1){
+        [reviewTags appendString:@"Bad Sense of Direction. "];
     }
     if(reviewDriveSafe == 1){
         [reviewTags appendString:@"Terrible Driver. "];

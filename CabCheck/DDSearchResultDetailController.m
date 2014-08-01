@@ -21,25 +21,6 @@
 @implementation DDSearchResultDetailController
 @synthesize taxiUniqueID;
 
--(void) refreshUserDefaults
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if([defaults objectForKey:@"deviceID"] == nil) {
-        self.deviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    } else {
-        self.deviceID = [defaults stringForKey:@"deviceID"];
-    }
-    
-    if([defaults objectForKey:@"userlastCabReviewed"] != nil) {
-       self.lastCabReviewed = [defaults stringForKey:@"userlastCabReviewed"];
-    }
-    
-    if([defaults objectForKey:@"userLastCabReviewDate"] != nil) {
-        self.lastCabReviewDate = [defaults objectForKey:@"userLastCabReviewDate"];
-    }
-}
-
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -49,7 +30,11 @@
     return self;
 }
 
-
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self refreshUserDefaults];
+}
 
 - (void)viewDidLoad
 {
@@ -75,26 +60,45 @@
     
     NSArray *actionButtonItems = @[searchItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
-    
     [self.navigationItem setHidesBackButton:NO animated:YES];
-    
-    
-    NSLog(@"lastCabReviewed: %@", self.lastCabReviewed);
-    NSLog(@"taxiUniqueID: %@", self.taxiUniqueID);
-    
-    if( [self.lastCabReviewed isEqualToString:self.taxiUniqueID] ) {
-        [_btnReviewTaxi setTitle:@"Edit Your Review" forState:UIControlStateNormal];
-    } else {
-        [_btnReviewTaxi setTitle:@"Review Taxi Ride" forState:UIControlStateNormal];
-    }
-
 }
 
-
--(void)searchBtnUserClick:(id)sender
+-(void) refreshUserDefaults
 {
-    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if([defaults objectForKey:@"deviceID"] == nil) {
+        self.deviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    } else {
+        self.deviceID = [defaults stringForKey:@"deviceID"];
+    }
+    
+    if([defaults objectForKey:@"userlastCabReviewed"] != nil) {
+        self.lastCabReviewed = [defaults stringForKey:@"userlastCabReviewed"];
+    }
+    
+    
+    PFQuery *broadCast = [PFQuery queryWithClassName:@"DriverReviewObject"];
+    [broadCast whereKey:@"deviceID" equalTo:self.deviceID];
+    [broadCast whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
+    [broadCast getFirstObjectInBackgroundWithBlock:^(PFObject *reviewObject, NSError *error)
+     {
+         if(error) {
+             [_btnReviewTaxi setTitle:@"Review This Ride >" forState:UIControlStateNormal];
+         }
+         else
+         {
+             NSDate *reviewDate = reviewObject.updatedAt;
+             NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
+             [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+             [theDateFormatter setDateFormat:@"EEE, MMM d, h:mm a"];
+             
+             [_btnReviewTaxi setTitle:@"Edit Your Review >" forState:UIControlStateNormal];
+            _lblLastReviewDate.text = [NSString stringWithFormat:@"You reviewed this cab on %@", [theDateFormatter stringFromDate:reviewDate]];
+         }
+     }];
+
 }
+
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
@@ -179,8 +183,8 @@
                          TotalCount = (unsigned long)results.count;
                         
                          if(TotalCount > 0) {
-                             NSString *btnMessage = [NSString stringWithFormat:@"Read %ld reviews of this taxi >", TotalCount];
-                             _btnReviewLink.titleLabel.text = btnMessage;
+                            NSString *btnMessage = [NSString stringWithFormat:@"Read %ld reviews of this driver >", TotalCount];
+                             _btnTaxiReviews.titleLabel.text = btnMessage;
                          }
                          
                          for (PFObject *object in results)
@@ -195,50 +199,43 @@
                              if(reviewOverall == 0){
                                  GoodCount++;
                              }
-                             
                              if(reviewOverall == 1){
                                  OkCount++;
                              }
-                             
                              if(reviewOverall == 2){
                                  BadCount++;
                              }
-                             
-                             if(reviewActCourteous == 1){
+                             if(reviewActCourteous == 1) {
                                  RespectCount++;
                              }
-                             if(reviewDriveSafe == 1){
+                             if(reviewDriveSafe == 1) {
                                  DrivingCount++;
                              }
-                             if(reviewFollowDirections == 1){
+                             if(reviewFollowDirections == 1) {
                                  EnglishCount++;
                              }
-                             if(reviewHonestFare == 1){
+                             if(reviewHonestFare == 1) {
                                  HonestCount++;
                              }
-                             if(reviewKnowCity == 1){
+                             if(reviewKnowCity == 1) {
                                  DirectionsCount++;
                              }
                          }
-                         
-                         //Calculate scores
-                         NSMutableString *reviewTags = [NSMutableString stringWithString:@""];
-                         
-                         float pcGood =  [self getReviewPercent:TotalCount withInteger:GoodCount];
-                         float pcOk = [self getReviewPercent:TotalCount withInteger:OkCount];
-                         float pcBad = [self getReviewPercent:TotalCount withInteger:BadCount];
-                         
-                         NSLog(@"pcGood %f", pcGood);
-                         NSLog(@"pcOk %f", pcOk);
-                         NSLog(@"pcBad %f", pcBad);
                          
                          if( (GoodCount + OkCount + BadCount) == 0){
                              NSLog(@"Green Light ");
                              _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
                              _driverReviewTags.text = @"No Reviews Yet.";
+                             //_btnReviewLink.hidden = true;
                          }
                          else
                          {
+                             //_btnReviewLink.hidden = false;
+                             
+                             //Calculate scores
+                             float pcGood =  [self getReviewPercent:TotalCount withInteger:GoodCount];
+                             float pcOk = [self getReviewPercent:TotalCount withInteger:OkCount];
+                             float pcBad = [self getReviewPercent:TotalCount withInteger:BadCount];
                              
                              if( pcGood >= 50.0  )
                              {
@@ -249,38 +246,8 @@
                              else
                              {
                                 
-                                 float pcRespect = [self getReviewPercent:TotalCount withInteger:RespectCount];
-                                 float pcDriving = [self getReviewPercent:TotalCount withInteger:DrivingCount];
-                                 float pcEnglish = [self getReviewPercent:TotalCount withInteger:EnglishCount];
-                                 float pcHonest = [self getReviewPercent:TotalCount withInteger:HonestCount];
-                                 float pcDirections = [self getReviewPercent:TotalCount withInteger:DirectionsCount];
+                                 NSString *reviewTags = [self getReviewTags:TotalCount withInteger:RespectCount withInteger:DrivingCount withInteger:EnglishCount withInteger:HonestCount withInteger:DirectionsCount];
                                  
-                                 NSLog(@"pcRespect %f", pcRespect);
-                                 NSLog(@"pcDriving %f", pcDriving);
-                                 NSLog(@"pcEnglish %f", pcEnglish);
-                                 NSLog(@"pcHonest %f", pcHonest);
-                                 NSLog(@"pcDirections %f", pcDirections);
-                                 
-                                 if(pcDirections >= PERCENT_LEVEL) {
-                                     [reviewTags appendString:@"Bad Sense of Direction\n"];
-                                 }
-                                 
-                                 if(pcDriving >= PERCENT_LEVEL) {
-                                     [reviewTags appendString:@"Bad Driver. "];
-                                 }
-                                 
-                                 if(pcRespect >= PERCENT_LEVEL) {
-                                     [reviewTags appendString:@"Rude. "];
-                                 }
-                                 
-                                 if(pcHonest >= PERCENT_LEVEL) {
-                                     [reviewTags appendString:@"Dishonest Fare. "];
-                                 }
-                                 
-                                 if(pcEnglish >= PERCENT_LEVEL) {
-                                     [reviewTags appendString:@"Poor English. "];
-                                 }
-                             
                                  if( (pcOk > 30.0) || (pcGood ==  pcBad) ) {
                                       NSLog(@"Yellow Light ");
                                      _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
@@ -296,27 +263,49 @@
                         }
                          
                      }
-                     else {
-                         NSLog(@"Error: %@ %@", error, [error userInfo]);
-                     }
+                     
                  }];
                  
-             } else {
-                 NSLog(@"ERROR: %@", error.debugDescription);
              }
          } ];
     }
 }
 
-
--(BOOL) hasUserReviewedThisCab:(int)TotalCount withInteger:(int)categoryCount
+-(NSString *) getReviewTags:(long)TotalCount withInteger:(int)RespectCount withInteger:(int)DrivingCount withInteger:(int)EnglishCount withInteger:(int)HonestCount withInteger:(int)DirectionsCount
 {
-    return FALSE;
+    NSMutableString *reviewTags = [NSMutableString stringWithString:@""];
+    float pcRespect = [self getReviewPercent:TotalCount withInteger:RespectCount];
+    float pcDriving = [self getReviewPercent:TotalCount withInteger:DrivingCount];
+    float pcEnglish = [self getReviewPercent:TotalCount withInteger:EnglishCount];
+    float pcHonest = [self getReviewPercent:TotalCount withInteger:HonestCount];
+    float pcDirections = [self getReviewPercent:TotalCount withInteger:DirectionsCount];
+    
+    if(pcDirections >= PERCENT_LEVEL) {
+        [reviewTags appendString:@"Bad Sense of Direction\n"];
+    }
+    
+    if(pcDriving >= PERCENT_LEVEL) {
+        [reviewTags appendString:@"Bad Driver. "];
+    }
+    
+    if(pcRespect >= PERCENT_LEVEL) {
+        [reviewTags appendString:@"Rude. "];
+    }
+    
+    if(pcHonest >= PERCENT_LEVEL) {
+        [reviewTags appendString:@"Dishonest Fare. "];
+    }
+    
+    if(pcEnglish >= PERCENT_LEVEL) {
+        [reviewTags appendString:@"Poor English. "];
+    }
+    
+    return reviewTags;
+
 }
 
 -(float) getReviewPercent:(long)TotalCount withInteger:(int)categoryCount
 {
-
     float precentage = 0.0;
     @try
     {
@@ -334,6 +323,11 @@
     
     
     return precentage;
+}
+
+-(void)searchBtnUserClick:(id)sender
+{
+    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
 }
 
 
@@ -373,7 +367,6 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSLog(@"segue.identifier: %@",segue.identifier);
     if ([segue.identifier isEqualToString:@"pushSeqDetailToReviewTaxi"]) {
         DDVCabRideReview *destViewController = segue.destinationViewController;
         
@@ -384,9 +377,8 @@
     if ([segue.identifier isEqualToString:@"pushSeqDetailToAllReviews"]) {
         DDCabReviews *destViewController = segue.destinationViewController;
         
-        NSLog(@"self.taxiUniqueID: %@",self.taxiUniqueID);
         if([self.taxiUniqueID length] > 0) {
-            destViewController.taxiUniqueID = self.taxiUniqueID;
+            destViewController.taxiObject = self.taxiObject;
         }
     }
     
@@ -533,4 +525,6 @@
 */
 
 
+- (IBAction)btnReviewsLink:(id)sender {
+}
 @end

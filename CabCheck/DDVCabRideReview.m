@@ -52,8 +52,6 @@ NSString *reviewComments;
     if ([self.reviewComments respondsToSelector:@selector(setAttributedPlaceholder:)]) {
         UIColor *color = [UIColor grayColor];
         self.reviewComments.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Give feedback on this cab ride." attributes:@{NSForegroundColorAttributeName: color}];
-    } else {
-        NSLog(@"Cannot set placeholder text's color, because deployment target is earlier than iOS 6.0");
     }
     
     [self.reviewComments becomeFirstResponder];
@@ -71,64 +69,6 @@ NSString *reviewComments;
     }
 }
 
--(void) getCurrentReview
-{
-
-    NSLog(@"deviceID%@", self.deviceID);
-    NSLog(@"taxiObject%@", self.taxiObject.objectId);
-    
-    PFQuery *broadCast = [PFQuery queryWithClassName:@"DriverReviewObject"];
-    [broadCast whereKey:@"deviceID" equalTo:@"B6813010-9CB8-4B86-8538-F063F20F83AB"];
-    //[broadCast whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
-    [broadCast findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error)
-        {
-            NSLog(@"%lu objects found for deletion.", (unsigned long)objects.count);
-            for (PFObject *object in objects)
-            {
-                NSString *deviceID = [object objectForKey:@"deviceID"];
-                NSString *taxiUniqueID =[object objectForKey:@"taxiUniqueID"];
-                
-                NSString *reviewOverallValue =              [object objectForKey:@"reviewOverall"];
-                NSString *reviewCarServiceValue =           [object objectForKey:@"reviewCarService"];
-                NSString *reviewDriveSafeValue =            [object objectForKey:@"reviewDriveSafe"];
-                NSString *reviewFollowDirectionsValue =     [object objectForKey:@"reviewFollowDirections"];
-                NSString *reviewKnowCityValue =             [object objectForKey:@"reviewKnowCity"];
-                NSString *reviewHonestFareValue =           [object objectForKey:@"reviewHonestFare"];
-                NSString *reviewCourteousValue =            [object objectForKey:@"reviewActCourteous"];
-                NSString *reviewCommentsValue =            [object objectForKey:@"reviewComments"];
-                
-                NSLog(@"deviceID %@", deviceID);
-                NSLog(@"taxiUniqueID %@", taxiUniqueID);
-                
-                NSLog(@"reviewOverall %@", reviewOverallValue);
-                NSLog(@"reviewCarService %@", reviewCarServiceValue);
-                NSLog(@"reviewDriveSafe %@", reviewDriveSafeValue);
-                NSLog(@"reviewFollowDirections %@", reviewFollowDirectionsValue);
-                NSLog(@"reviewKnowCity %@", reviewKnowCityValue);
-                NSLog(@"reviewHonestFare %@", reviewHonestFareValue);
-                NSLog(@"reviewCourteous %@", reviewCourteousValue);
-                NSLog(@"reviewComments %@", reviewCommentsValue);
-                
-                [_reviewOverall setSelectedSegmentIndex:[reviewOverallValue intValue]];
-                [_reviewCarService setSelectedSegmentIndex:[reviewCarServiceValue intValue]];
-                [_reviewDriveSafe setSelectedSegmentIndex:[reviewDriveSafeValue intValue]];
-                [_reviewFollowDirections setSelectedSegmentIndex:[reviewFollowDirectionsValue intValue]];
-                [_reviewKnowCity setSelectedSegmentIndex:[reviewKnowCityValue intValue]];
-                [_reviewHonestFare setSelectedSegmentIndex:[reviewHonestFareValue intValue]];
-                [_reviewCourteous setSelectedSegmentIndex:[reviewCourteousValue intValue]];
-                _reviewComments.text = reviewCommentsValue;
-                
-                [_btnSaveReview setTitle:@"Edit Your Review >" forState:UIControlStateNormal];
-               
-            }
-            
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
-}
 
 -(void) refreshUserDefaults
 {
@@ -146,12 +86,54 @@ NSString *reviewComments;
     if([defaults objectForKey:@"userLastCabReviewDate"] != nil) {
         self.lastCabReviewDate = [defaults objectForKey:@"userLastCabReviewDate"];
     }
+    
+    NSLog(@"deviceID: %@", self.deviceID);
 }
 
+-(void) getCurrentReview
+{
+
+    PFQuery *broadCast = [PFQuery queryWithClassName:@"DriverReviewObject"];
+    [broadCast whereKey:@"deviceID" equalTo:self.deviceID];
+    [broadCast whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
+    [broadCast getFirstObjectInBackgroundWithBlock:^(PFObject *reviewObject, NSError *error) {
+        if (!error)
+        {
+            self.reviewObject = reviewObject;
+            NSString *reviewOverallValue =              [reviewObject objectForKey:@"reviewOverall"];
+            NSString *reviewCarServiceValue =           [reviewObject objectForKey:@"reviewCarService"];
+            NSString *reviewDriveSafeValue =            [reviewObject objectForKey:@"reviewDriveSafe"];
+            NSString *reviewFollowDirectionsValue =     [reviewObject objectForKey:@"reviewFollowDirections"];
+            NSString *reviewKnowCityValue =             [reviewObject objectForKey:@"reviewKnowCity"];
+            NSString *reviewHonestFareValue =           [reviewObject objectForKey:@"reviewHonestFare"];
+            NSString *reviewCourteousValue =            [reviewObject objectForKey:@"reviewActCourteous"];
+            NSString *reviewCommentsValue =             [reviewObject objectForKey:@"reviewComments"];
+            
+            [_reviewOverall setSelectedSegmentIndex:[reviewOverallValue intValue]];
+            [_reviewCarService setSelectedSegmentIndex:[reviewCarServiceValue intValue]];
+            [_reviewDriveSafe setSelectedSegmentIndex:[reviewDriveSafeValue intValue]];
+            [_reviewFollowDirections setSelectedSegmentIndex:[reviewFollowDirectionsValue intValue]];
+            [_reviewKnowCity setSelectedSegmentIndex:[reviewKnowCityValue intValue]];
+            [_reviewHonestFare setSelectedSegmentIndex:[reviewHonestFareValue intValue]];
+            [_reviewCourteous setSelectedSegmentIndex:[reviewCourteousValue intValue]];
+            _reviewComments.text = reviewCommentsValue;
+            
+            NSDate *reviewDate = reviewObject.updatedAt;
+            NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
+            [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+            [theDateFormatter setDateFormat:@"EEE, MMM d, h:mm a"];
+            _lblReviewDate.text = [NSString stringWithFormat:@"You reviewed this cab on %@", [theDateFormatter stringFromDate:reviewDate]];
+            
+            [_btnSaveReview setTitle:@"Edit Your Review" forState:UIControlStateNormal];
+            
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+}
+
+
 - (IBAction)btnSaveReview:(id)sender {
-    
-    
-    NSLog(@"btnSaveReview");
     
     reviewOverallValue = (int)_reviewOverall.selectedSegmentIndex;
     NSLog(@"reviewOverall %d", reviewOverallValue);
@@ -179,26 +161,47 @@ NSString *reviewComments;
     
     NSLog(@"self.deviceID %@", self.deviceID);
     
-    PFObject *reviewCab = [PFObject objectWithClassName:@"DriverReviewObject"];
-    reviewCab[@"deviceID"] =        self.deviceID;
-    reviewCab[@"taxiUniqueID"] =       self.taxiObject.objectId;
-    reviewCab[@"reviewOverall"] =           [NSString stringWithFormat:@"%d",reviewOverallValue];
-    reviewCab[@"reviewCarService"] =        [NSString stringWithFormat:@"%d",reviewCarServiceValue];
-    reviewCab[@"reviewDriveSafe"] =         [NSString stringWithFormat:@"%d",reviewDriveSafeValue];
-    reviewCab[@"reviewFollowDirections"] =  [NSString stringWithFormat:@"%d",reviewFollowDirectionsValue];
-    reviewCab[@"reviewKnowCity"] =          [NSString stringWithFormat:@"%d",reviewKnowCityValue];
-    reviewCab[@"reviewHonestFare"] =        [NSString stringWithFormat:@"%d",reviewHonestFareValue];
-    reviewCab[@"reviewActCourteous"] =       [NSString stringWithFormat:@"%d",reviewCourteousValue];
-    reviewCab[@"reviewComments"] =       reviewComments;
     
-    [reviewCab saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            NSString *rvObjectId = [reviewCab objectId];
-            NSLog(@" Saved bcObjectId %@", rvObjectId);
-        } else {
-            NSLog(@"%@", error);
-        }
-    }];
+    if(self.reviewObject == nil){
+        PFObject *reviewCab = [PFObject objectWithClassName:@"DriverReviewObject"];
+        reviewCab[@"deviceID"] =        self.deviceID;
+        reviewCab[@"taxiUniqueID"] =       self.taxiObject.objectId;
+        reviewCab[@"reviewOverall"] =           [NSString stringWithFormat:@"%d",reviewOverallValue];
+        reviewCab[@"reviewCarService"] =        [NSString stringWithFormat:@"%d",reviewCarServiceValue];
+        reviewCab[@"reviewDriveSafe"] =         [NSString stringWithFormat:@"%d",reviewDriveSafeValue];
+        reviewCab[@"reviewFollowDirections"] =  [NSString stringWithFormat:@"%d",reviewFollowDirectionsValue];
+        reviewCab[@"reviewKnowCity"] =          [NSString stringWithFormat:@"%d",reviewKnowCityValue];
+        reviewCab[@"reviewHonestFare"] =        [NSString stringWithFormat:@"%d",reviewHonestFareValue];
+        reviewCab[@"reviewActCourteous"] =       [NSString stringWithFormat:@"%d",reviewCourteousValue];
+        reviewCab[@"reviewComments"] =       reviewComments;
+        
+        [reviewCab saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                NSString *rvObjectId = [reviewCab objectId];
+                NSLog(@" Saved bcObjectId %@", rvObjectId);
+            } else {
+                NSLog(@"%@", error);
+            }
+        }];
+    } else
+    {
+        self.reviewObject[@"reviewOverall"] =           [NSString stringWithFormat:@"%d",reviewOverallValue];
+        self.reviewObject[@"reviewCarService"] =        [NSString stringWithFormat:@"%d",reviewCarServiceValue];
+        self.reviewObject[@"reviewDriveSafe"] =         [NSString stringWithFormat:@"%d",reviewDriveSafeValue];
+        self.reviewObject[@"reviewFollowDirections"] =  [NSString stringWithFormat:@"%d",reviewFollowDirectionsValue];
+        self.reviewObject[@"reviewKnowCity"] =          [NSString stringWithFormat:@"%d",reviewKnowCityValue];
+        self.reviewObject[@"reviewHonestFare"] =        [NSString stringWithFormat:@"%d",reviewHonestFareValue];
+        self.reviewObject[@"reviewActCourteous"] =       [NSString stringWithFormat:@"%d",reviewCourteousValue];
+        self.reviewObject[@"reviewComments"] =       reviewComments;
+        
+        [self.reviewObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                NSLog(@" Updated bcObjectId %@", self.reviewObject.objectId);
+            } else {
+                NSLog(@"%@", error);
+            }
+        }];
+    }
     
     // Store the data
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -209,13 +212,10 @@ NSString *reviewComments;
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSLog(@"segue.identifier: %@",segue.identifier);
-    
     if ([segue.identifier isEqualToString:@"pushSeqPostReviewToDetail"]) {
         DDSearchResultDetailController *destViewController = segue.destinationViewController;
         
         if([self.taxiObject.objectId length] > 0) {
-            NSLog(@"self.taxiObject: %@", self.taxiObject);
             destViewController.taxiObject = self.taxiObject;
         }
     }
