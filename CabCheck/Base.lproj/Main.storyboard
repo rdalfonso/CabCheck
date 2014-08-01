@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="4aX-Gn-oJF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="4aX-Gn-oJF">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -8,7 +8,7 @@
         <scene sceneID="fc9-gq-eO3">
             <objects>
                 <tableViewController title="SearchController" id="F7h-1m-lHd" customClass="DDCabSearchResultsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="171" sectionHeaderHeight="22" sectionFooterHeight="22" id="dFi-A6-y9J">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="205" sectionHeaderHeight="22" sectionFooterHeight="22" id="dFi-A6-y9J">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -16,7 +16,7 @@
                         <color key="sectionIndexColor" red="1" green="0.80000001192092896" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="sectionIndexTrackingBackgroundColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
-                        <label key="tableHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Search Results" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6vs-gU-wQS">
+                        <label key="tableHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Search Results Found" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6vs-gU-wQS">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -25,11 +25,11 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="taxiCell" rowHeight="171" id="Kja-av-XVT" customClass="CabSearchResultCell">
-                                <rect key="frame" x="0.0" y="55" width="320" height="171"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="taxiCell" rowHeight="205" id="Kja-av-XVT" customClass="CabSearchResultCell">
+                                <rect key="frame" x="0.0" y="55" width="320" height="205"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kja-av-XVT" id="iae-lJ-aJd">
-                                    <rect key="frame" x="0.0" y="0.0" width="287" height="171"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="205"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="driverName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YR8-Zv-IkN">
@@ -104,6 +104,13 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="See Taxi Info >" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9uE-Qr-zLR">
+                                            <rect key="frame" x="133" y="170" width="154" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                            <color key="textColor" red="1" green="0.80000001192092896" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -420,7 +427,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FCy-8Z-Dri">
-                                <rect key="frame" x="50" y="366" width="225" height="45"/>
+                                <rect key="frame" x="50" y="373" width="225" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                 <state key="normal" title="Review Taxi Ride >">
@@ -428,6 +435,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="btnReviewTaxi:" destination="Ylr-RS-wdl" eventType="touchUpInside" id="vte-nX-XEG"/>
                                     <segue destination="mTn-1w-69Z" kind="push" identifier="pushSeqDetailToReviewTaxi" id="Tu8-Uh-0jl"/>
                                 </connections>
                             </button>
@@ -476,10 +484,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gna-ht-7BS">
-                                <rect key="frame" x="14" y="324" width="283" height="30"/>
+                                <rect key="frame" x="14" y="332" width="283" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="Read all reviews of your driver >">
+                                <state key="normal" title="Read reviews of this driver >">
                                     <color key="titleColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -682,7 +690,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Driver Review" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="goC-WF-4Di">
-                                <rect key="frame" x="8" y="1" width="250" height="33"/>
+                                <rect key="frame" x="8" y="1" width="290" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                 <color key="textColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -694,6 +702,8 @@
                     <navigationItem key="navigationItem" id="rAe-eV-ldR"/>
                     <size key="freeformSize" width="320" height="568"/>
                     <connections>
+                        <outlet property="btnSaveReview" destination="LfT-M7-d7p" id="4L1-1V-veU"/>
+                        <outlet property="lblReviewHeader" destination="goC-WF-4Di" id="rYV-0O-knU"/>
                         <outlet property="reviewCarService" destination="8EK-Va-kf1" id="Zcy-vh-edU"/>
                         <outlet property="reviewComments" destination="lCz-fk-LER" id="y8I-Ul-5h2"/>
                         <outlet property="reviewCourteous" destination="LT4-C0-g9D" id="ptA-eK-gIR"/>
@@ -960,10 +970,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="YA9-8g-xED"/>
-        <segue reference="SSa-XP-2Na"/>
-        <segue reference="sQV-04-UCH"/>
+        <segue reference="qXz-QX-WFD"/>
+        <segue reference="ygD-nH-KYA"/>
+        <segue reference="7fa-js-3hT"/>
         <segue reference="w9i-iL-ABM"/>
-        <segue reference="Y2J-tB-XMh"/>
+        <segue reference="sQV-04-UCH"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -18,9 +18,10 @@
     CLPlacemark *placemark;
 }
 @property (strong, nonatomic) IBOutlet UILabel *driverReviewTags;
-@property (strong, nonatomic) IBOutlet UIButton *btnReviewLink;
 @property (strong, nonatomic) IBOutlet UILabel *driverVINLabel;
+
 @property (strong, nonatomic) IBOutlet UIButton *btnReviewTaxi;
+@property (strong, nonatomic) IBOutlet UIButton *btnReviewLink;
 
 @property (nonatomic, strong) NSString *taxiUniqueID;
 @property (nonatomic, strong) PFObject *taxiObject;
@@ -50,5 +51,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *driverPickupTime;
 
 - (IBAction)btnSendData:(id)sender;
+- (IBAction)btnReviewTaxi:(id)sender;
 
 @end

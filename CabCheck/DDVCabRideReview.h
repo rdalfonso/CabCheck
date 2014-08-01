@@ -20,6 +20,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *reviewComments;
 @property (nonatomic, strong) PFObject *taxiObject;
 - (IBAction)btnSaveReview:(id)sender;
+@property (strong, nonatomic) IBOutlet UIButton *btnSaveReview;
+@property (strong, nonatomic) IBOutlet UILabel *lblReviewHeader;
 
 
 

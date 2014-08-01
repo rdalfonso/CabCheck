@@ -11,7 +11,9 @@
 #import <Parse/Parse.h>
 
 @interface DDVCabRideReview ()
-@property NSString *deviceID;
+    @property NSString *deviceID;
+    @property NSString *lastCabReviewed;
+    @property NSDate *lastCabReviewDate;
 @end
 
 @implementation DDVCabRideReview
@@ -35,23 +37,13 @@ NSString *reviewComments;
     return self;
 }
 
--(void) refreshUserDefaults
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if([defaults objectForKey:@"deviceID"] == nil) {
-        self.deviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    } else {
-        self.deviceID = [defaults stringForKey:@"deviceID"];
-    }
-}
 
--(IBAction) searchBtnUserClick
-{}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self refreshUserDefaults];
+    [self getCurrentReview];
     
      //Front-end control manipulation
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -66,9 +58,95 @@ NSString *reviewComments;
     
     [self.reviewComments becomeFirstResponder];
     [self.reviewComments resignFirstResponder];
+    
+    //Set Title
+    if(self.taxiObject != nil)
+    {
+        NSString *driverMedallion = [self.taxiObject objectForKey:@"driverMedallion"];
+        if([driverMedallion length] > 0) {
+            _lblReviewHeader.text = [NSString stringWithFormat:@"Driver Review: %@",driverMedallion];
+        } else {
+            _lblReviewHeader.text = @"Driver Review";
+        }
+    }
 }
 
+-(void) getCurrentReview
+{
 
+    NSLog(@"deviceID%@", self.deviceID);
+    NSLog(@"taxiObject%@", self.taxiObject.objectId);
+    
+    PFQuery *broadCast = [PFQuery queryWithClassName:@"DriverReviewObject"];
+    [broadCast whereKey:@"deviceID" equalTo:@"B6813010-9CB8-4B86-8538-F063F20F83AB"];
+    //[broadCast whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
+    [broadCast findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error)
+        {
+            NSLog(@"%lu objects found for deletion.", (unsigned long)objects.count);
+            for (PFObject *object in objects)
+            {
+                NSString *deviceID = [object objectForKey:@"deviceID"];
+                NSString *taxiUniqueID =[object objectForKey:@"taxiUniqueID"];
+                
+                NSString *reviewOverallValue =              [object objectForKey:@"reviewOverall"];
+                NSString *reviewCarServiceValue =           [object objectForKey:@"reviewCarService"];
+                NSString *reviewDriveSafeValue =            [object objectForKey:@"reviewDriveSafe"];
+                NSString *reviewFollowDirectionsValue =     [object objectForKey:@"reviewFollowDirections"];
+                NSString *reviewKnowCityValue =             [object objectForKey:@"reviewKnowCity"];
+                NSString *reviewHonestFareValue =           [object objectForKey:@"reviewHonestFare"];
+                NSString *reviewCourteousValue =            [object objectForKey:@"reviewActCourteous"];
+                NSString *reviewCommentsValue =            [object objectForKey:@"reviewComments"];
+                
+                NSLog(@"deviceID %@", deviceID);
+                NSLog(@"taxiUniqueID %@", taxiUniqueID);
+                
+                NSLog(@"reviewOverall %@", reviewOverallValue);
+                NSLog(@"reviewCarService %@", reviewCarServiceValue);
+                NSLog(@"reviewDriveSafe %@", reviewDriveSafeValue);
+                NSLog(@"reviewFollowDirections %@", reviewFollowDirectionsValue);
+                NSLog(@"reviewKnowCity %@", reviewKnowCityValue);
+                NSLog(@"reviewHonestFare %@", reviewHonestFareValue);
+                NSLog(@"reviewCourteous %@", reviewCourteousValue);
+                NSLog(@"reviewComments %@", reviewCommentsValue);
+                
+                [_reviewOverall setSelectedSegmentIndex:[reviewOverallValue intValue]];
+                [_reviewCarService setSelectedSegmentIndex:[reviewCarServiceValue intValue]];
+                [_reviewDriveSafe setSelectedSegmentIndex:[reviewDriveSafeValue intValue]];
+                [_reviewFollowDirections setSelectedSegmentIndex:[reviewFollowDirectionsValue intValue]];
+                [_reviewKnowCity setSelectedSegmentIndex:[reviewKnowCityValue intValue]];
+                [_reviewHonestFare setSelectedSegmentIndex:[reviewHonestFareValue intValue]];
+                [_reviewCourteous setSelectedSegmentIndex:[reviewCourteousValue intValue]];
+                _reviewComments.text = reviewCommentsValue;
+                
+                [_btnSaveReview setTitle:@"Edit Your Review >" forState:UIControlStateNormal];
+               
+            }
+            
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+}
+
+-(void) refreshUserDefaults
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if([defaults objectForKey:@"deviceID"] == nil) {
+        self.deviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    } else {
+        self.deviceID = [defaults stringForKey:@"deviceID"];
+    }
+    
+    if([defaults objectForKey:@"userlastCabReviewed"] != nil) {
+        self.lastCabReviewed = [defaults stringForKey:@"userlastCabReviewed"];
+    }
+    
+    if([defaults objectForKey:@"userLastCabReviewDate"] != nil) {
+        self.lastCabReviewDate = [defaults objectForKey:@"userLastCabReviewDate"];
+    }
+}
 
 - (IBAction)btnSaveReview:(id)sender {
     
@@ -126,7 +204,6 @@ NSString *reviewComments;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setValue:self.taxiObject.objectId forKey:@"userlastCabReviewed"];
     [defaults setObject:[NSDate date] forKey:@"userLastCabReviewDate"];
-    
     [defaults synchronize];
 }
 
@@ -145,6 +222,10 @@ NSString *reviewComments;
     
 }
 
+-(IBAction) searchBtnUserClick
+{
+    
+}
 
 - (void)didReceiveMemoryWarning
 {

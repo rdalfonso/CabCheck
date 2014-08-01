@@ -49,6 +49,8 @@
     return self;
 }
 
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -76,19 +78,16 @@
     
     [self.navigationItem setHidesBackButton:NO animated:YES];
     
+    
     NSLog(@"lastCabReviewed: %@", self.lastCabReviewed);
     NSLog(@"taxiUniqueID: %@", self.taxiUniqueID);
     
-    if( [self.lastCabReviewed isEqualToString:self.taxiUniqueID] )
-    {
-        NSLog(@"hiding");
-        _btnReviewTaxi.hidden = true;
+    if( [self.lastCabReviewed isEqualToString:self.taxiUniqueID] ) {
+        [_btnReviewTaxi setTitle:@"Edit Your Review" forState:UIControlStateNormal];
+    } else {
+        [_btnReviewTaxi setTitle:@"Review Taxi Ride" forState:UIControlStateNormal];
     }
-    else
-    {
-         NSLog(@"showing");
-        _btnReviewTaxi.hidden = false;
-    }
+
 }
 
 
@@ -182,9 +181,6 @@
                          if(TotalCount > 0) {
                              NSString *btnMessage = [NSString stringWithFormat:@"Read %ld reviews of this taxi >", TotalCount];
                              _btnReviewLink.titleLabel.text = btnMessage;
-                             _btnReviewLink.hidden = false;
-                         } else {
-                             _btnReviewLink.hidden = false;
                          }
                          
                          for (PFObject *object in results)
@@ -228,9 +224,13 @@
                          //Calculate scores
                          NSMutableString *reviewTags = [NSMutableString stringWithString:@""];
                          
-                         float pcGood = [self getReviewPercent:TotalCount withInteger:GoodCount];
+                         float pcGood =  [self getReviewPercent:TotalCount withInteger:GoodCount];
                          float pcOk = [self getReviewPercent:TotalCount withInteger:OkCount];
                          float pcBad = [self getReviewPercent:TotalCount withInteger:BadCount];
+                         
+                         NSLog(@"pcGood %f", pcGood);
+                         NSLog(@"pcOk %f", pcOk);
+                         NSLog(@"pcBad %f", pcBad);
                          
                          if( (GoodCount + OkCount + BadCount) == 0){
                              NSLog(@"Green Light ");
@@ -254,6 +254,12 @@
                                  float pcEnglish = [self getReviewPercent:TotalCount withInteger:EnglishCount];
                                  float pcHonest = [self getReviewPercent:TotalCount withInteger:HonestCount];
                                  float pcDirections = [self getReviewPercent:TotalCount withInteger:DirectionsCount];
+                                 
+                                 NSLog(@"pcRespect %f", pcRespect);
+                                 NSLog(@"pcDriving %f", pcDriving);
+                                 NSLog(@"pcEnglish %f", pcEnglish);
+                                 NSLog(@"pcHonest %f", pcHonest);
+                                 NSLog(@"pcDirections %f", pcDirections);
                                  
                                  if(pcDirections >= PERCENT_LEVEL) {
                                      [reviewTags appendString:@"Bad Sense of Direction\n"];
@@ -308,12 +314,10 @@
     return FALSE;
 }
 
--(float) getReviewPercent:(int)TotalCount withInteger:(int)categoryCount
+-(float) getReviewPercent:(long)TotalCount withInteger:(int)categoryCount
 {
- 
+
     float precentage = 0.0;
-    
-    
     @try
     {
         if(categoryCount > 0 && TotalCount > 0)
@@ -337,6 +341,11 @@
     
     [self showTaxiInformationSMS:self.taxiObject];
 }
+
+- (IBAction)btnReviewTaxi:(id)sender {
+}
+
+
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
 {

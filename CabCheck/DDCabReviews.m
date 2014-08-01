@@ -109,9 +109,7 @@
     NSInteger reviewHonestFare = [[object objectForKey:@"reviewHonestFare"] integerValue];
     NSInteger reviewKnowCity = [[object objectForKey:@"reviewKnowCity"] integerValue];
     
-    
-    
-    int iconScore = (reviewActCourteous + reviewDriveSafe + reviewFollowDirections + reviewKnowCity);
+    NSUInteger iconScore = (reviewActCourteous + reviewDriveSafe + reviewFollowDirections + reviewKnowCity);
     
     if(reviewKnowCity == 1){
         [reviewTags appendString:@"Bad Sense of Direction\n "];

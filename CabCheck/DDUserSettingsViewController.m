@@ -73,7 +73,7 @@
     
     NSMutableArray *userSMSNumbers = [NSMutableArray arrayWithArray:[defaults objectForKey:@"userSMSNumbers"]];
     
-    int arrCount = (unsigned long)[userSMSNumbers count] ;
+    NSUInteger arrCount = (unsigned long)[userSMSNumbers count] ;
     if(arrCount > 0)
     {
         NSString *userSMS1 = [userSMSNumbers objectAtIndex:0];

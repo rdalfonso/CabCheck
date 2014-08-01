@@ -25,7 +25,7 @@
         self.parseClassName = @"DriverCompleteObject";
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
-        self.objectsPerPage = 10;
+        self.objectsPerPage = 20;
     }
     return self;
 }
@@ -82,7 +82,9 @@
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
     [self.navigationItem setHidesBackButton:NO animated:YES];
+
 }
+
 
 
 -(void)searchBtnUserClick:(id)sender
@@ -102,21 +104,6 @@
     CabSearchResultCell *cell = nil;
     
     cell = (CabSearchResultCell *) [self.tableView dequeueReusableCellWithIdentifier:uniqueIdentifier];
-    /*
-    if (!cell) {
-        
-        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"UITableViewCell" owner:nil options:nil];
-        
-        for (id currentObject in topLevelObjects)
-        {
-            if([currentObject isKindOfClass:[CabSearchResultCell class]])
-            {
-                cell = (CabSearchResultCell *)currentObject;
-                break;
-            }
-        }
-    }
-    */
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     NSString *driverType = [object objectForKey:@"driverType"];
