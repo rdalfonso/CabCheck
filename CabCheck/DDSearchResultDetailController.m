@@ -183,8 +183,11 @@
                          TotalCount = (unsigned long)results.count;
                         
                          if(TotalCount > 0) {
-                            NSString *btnMessage = [NSString stringWithFormat:@"Read %ld reviews of this driver >", TotalCount];
+                            /*
+                             NSString *btnMessage = [NSString stringWithFormat:@"Read %ld reviews of this driver >", TotalCount];
                              _btnTaxiReviews.titleLabel.text = btnMessage;
+                             _btnTaxiReviews.titleLabel.textColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"blue"]];
+                             */
                          }
                          
                          for (PFObject *object in results)
@@ -459,6 +462,8 @@
     {
         [passengerSMS appendString:[NSString stringWithFormat:@"License Plate: %@.\n", driverDMVLicense]];
     }
+    
+    [passengerSMS appendString:[NSString stringWithFormat:@"\n Download this app at http://www.duomodigital.com/cabcheck.html"]];
     
     MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
     messageController.messageComposeDelegate = self;

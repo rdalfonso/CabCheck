@@ -96,7 +96,6 @@
         {
             for (PFObject *object in results)
             {
-                NSString *driverName = [object objectForKey:@"driverName"];
                 NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
                 
                 if ( [driverMedallion length] > 0) {

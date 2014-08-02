@@ -47,7 +47,7 @@
     //Change Placeholder
     if ([self.txtSearch respondsToSelector:@selector(setAttributedPlaceholder:)]) {
         UIColor *color = [UIColor grayColor];
-        self.txtSearch.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter Medallion, License, or Driver Name." attributes:@{NSForegroundColorAttributeName: color}];
+        self.txtSearch.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter Taxi Medallion Number." attributes:@{NSForegroundColorAttributeName: color}];
     }
     
     //Responders to Textfields
@@ -130,6 +130,9 @@
         _userLat = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
         _userLong = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
         
+        _lblCurrentCity.text = @"New York City";
+        
+        /*
         [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
          {
              if (error == nil && [placemarks count] > 0)
@@ -137,12 +140,13 @@
                  placemark = [placemarks lastObject];
                  _userCity = placemark.locality;
                  
-                 _lblCurrentCity.text =_userCity;
+                 _lblCurrentCity.text = _userCity;
                 
              } else {
                  NSLog(@"ERROR: %@", error.debugDescription);
              }
          } ];
+         */
     }
 }
 

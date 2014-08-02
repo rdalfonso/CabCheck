@@ -19,6 +19,7 @@
 		A1565EA81981D3D4008E5D2B /* DDSearchResultDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1565EA71981D3D4008E5D2B /* DDSearchResultDetailController.m */; };
 		A168A28D1982B7060095581B /* traffic-light-bb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A168A28C1982B7060095581B /* traffic-light-bb.jpg */; };
 		A182505E197CC9A600483B5A /* DDAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = A182505D197CC9A600483B5A /* DDAboutController.m */; };
+		A188AE05198D802F0079DA54 /* icon_question2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A188AE04198D802F0079DA54 /* icon_question2.jpg */; };
 		A19A7CE0198581EF002A002D /* hdr_about_cc.png in Resources */ = {isa = PBXBuildFile; fileRef = A19A7CDC198581EF002A002D /* hdr_about_cc.png */; };
 		A19A7CE1198581EF002A002D /* hdr_search_results.png in Resources */ = {isa = PBXBuildFile; fileRef = A19A7CDD198581EF002A002D /* hdr_search_results.png */; };
 		A19A7CE2198581EF002A002D /* hdr_taxi_details.png in Resources */ = {isa = PBXBuildFile; fileRef = A19A7CDE198581EF002A002D /* hdr_taxi_details.png */; };
@@ -88,6 +89,7 @@
 		A168A28C1982B7060095581B /* traffic-light-bb.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "traffic-light-bb.jpg"; path = "../../../../../Downloads/traffic-light-bb.jpg"; sourceTree = "<group>"; };
 		A182505C197CC9A600483B5A /* DDAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAboutController.h; sourceTree = "<group>"; };
 		A182505D197CC9A600483B5A /* DDAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAboutController.m; sourceTree = "<group>"; };
+		A188AE04198D802F0079DA54 /* icon_question2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = icon_question2.jpg; path = ../../../../../Downloads/icon_question2.jpg; sourceTree = "<group>"; };
 		A19A7CDC198581EF002A002D /* hdr_about_cc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hdr_about_cc.png; path = ../../../../../Downloads/hdr_about_cc.png; sourceTree = "<group>"; };
 		A19A7CDD198581EF002A002D /* hdr_search_results.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hdr_search_results.png; path = ../../../../../Downloads/hdr_search_results.png; sourceTree = "<group>"; };
 		A19A7CDE198581EF002A002D /* hdr_taxi_details.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hdr_taxi_details.png; path = ../../../../../Downloads/hdr_taxi_details.png; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 		A1AB562A1979C9B3004D23AD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A188AE04198D802F0079DA54 /* icon_question2.jpg */,
 				A14661051986CD79008AF0A9 /* stop-light-horizontal.jpg */,
 				A19A7CDC198581EF002A002D /* hdr_about_cc.png */,
 				A19A7CDD198581EF002A002D /* hdr_search_results.png */,
@@ -365,6 +368,7 @@
 				A1AB563C1979C9B3004D23AD /* Images.xcassets in Resources */,
 				A1FE67EF197C3AA700504D5D /* taxi-fare.jpg in Resources */,
 				A1FE67F1197C3AA700504D5D /* taxi_top.jpeg in Resources */,
+				A188AE05198D802F0079DA54 /* icon_question2.jpg in Resources */,
 				A19A7CE1198581EF002A002D /* hdr_search_results.png in Resources */,
 				A1FE67EC197C3AA700504D5D /* taxi-night-4.jpg in Resources */,
 				A168A28D1982B7060095581B /* traffic-light-bb.jpg in Resources */,

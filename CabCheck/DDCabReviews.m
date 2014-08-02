@@ -49,7 +49,7 @@
         driverRatings.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
     
-    [driverRatings orderByAscending:@"createdAt"];
+    [driverRatings orderByDescending:@"createdAt"];
     return driverRatings;
 }
 
