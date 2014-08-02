@@ -83,7 +83,7 @@
     [broadCast getFirstObjectInBackgroundWithBlock:^(PFObject *reviewObject, NSError *error)
      {
          if(error) {
-             [_btnReviewTaxi setTitle:@"Review This Ride >" forState:UIControlStateNormal];
+             [_btnReviewTaxi setTitle:@"Review This Driver >" forState:UIControlStateNormal];
          }
          else
          {
@@ -226,11 +226,11 @@
                              NSLog(@"Green Light ");
                              _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
                              _driverReviewTags.text = @"No Reviews Yet.";
-                             //_btnReviewLink.hidden = true;
+                             _btnTaxiReviews.hidden = true;
                          }
                          else
                          {
-                             //_btnReviewLink.hidden = false;
+                             _btnTaxiReviews.hidden = false;
                              
                              //Calculate scores
                              float pcGood =  [self getReviewPercent:TotalCount withInteger:GoodCount];
