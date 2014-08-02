@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1104CAA198D3F69002B481E /* AutoCompleteController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1104CA9198D3F69002B481E /* AutoCompleteController.m */; };
 		A1113855198941CA00CCABF0 /* CabCheckSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1113854198941CA00CCABF0 /* CabCheckSearchViewController.m */; };
 		A129CD9B198020F300CBA300 /* CabSearchResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A129CD9A198020F300CBA300 /* CabSearchResultCell.m */; };
 		A1307E851984CA13009C9BAE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1307E841984CA13009C9BAE /* MessageUI.framework */; };
@@ -66,6 +67,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A1104CA8198D3F69002B481E /* AutoCompleteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoCompleteController.h; sourceTree = "<group>"; };
+		A1104CA9198D3F69002B481E /* AutoCompleteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoCompleteController.m; sourceTree = "<group>"; };
 		A1113853198941CA00CCABF0 /* CabCheckSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CabCheckSearchViewController.h; sourceTree = "<group>"; };
 		A1113854198941CA00CCABF0 /* CabCheckSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CabCheckSearchViewController.m; sourceTree = "<group>"; };
 		A129CD99198020F300CBA300 /* CabSearchResultCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CabSearchResultCell.h; sourceTree = "<group>"; };
@@ -232,6 +235,8 @@
 				A14458881986B13400BDEA28 /* DDUserSettingsViewController.m */,
 				A1113853198941CA00CCABF0 /* CabCheckSearchViewController.h */,
 				A1113854198941CA00CCABF0 /* CabCheckSearchViewController.m */,
+				A1104CA8198D3F69002B481E /* AutoCompleteController.h */,
+				A1104CA9198D3F69002B481E /* AutoCompleteController.m */,
 			);
 			path = CabCheck;
 			sourceTree = "<group>";
@@ -396,6 +401,7 @@
 				A1AB56341979C9B3004D23AD /* DDAppDelegate.m in Sources */,
 				A182505E197CC9A600483B5A /* DDAboutController.m in Sources */,
 				A1565EA81981D3D4008E5D2B /* DDSearchResultDetailController.m in Sources */,
+				A1104CAA198D3F69002B481E /* AutoCompleteController.m in Sources */,
 				A129CD9B198020F300CBA300 /* CabSearchResultCell.m in Sources */,
 				A1AB563A1979C9B3004D23AD /* DDViewController.m in Sources */,
 				A14458861986A37400BDEA28 /* CabReviewCell.m in Sources */,

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface DDVCabRideReview : UIViewController
+@interface DDVCabRideReview : UIViewController<UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewOverall;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewCarService;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewDriveSafe;

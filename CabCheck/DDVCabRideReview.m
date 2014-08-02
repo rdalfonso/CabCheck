@@ -37,8 +37,6 @@ NSString *reviewComments;
     return self;
 }
 
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -56,6 +54,7 @@ NSString *reviewComments;
     
     [self.reviewComments becomeFirstResponder];
     [self.reviewComments resignFirstResponder];
+    self.reviewComments.delegate = self;
     
     //Set Title
     if(self.taxiObject != nil)
@@ -69,6 +68,17 @@ NSString *reviewComments;
     }
 }
 
+- (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    NSUInteger oldLength = [textField.text length];
+    NSUInteger replacementLength = [string length];
+    NSUInteger rangeLength = range.length;
+    NSUInteger newLength = oldLength - rangeLength + replacementLength;
+    
+    BOOL returnKey = [string rangeOfString: @"\n"].location != NSNotFound;
+    
+    return newLength <= 60 || returnKey;
+}
 
 -(void) refreshUserDefaults
 {

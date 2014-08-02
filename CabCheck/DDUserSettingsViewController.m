@@ -24,48 +24,17 @@
     return self;
 }
 
-- (IBAction)btnSaveUserSettings:(id)sender {
-    
-   // NSString *userHomeCity = _userHomeCity.text;
-    int userTaxiPreferValue = (int)_userTaxiPrefer.selectedSegmentIndex;
-    NSString *userSMS1 = _userSMSContact1.text;
-    NSString *userSMS2 = _userSMSContact2.text;
-    NSString *userSMS3 = _userSMSContact3.text;
-    
-    NSMutableArray *smsNumbers = [[NSMutableArray alloc] init];
-    
-    if([userSMS1 length] > 0){
-        [smsNumbers addObject:userSMS1];
-    }
-    if([userSMS2 length] > 0){
-        [smsNumbers addObject:userSMS2];
-    }
-    if([userSMS3 length] > 0){
-        [smsNumbers addObject:userSMS3];
-    }
-    
-    // Store the data
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setInteger:userTaxiPreferValue forKey:@"userTaxiPreferValue"];
-    [defaults setObject:smsNumbers forKey:@"userSMSNumbers"];
-    
-    [defaults synchronize];
-    
-}
-
--(IBAction) searchBtnUserClick
-{
-}
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    //[self.userHomeCity resignFirstResponder];
     [self.userSMSContact1 resignFirstResponder];
     [self.userSMSContact2 resignFirstResponder];
     [self.userSMSContact3 resignFirstResponder];
+    
+    self.userSMSContact1.delegate = self;
+    self.userSMSContact2.delegate = self;
+    self.userSMSContact3.delegate = self;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     int userTaxiPreferValue =(int)[defaults integerForKey:@"userTaxiPreferValue"];
@@ -98,6 +67,55 @@
     }
 }
 
+
+- (IBAction)btnSaveUserSettings:(id)sender {
+    
+    int userTaxiPreferValue = (int)_userTaxiPrefer.selectedSegmentIndex;
+    NSString *userSMS1 = _userSMSContact1.text;
+    NSString *userSMS2 = _userSMSContact2.text;
+    NSString *userSMS3 = _userSMSContact3.text;
+    
+    
+    NSMutableArray *smsNumbers = [[NSMutableArray alloc] init];
+    
+    if([userSMS1 length] > 0){
+        [smsNumbers addObject:userSMS1];
+    }
+    if([userSMS2 length] > 0){
+        [smsNumbers addObject:userSMS2];
+    }
+    if([userSMS3 length] > 0){
+        [smsNumbers addObject:userSMS3];
+    }
+    
+    // Store the data
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setInteger:userTaxiPreferValue forKey:@"userTaxiPreferValue"];
+    [defaults setObject:smsNumbers forKey:@"userSMSNumbers"];
+    
+    [defaults synchronize];
+    
+}
+
+-(IBAction) searchBtnUserClick
+{
+}
+
+- (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    NSCharacterSet *blockedCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"1234567890"] invertedSet];
+    BOOL badChars = ([[textField.text componentsSeparatedByCharactersInSet:blockedCharacters] count] <= 1);
+    NSLog(badChars ? @"yes" : @"no");
+    
+    NSUInteger oldLength = [textField.text length];
+    NSUInteger replacementLength = [string length];
+    NSUInteger rangeLength = range.length;
+    NSUInteger newLength = oldLength - rangeLength + replacementLength;
+    
+    BOOL returnKey = [string rangeOfString: @"\n"].location != NSNotFound;
+    
+    return newLength <= 10 || returnKey;
+}
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     //[self.userHomeCity resignFirstResponder];

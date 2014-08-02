@@ -60,7 +60,29 @@
     
     [self.txtSearch becomeFirstResponder];
     [self.txtSearch resignFirstResponder];
+    
+    self.txtSearch.delegate = self;
 }
+
+- (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    NSString *ACCEPTABLE_CHARACTERS = @" ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.";
+    NSCharacterSet *cs = [[NSCharacterSet characterSetWithCharactersInString:ACCEPTABLE_CHARACTERS] invertedSet];
+    NSString *filtered = [[textField.text componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
+    
+    BOOL allGoodChars = [textField.text isEqualToString:filtered];
+    NSLog(allGoodChars ? @"yes" : @"no");
+    
+    NSUInteger oldLength = [textField.text length];
+    NSUInteger replacementLength = [string length];
+    NSUInteger rangeLength = range.length;
+    NSUInteger newLength = oldLength - rangeLength + replacementLength;
+    
+    BOOL returnKey = [string rangeOfString: @"\n"].location != NSNotFound;
+    
+    return newLength <= 60 || returnKey;
+}
+
 
 -(void)settingsBtnUserClick:(id)sender
 {

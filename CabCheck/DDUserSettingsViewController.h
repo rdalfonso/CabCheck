@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DDUserSettingsViewController : UIViewController
+@interface DDUserSettingsViewController : UIViewController<UITextFieldDelegate>
+{}
 @property (strong, nonatomic) IBOutlet UITextField *userHomeCity;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *userTaxiPrefer;
 @property (strong, nonatomic) IBOutlet UITextField *userSMSContact1;

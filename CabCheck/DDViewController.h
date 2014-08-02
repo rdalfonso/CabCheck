@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface DDViewController : UIViewController<CLLocationManagerDelegate> {
+@interface DDViewController : UIViewController<CLLocationManagerDelegate, UITextFieldDelegate> {
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
     CLPlacemark *placemark;

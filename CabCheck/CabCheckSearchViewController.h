@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface CabCheckSearchViewController : UIViewController<CLLocationManagerDelegate> {
+@interface CabCheckSearchViewController : UIViewController<CLLocationManagerDelegate, UITextFieldDelegate> {
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
