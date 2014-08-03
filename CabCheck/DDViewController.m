@@ -130,9 +130,6 @@
         _userLat = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
         _userLong = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
         
-        _lblCurrentCity.text = @"New York City";
-        
-        /*
         [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
          {
              if (error == nil && [placemarks count] > 0)
@@ -146,7 +143,7 @@
                  NSLog(@"ERROR: %@", error.debugDescription);
              }
          } ];
-         */
+
     }
 }
 

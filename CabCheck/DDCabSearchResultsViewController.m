@@ -22,7 +22,7 @@
 {
     
     if(self = [super initWithCoder:aDecoder]) {
-        self.parseClassName = @"DriverCompleteObject";
+        self.parseClassName = @"DriverObjectNewYork";
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
         self.objectsPerPage = 20;
@@ -31,17 +31,21 @@
 }
 
 - (PFQuery *)queryForTable {
-    
-    PFQuery *searchByName = [PFQuery queryWithClassName:@"DriverObjectComplete"];
+    /*
+    PFQuery *searchByName = [PFQuery queryWithClassName:@"DriverObjectNewYork"];
     [searchByName whereKey:@"driverName" containsString:globalSearchTerm];
     
-    PFQuery *searchByMedallion = [PFQuery queryWithClassName:@"DriverObjectComplete"];
-    [searchByMedallion whereKey:@"driverMedallion" containsString:globalSearchTerm];
-    
-    PFQuery *searchByDMVLicense = [PFQuery queryWithClassName:@"DriverObjectComplete"];
+    PFQuery *searchByDMVLicense = [PFQuery queryWithClassName:@"DriverObjectNewYork"];
     [searchByDMVLicense whereKey:@"driverDMVLicense" containsString:globalSearchTerm];
     
+    PFQuery *searchByMedallion = [PFQuery queryWithClassName:@"DriverObjectNewYork"];
+    [searchByMedallion whereKey:@"driverMedallion" containsString:globalSearchTerm];
+
     PFQuery *query = [PFQuery orQueryWithSubqueries:@[searchByName, searchByMedallion,searchByDMVLicense]];
+    */
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"DriverObjectNewYork"];
+    [query whereKey:@"driverMedallion" containsString:globalSearchTerm];
     query.limit = 20;
     
     if (self.pullToRefreshEnabled) {
