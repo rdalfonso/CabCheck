@@ -19,6 +19,8 @@
                   clientKey:@"SGDYQaGgVbDXHpPIKXwR505RJL0plP8D3zYOFwWW"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
+    NSLog(@"bundle %@",[[NSBundle mainBundle] bundlePath]);
+    
    //Make navigation bar items blue globally
     [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0 green:.62 blue:.984 alpha:1]];
     

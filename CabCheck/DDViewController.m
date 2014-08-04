@@ -16,7 +16,7 @@
 @end
 
 @implementation DDViewController
-@synthesize autocompleteUrls;
+@synthesize autocompleteObjects;
 @synthesize autocompleteTableView;
 @synthesize cityObject;
 
@@ -29,7 +29,7 @@
     geocoder = [[CLGeocoder alloc] init];
     
     //Initialize Results
-    self.autocompleteUrls = [[NSMutableArray alloc] init];
+    self.autocompleteObjects = [[NSMutableArray alloc] init];
     
     //Initialize LocationManager
     locationManager = [[CLLocationManager alloc] init];
@@ -110,14 +110,12 @@
                  _userCity = placemark.locality;
                  _lblCurrentCity.text = _userCity;
                  
-                 NSLog(@"_userCity: %@", _userCity);
-                 
                  if ([_userCity isEqualToString:@"New York"]) {
                      cityObject = @"DriverObjectNewYork";
                  } else if ([_userCity isEqualToString:@"Chicago"]) {
                      cityObject = @"DriverObjectChicago";
                  } else if ([_userCity isEqualToString:@"San Francisco"]) {
-                     cityObject = @"DriverObjectChicago";
+                     cityObject = @"DriverObjectSanFran";
                  } else {
                      cityObject = @"DriverObjectNewYork";
                  }
@@ -147,7 +145,11 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger) section {
-    return autocompleteUrls.count;
+    if(autocompleteObjects.count <= 0)
+    {
+        return 1;
+    }
+    return autocompleteObjects.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -155,10 +157,19 @@
     UITableViewCell *cell = nil;
     static NSString *AutoCompleteRowIdentifier = @"AutoCompleteRowIdentifier";
     cell = [tableView dequeueReusableCellWithIdentifier:AutoCompleteRowIdentifier];
+    
+    
+    if(autocompleteObjects.count <= 0)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier];
+        cell.textLabel.text = @"No Results Found";
+        return cell;
+    }
+    
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier];
     }
-    PFObject *taxiObject = [autocompleteUrls objectAtIndex:indexPath.row];
+    PFObject *taxiObject = [autocompleteObjects objectAtIndex:indexPath.row];
     NSString *driverMedallion = [taxiObject objectForKey:@"driverMedallion"];
     cell.textLabel.text = driverMedallion;
     
@@ -167,11 +178,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    PFObject *taxiObject = [autocompleteUrls objectAtIndex:indexPath.row];
-    self.taxiObject = taxiObject;
-    
-    [self goPressed];
-    
+    if(autocompleteObjects.count > 0) {
+        PFObject *taxiObject = [autocompleteObjects objectAtIndex:indexPath.row];
+        self.taxiObject = taxiObject;
+        [self goPressed];
+    }
 }
 
 
@@ -179,6 +190,7 @@
     
     [self.txtSearch resignFirstResponder];
     autocompleteTableView.hidden = YES;
+    
     
     [self performSegueWithIdentifier:@"pushAutoCompleteToResult" sender:self];
 }
@@ -202,9 +214,7 @@
 
 - (void)searchAutocompleteEntriesWithSubstring:(NSString *)substring {
     
-    [autocompleteUrls removeAllObjects];
-    
-    NSLog(@"cityObject Query %@", cityObject);
+    [autocompleteObjects removeAllObjects];
     
     PFQuery *searchByMedallion = [PFQuery queryWithClassName:cityObject];
     [searchByMedallion whereKey:@"driverMedallion" containsString:substring];
@@ -215,7 +225,7 @@
              for (PFObject *object in results)
              {
                  if (object != nil) {
-                     [autocompleteUrls addObject:object];
+                     [autocompleteObjects addObject:object];
                  }
              }
              [autocompleteTableView reloadData];

@@ -16,7 +16,7 @@
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
     
-    NSMutableArray *autocompleteUrls;
+    NSMutableArray *autocompleteObjects;
     UITableView *autocompleteTableView;
     NSString *cityObject;
 }
@@ -28,7 +28,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *txtSearch;
 
 @property (nonatomic, strong) PFObject *taxiObject;
-@property (nonatomic, retain) NSMutableArray *autocompleteUrls;
+@property (nonatomic, retain) NSMutableArray *autocompleteObjects;
 @property (nonatomic, retain) UITableView *autocompleteTableView;
 @property (nonatomic, strong) NSString *cityObject;
 

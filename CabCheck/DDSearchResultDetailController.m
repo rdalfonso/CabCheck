@@ -83,16 +83,16 @@
     [broadCast getFirstObjectInBackgroundWithBlock:^(PFObject *reviewObject, NSError *error)
      {
          if(error) {
-             [_btnReviewTaxi setTitle:@"Review This Driver >" forState:UIControlStateNormal];
+             _btnReviewThisDriver.titleLabel.text = @"Review This Driver >";
          }
          else
          {
+              _btnReviewThisDriver.titleLabel.text = @"Edit Your Review >";
              NSDate *reviewDate = reviewObject.updatedAt;
              NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
              [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
              [theDateFormatter setDateFormat:@"EEE, MMM d, h:mm a"];
              
-             [_btnReviewTaxi setTitle:@"Edit Your Review >" forState:UIControlStateNormal];
             _lblLastReviewDate.text = [NSString stringWithFormat:@"You reviewed this cab on %@", [theDateFormatter stringFromDate:reviewDate]];
          }
      }];
@@ -345,10 +345,6 @@
     [self showTaxiInformationSMS:self.taxiObject];
 }
 
-- (IBAction)btnReviewTaxi:(id)sender {
-}
-
-
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
 {
@@ -376,7 +372,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"pushSeqDetailToReviewTaxi"]) {
+    if ([segue.identifier isEqualToString:@"pushSeqReviewThisDriver"]) {
         DDCabRideReview *destViewController = segue.destinationViewController;
         
         if([self.taxiObject.objectId length] > 0) {
@@ -539,4 +535,5 @@
 
 - (IBAction)btnReviewsLink:(id)sender {
 }
+
 @end

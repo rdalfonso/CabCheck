@@ -18,8 +18,9 @@
     CLPlacemark *placemark;
 }
 
+@property (strong, nonatomic) IBOutlet UIButton *btnReviewThisDriver;
 
-@property (strong, nonatomic) IBOutlet UIButton *btnReviewTaxi;
+
 @property (strong, nonatomic) IBOutlet UIButton *btnTaxiReviews;
 
 @property (nonatomic, strong) NSString *taxiUniqueID;
@@ -48,10 +49,6 @@
 @property (strong, nonatomic, readwrite) NSDate *userDate;
 
 
-
-
-
 - (IBAction)btnSendData:(id)sender;
-- (IBAction)btnReviewTaxi:(id)sender;
 
 @end
