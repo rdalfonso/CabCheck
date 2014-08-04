@@ -106,13 +106,13 @@
     NSMutableString *reviewTextFill = [NSMutableString stringWithString:@""];
     
     NSString *reviewText = [object objectForKey:@"reviewComments"];
+    
+    NSInteger reviewOverall = [[object objectForKey:@"reviewOverall"] integerValue];
     NSInteger reviewActCourteous = [[object objectForKey:@"reviewActCourteous"] integerValue];
     NSInteger reviewDriveSafe = [[object objectForKey:@"reviewDriveSafe"] integerValue];
     NSInteger reviewFollowDirections = [[object objectForKey:@"reviewFollowDirections"] integerValue];
     NSInteger reviewHonestFare = [[object objectForKey:@"reviewHonestFare"] integerValue];
     NSInteger reviewKnowCity = [[object objectForKey:@"reviewKnowCity"] integerValue];
-    
-    NSUInteger iconScore = (reviewActCourteous + reviewDriveSafe + reviewFollowDirections + reviewKnowCity);
     
     if(reviewActCourteous == 1){
         [reviewTags appendString:@"Rude. "];
@@ -148,18 +148,18 @@
     }
     cell.reviewDate.text = [NSString stringWithFormat:@"Reviewed: %@", [dateFormat stringFromDate:createdAt]];
     
-    if(iconScore <= 1){
-        UIImage *image = [UIImage imageNamed: @"stop-light-horizontal.jpg"];
+    if(reviewOverall == 0){
+        UIImage *image = [UIImage imageNamed: @"review-green-small.jpg"];
         [cell.reviewImage setImage:image];
     }
     
-    if(iconScore > 2 && iconScore < 4){
-        UIImage *image = [UIImage imageNamed: @"stop-light-horizontal.jpg"];
+    if(reviewOverall == 1){
+        UIImage *image = [UIImage imageNamed: @"review-yellow-small.jpg"];
         [cell.reviewImage setImage:image];
     }
     
-    if(iconScore > 3){
-        UIImage *image = [UIImage imageNamed: @"stop-light-horizontal.jpg"];
+    if(reviewOverall == 2){
+        UIImage *image = [UIImage imageNamed: @"review-red-small.jpg"];
         [cell.reviewImage setImage:image];
     }
     

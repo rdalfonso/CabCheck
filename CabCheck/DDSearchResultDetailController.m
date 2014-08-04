@@ -185,6 +185,7 @@
                  
                  PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
                  [driverRatings whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
+                  driverRatings.cachePolicy = kPFCachePolicyCacheThenNetwork;
                  [driverRatings findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
                      if (!error)
                      {
@@ -227,7 +228,7 @@
                          
                          if( (GoodCount + OkCount + BadCount) == 0){
                              NSLog(@"Green Light ");
-                             _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                             _driverRatingImage.image = [UIImage imageNamed: @"review-green-large.jpg"];
                              _driverReviewTags.text = @"No Reviews Yet.";
                              _btnTaxiReviews.hidden = true;
                          }
@@ -243,7 +244,7 @@
                              if( pcGood >= 50.0  )
                              {
                                   NSLog(@"Green Light ");
-                                 _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                                 _driverRatingImage.image = [UIImage imageNamed: @"review-green-large.jpg"];
                                  _driverReviewTags.text = @"Good Driver. Few Complaints.";
                              }
                              else
@@ -253,13 +254,13 @@
                                  
                                  if( (pcOk > 30.0) || (pcGood ==  pcBad) ) {
                                       NSLog(@"Yellow Light ");
-                                     _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                                     _driverRatingImage.image = [UIImage imageNamed: @"review-yellow-large.jpg"];
                                      _driverReviewTags.text = reviewTags;
                                  }
                                  
                                  if( pcBad >= 50.0 ) {
                                      NSLog(@"Red Light ");
-                                     _driverRatingImage.image = [UIImage imageNamed: @"traffic-light-bb.jpg"];
+                                     _driverRatingImage.image = [UIImage imageNamed: @"review-red-large.jpg"];
                                      _driverReviewTags.text = reviewTags;
                                  }
                              }
