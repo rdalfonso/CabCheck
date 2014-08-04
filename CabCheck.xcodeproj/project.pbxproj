@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A1104CAA198D3F69002B481E /* AutoCompleteController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1104CA9198D3F69002B481E /* AutoCompleteController.m */; };
 		A1113855198941CA00CCABF0 /* CabCheckSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1113854198941CA00CCABF0 /* CabCheckSearchViewController.m */; };
 		A129CD9B198020F300CBA300 /* CabSearchResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A129CD9A198020F300CBA300 /* CabSearchResultCell.m */; };
 		A1307E851984CA13009C9BAE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1307E841984CA13009C9BAE /* MessageUI.framework */; };
@@ -24,7 +23,7 @@
 		A19A7CE1198581EF002A002D /* hdr_search_results.png in Resources */ = {isa = PBXBuildFile; fileRef = A19A7CDD198581EF002A002D /* hdr_search_results.png */; };
 		A19A7CE2198581EF002A002D /* hdr_taxi_details.png in Resources */ = {isa = PBXBuildFile; fileRef = A19A7CDE198581EF002A002D /* hdr_taxi_details.png */; };
 		A19A7CE3198581EF002A002D /* hdr_taxi_review.png in Resources */ = {isa = PBXBuildFile; fileRef = A19A7CDF198581EF002A002D /* hdr_taxi_review.png */; };
-		A19CA74E1984B1D100E5AC04 /* DDVCabRideReview.m in Sources */ = {isa = PBXBuildFile; fileRef = A19CA74D1984B1D100E5AC04 /* DDVCabRideReview.m */; };
+		A19CA74E1984B1D100E5AC04 /* DDCabRideReview.m in Sources */ = {isa = PBXBuildFile; fileRef = A19CA74D1984B1D100E5AC04 /* DDCabRideReview.m */; };
 		A1AB56241979C9B3004D23AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56231979C9B3004D23AD /* Foundation.framework */; };
 		A1AB56261979C9B3004D23AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56251979C9B3004D23AD /* CoreGraphics.framework */; };
 		A1AB56281979C9B3004D23AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56271979C9B3004D23AD /* UIKit.framework */; };
@@ -68,8 +67,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A1104CA8198D3F69002B481E /* AutoCompleteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoCompleteController.h; sourceTree = "<group>"; };
-		A1104CA9198D3F69002B481E /* AutoCompleteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoCompleteController.m; sourceTree = "<group>"; };
 		A1113853198941CA00CCABF0 /* CabCheckSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CabCheckSearchViewController.h; sourceTree = "<group>"; };
 		A1113854198941CA00CCABF0 /* CabCheckSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CabCheckSearchViewController.m; sourceTree = "<group>"; };
 		A129CD99198020F300CBA300 /* CabSearchResultCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CabSearchResultCell.h; sourceTree = "<group>"; };
@@ -94,8 +91,8 @@
 		A19A7CDD198581EF002A002D /* hdr_search_results.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hdr_search_results.png; path = ../../../../../Downloads/hdr_search_results.png; sourceTree = "<group>"; };
 		A19A7CDE198581EF002A002D /* hdr_taxi_details.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hdr_taxi_details.png; path = ../../../../../Downloads/hdr_taxi_details.png; sourceTree = "<group>"; };
 		A19A7CDF198581EF002A002D /* hdr_taxi_review.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hdr_taxi_review.png; path = ../../../../../Downloads/hdr_taxi_review.png; sourceTree = "<group>"; };
-		A19CA74C1984B1D100E5AC04 /* DDVCabRideReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDVCabRideReview.h; sourceTree = "<group>"; };
-		A19CA74D1984B1D100E5AC04 /* DDVCabRideReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDVCabRideReview.m; sourceTree = "<group>"; };
+		A19CA74C1984B1D100E5AC04 /* DDCabRideReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCabRideReview.h; sourceTree = "<group>"; };
+		A19CA74D1984B1D100E5AC04 /* DDCabRideReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCabRideReview.m; sourceTree = "<group>"; };
 		A1AB56201979C9B3004D23AD /* CabCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CabCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1AB56231979C9B3004D23AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A1AB56251979C9B3004D23AD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -227,8 +224,8 @@
 				A129CD9A198020F300CBA300 /* CabSearchResultCell.m */,
 				A1565EA61981D3D4008E5D2B /* DDSearchResultDetailController.h */,
 				A1565EA71981D3D4008E5D2B /* DDSearchResultDetailController.m */,
-				A19CA74C1984B1D100E5AC04 /* DDVCabRideReview.h */,
-				A19CA74D1984B1D100E5AC04 /* DDVCabRideReview.m */,
+				A19CA74C1984B1D100E5AC04 /* DDCabRideReview.h */,
+				A19CA74D1984B1D100E5AC04 /* DDCabRideReview.m */,
 				A14458811986A17100BDEA28 /* DDCabReviews.h */,
 				A14458821986A17200BDEA28 /* DDCabReviews.m */,
 				A14458841986A37400BDEA28 /* CabReviewCell.h */,
@@ -237,8 +234,6 @@
 				A14458881986B13400BDEA28 /* DDUserSettingsViewController.m */,
 				A1113853198941CA00CCABF0 /* CabCheckSearchViewController.h */,
 				A1113854198941CA00CCABF0 /* CabCheckSearchViewController.m */,
-				A1104CA8198D3F69002B481E /* AutoCompleteController.h */,
-				A1104CA9198D3F69002B481E /* AutoCompleteController.m */,
 			);
 			path = CabCheck;
 			sourceTree = "<group>";
@@ -405,13 +400,12 @@
 				A1AB56341979C9B3004D23AD /* DDAppDelegate.m in Sources */,
 				A182505E197CC9A600483B5A /* DDAboutController.m in Sources */,
 				A1565EA81981D3D4008E5D2B /* DDSearchResultDetailController.m in Sources */,
-				A1104CAA198D3F69002B481E /* AutoCompleteController.m in Sources */,
 				A129CD9B198020F300CBA300 /* CabSearchResultCell.m in Sources */,
 				A1AB563A1979C9B3004D23AD /* DDViewController.m in Sources */,
 				A14458861986A37400BDEA28 /* CabReviewCell.m in Sources */,
 				A14458831986A17200BDEA28 /* DDCabReviews.m in Sources */,
 				A1AB56301979C9B3004D23AD /* main.m in Sources */,
-				A19CA74E1984B1D100E5AC04 /* DDVCabRideReview.m in Sources */,
+				A19CA74E1984B1D100E5AC04 /* DDCabRideReview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

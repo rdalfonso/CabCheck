@@ -1,22 +1,22 @@
 //
-//  DDVCabRideReview.m
+//  DDCabRideReview.m
 //  CabCheck
 //
 //  Created by Rich DAlfonso on 7/26/14.
 //  Copyright (c) 2014 DuomoDigital. All rights reserved.
 //
 
-#import "DDVCabRideReview.h"
+#import "DDCabRideReview.h"
 #import "DDSearchResultDetailController.h"
 #import <Parse/Parse.h>
 
-@interface DDVCabRideReview ()
+@interface DDCabRideReview ()
     @property NSString *deviceID;
     @property NSString *lastCabReviewed;
     @property NSDate *lastCabReviewDate;
 @end
 
-@implementation DDVCabRideReview
+@implementation DDCabRideReview
 
 int reviewOverallValue;
 int reviewCarServiceValue;

@@ -31,19 +31,6 @@
 }
 
 - (PFQuery *)queryForTable {
-    /*
-    PFQuery *searchByName = [PFQuery queryWithClassName:@"DriverObjectNewYork"];
-    [searchByName whereKey:@"driverName" containsString:globalSearchTerm];
-    
-    PFQuery *searchByDMVLicense = [PFQuery queryWithClassName:@"DriverObjectNewYork"];
-    [searchByDMVLicense whereKey:@"driverDMVLicense" containsString:globalSearchTerm];
-    
-    PFQuery *searchByMedallion = [PFQuery queryWithClassName:@"DriverObjectNewYork"];
-    [searchByMedallion whereKey:@"driverMedallion" containsString:globalSearchTerm];
-
-    PFQuery *query = [PFQuery orQueryWithSubqueries:@[searchByName, searchByMedallion,searchByDMVLicense]];
-    */
-    
     PFQuery *query = [PFQuery queryWithClassName:@"DriverObjectNewYork"];
     [query whereKey:@"driverMedallion" containsString:globalSearchTerm];
     query.limit = 20;
@@ -135,6 +122,11 @@
         cell.driverVinLabel.text = @"License:";
         cell.driverVIN.text = driverDMVLicense;
         cell.driverLicense.text = @"Livery Sedan";
+    } else {
+        cell.driverType.text = @"Medallion Taxi";
+        cell.driverVinLabel.text = @"License:";
+        cell.driverVIN.text = driverCabMake;
+        cell.driverLicense.text = driverCabMake;
     }
     
     if([driverMedallion length] > 0) {

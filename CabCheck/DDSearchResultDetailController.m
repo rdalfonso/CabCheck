@@ -7,7 +7,7 @@
 //
 
 #import "DDSearchResultDetailController.h"
-#import "DDVCabRideReview.h"
+#import "DDCabRideReview.h"
 #import "DDCabReviews.h"
 
 #define PERCENT_LEVEL 25.0
@@ -148,25 +148,31 @@
                          driverDMVLicense = @"N/A";
                      }
                      NSString *driverVIN = [object objectForKey:@"driverVIN"];
+                     if([driverVIN length] <= 0){
+                         driverVIN = @"N/A";
+                     }
                      NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
                      NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
                      NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
                      
                      _lblSearchResultDetailHeader.text = [NSString stringWithFormat:@"Driver Details - %@", driverMedallion];
                      
-                     if ([driverType isEqualToString:@"Y"])
-                     {
+                     if ([driverType isEqualToString:@"Y"]) {
                          _driverType.text = @"Yellow Medallion Taxi";
                          _driverVINLabel.text = @"VIN:";
                          _driverVIN.text = driverVIN;
-                         _driverLicense.text = [NSString stringWithFormat:@"%@ %@ %@", driverCabMake, driverCabModel, driverCabYear];
+                         _driverLicense.text = [NSString stringWithFormat:@"%@ %@ %@", [driverCabMake capitalizedString], [driverCabModel capitalizedString], driverCabYear];
                          
-                     } else if ([driverType isEqualToString:@"L"])
-                     {
+                     } else if ([driverType isEqualToString:@"L"]) {
                          _driverType.text = @"TLC Street Hail Livery";
                          _driverVINLabel.text = @"License:";
                          _driverVIN.text = driverDMVLicense;
                          _driverLicense.text = @"Livery Sedan";
+                     } else {
+                         _driverType.text = @"Medallion Taxi";
+                         _driverVINLabel.text = @"VIN:";
+                         _driverVIN.text = driverVIN;
+                         _driverLicense.text = driverCabMake;
                      }
                      
                      _driverName.text = driverName;
@@ -371,7 +377,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"pushSeqDetailToReviewTaxi"]) {
-        DDVCabRideReview *destViewController = segue.destinationViewController;
+        DDCabRideReview *destViewController = segue.destinationViewController;
         
         if([self.taxiObject.objectId length] > 0) {
             destViewController.taxiObject = self.taxiObject;
@@ -438,14 +444,15 @@
     [passengerSMS appendString:@"CabCheck App Message:\n"];
     [passengerSMS appendString:@"I just got into a "];
     
-    if ([driverType isEqualToString:@"Y"])
-    {
+    if ([driverType isEqualToString:@"Y"]) {
         [passengerSMS appendString:@"Yellow Medallion Taxi\n"];
     }
-    else
-    {
+    else if ([driverType isEqualToString:@"L"]) {
         [passengerSMS appendString:@"TLC Street Hail Livery Taxi\n"];
+    } else {
+        [passengerSMS appendString:@"Medallion Taxi\n"];
     }
+    
     [passengerSMS appendString:[NSString stringWithFormat:@"near %@ on %@.\n", self.userAddress, self.userDate]];
     if([driverMake length] > 0) {
         [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Model: %@.\n", driverMake]];

@@ -1,5 +1,5 @@
 //
-//  DDVCabRideReview.h
+//  DDCabRideReview.h
 //  CabCheck
 //
 //  Created by Rich DAlfonso on 7/26/14.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface DDVCabRideReview : UIViewController<UITextFieldDelegate>
+@interface DDCabRideReview : UIViewController<UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewOverall;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewCarService;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewDriveSafe;

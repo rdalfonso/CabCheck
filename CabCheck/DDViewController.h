@@ -7,19 +7,32 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface DDViewController : UIViewController<CLLocationManagerDelegate, UITextFieldDelegate> {
+@interface DDViewController : UIViewController<CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
+    
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
+    
+    NSMutableArray *autocompleteUrls;
+    UITableView *autocompleteTableView;
+    NSString *cityObject;
 }
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
 @property (strong, nonatomic, readwrite) NSString *userCity;
+
 @property (strong, nonatomic) IBOutlet UILabel *lblCurrentCity;
-@property (strong, nonatomic) IBOutlet UIButton *btnChangeCity;
 @property (strong, nonatomic) IBOutlet UITextField *txtSearch;
-- (IBAction)btnSearch:(id)sender;
+
+@property (nonatomic, strong) PFObject *taxiObject;
+@property (nonatomic, retain) NSMutableArray *autocompleteUrls;
+@property (nonatomic, retain) UITableView *autocompleteTableView;
+@property (nonatomic, strong) NSString *cityObject;
+
+- (IBAction)goPressed;
+- (void)searchAutocompleteEntriesWithSubstring:(NSString *)substring;
 
 @end

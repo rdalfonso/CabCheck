@@ -7,24 +7,31 @@
 //
 
 #import "DDViewController.h"
-#import "DDCabSearchResultsViewController.h"
+#import "DDSearchResultDetailController.h"
 #import <Parse/Parse.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface DDViewController ()
 @property NSString *deviceID;
 @end
 
 @implementation DDViewController
+@synthesize autocompleteUrls;
+@synthesize autocompleteTableView;
+@synthesize cityObject;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self refreshUserDefaults];
     
     //Initialize CoreLocation
     geocoder = [[CLGeocoder alloc] init];
     
+    //Initialize Results
+    self.autocompleteUrls = [[NSMutableArray alloc] init];
+    
+    //Initialize LocationManager
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     locationManager.distanceFilter=100.0;
@@ -51,52 +58,30 @@
     }
     
     //Responders to Textfields
-    [self.txtSearch becomeFirstResponder];
-    [self.txtSearch resignFirstResponder];
-    
     self.txtSearch.delegate = self;
     
+     //Initialize autocomplete table
+    autocompleteTableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 85, 300, 200) style:UITableViewStylePlain];
+    autocompleteTableView.delegate = self;
+    autocompleteTableView.dataSource = self;
+    autocompleteTableView.scrollEnabled = YES;
+    autocompleteTableView.hidden = YES;
+    self.autocompleteTableView.layer.borderWidth = 2;
+    self.autocompleteTableView.layer.borderColor = [[UIColor blackColor] CGColor];
+    [self.view addSubview:autocompleteTableView];
 
 }
-
-- (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-    NSString *ACCEPTABLE_CHARACTERS = @" ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.";
-    NSCharacterSet *cs = [[NSCharacterSet characterSetWithCharactersInString:ACCEPTABLE_CHARACTERS] invertedSet];
-    NSString *filtered = [[textField.text componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
-    
-    BOOL allGoodChars = [textField.text isEqualToString:filtered];
-    NSLog(allGoodChars ? @"yes" : @"no");
-    
-    NSUInteger oldLength = [textField.text length];
-    NSUInteger replacementLength = [string length];
-    NSUInteger rangeLength = range.length;
-    NSUInteger newLength = oldLength - rangeLength + replacementLength;
-    
-    BOOL returnKey = [string rangeOfString: @"\n"].location != NSNotFound;
-    
-    return newLength <= 60 || returnKey;
-}
-
 
 -(void) refreshUserDefaults
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if([defaults objectForKey:@"deviceID"] == nil) {
-        NSLog(@"New DeviceID");
         [defaults setObject:[[[UIDevice currentDevice] identifierForVendor] UUIDString] forKey:@"deviceID"];
         [defaults synchronize];
     }
     self.deviceID = [defaults stringForKey:@"deviceID"];
-    NSLog(@"deviceID: %@", self.deviceID);
-    
-    
 }
 
--(void)settingsBtnUserClick:(id)sender
-{
-    [self performSegueWithIdentifier:@"pushSeqToSettings" sender:sender];
-}
 
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -105,20 +90,7 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self.txtSearch resignFirstResponder];
-    
     return NO;
-}
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    
-    if ([segue.identifier isEqualToString:@"pushSeqSearchResults"]) {
-        DDCabSearchResultsViewController *destViewController = segue.destinationViewController;
-        
-        if([_txtSearch.text length] > 0) {
-            destViewController.globalSearchTerm = [_txtSearch.text uppercaseString];
-        }
-    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
@@ -136,8 +108,20 @@
              {
                  placemark = [placemarks lastObject];
                  _userCity = placemark.locality;
-                 
                  _lblCurrentCity.text = _userCity;
+                 
+                 NSLog(@"_userCity: %@", _userCity);
+                 
+                 if ([_userCity isEqualToString:@"New York"]) {
+                     cityObject = @"DriverObjectNewYork";
+                 } else if ([_userCity isEqualToString:@"Chicago"]) {
+                     cityObject = @"DriverObjectChicago";
+                 } else if ([_userCity isEqualToString:@"San Francisco"]) {
+                     cityObject = @"DriverObjectChicago";
+                 } else {
+                     cityObject = @"DriverObjectNewYork";
+                 }
+                 
                 
              } else {
                  NSLog(@"ERROR: %@", error.debugDescription);
@@ -146,6 +130,99 @@
 
     }
 }
+
+
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    autocompleteTableView.hidden = NO;
+    
+    NSString *substring = [NSString stringWithString:textField.text];
+    substring = [substring stringByReplacingCharactersInRange:range withString:string];
+    
+    if([substring length] >= 2) {
+        [self searchAutocompleteEntriesWithSubstring:substring];
+    }
+    return YES;
+}
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger) section {
+    return autocompleteUrls.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewCell *cell = nil;
+    static NSString *AutoCompleteRowIdentifier = @"AutoCompleteRowIdentifier";
+    cell = [tableView dequeueReusableCellWithIdentifier:AutoCompleteRowIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier];
+    }
+    PFObject *taxiObject = [autocompleteUrls objectAtIndex:indexPath.row];
+    NSString *driverMedallion = [taxiObject objectForKey:@"driverMedallion"];
+    cell.textLabel.text = driverMedallion;
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    PFObject *taxiObject = [autocompleteUrls objectAtIndex:indexPath.row];
+    self.taxiObject = taxiObject;
+    
+    [self goPressed];
+    
+}
+
+
+- (IBAction)goPressed {
+    
+    [self.txtSearch resignFirstResponder];
+    autocompleteTableView.hidden = YES;
+    
+    [self performSegueWithIdentifier:@"pushAutoCompleteToResult" sender:self];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"pushAutoCompleteToResult"]) {
+        DDSearchResultDetailController *destViewController = segue.destinationViewController;
+        
+        if([self.txtSearch.text length] > 0) {
+            destViewController.taxiObject = self.taxiObject;
+        }
+    }
+}
+
+-(void)settingsBtnUserClick:(id)sender
+{
+    [self performSegueWithIdentifier:@"pushSeqToSettings" sender:sender];
+}
+
+
+- (void)searchAutocompleteEntriesWithSubstring:(NSString *)substring {
+    
+    [autocompleteUrls removeAllObjects];
+    
+    NSLog(@"cityObject Query %@", cityObject);
+    
+    PFQuery *searchByMedallion = [PFQuery queryWithClassName:cityObject];
+    [searchByMedallion whereKey:@"driverMedallion" containsString:substring];
+    [searchByMedallion findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error)
+     {
+         if (!error)
+         {
+             for (PFObject *object in results)
+             {
+                 if (object != nil) {
+                     [autocompleteUrls addObject:object];
+                 }
+             }
+             [autocompleteTableView reloadData];
+         }
+     }];
+}
+
 
 -(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     
@@ -187,6 +264,5 @@
 }
 
 
-- (IBAction)btnSearch:(id)sender {
-}
+
 @end
