@@ -9,17 +9,15 @@
 #import "DDSearchResultDetailController.h"
 #import "DDCabRideReview.h"
 #import "DDCabReviews.h"
+#define UICantolopeColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & f5a316) >> 16))/255.0 green:((float)((rgbValue & f5a316) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #define PERCENT_LEVEL 25.0
 
 @interface DDSearchResultDetailController ()
 @property NSString *deviceID;
-@property NSString *lastCabReviewed;
-@property NSDate *lastCabReviewDate;
 @end
 
 @implementation DDSearchResultDetailController
-@synthesize taxiUniqueID;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,8 +38,6 @@
 {
     [super viewDidLoad];
     [self refreshUserDefaults];
-    
-    self.taxiUniqueID = self.taxiObject.objectId;
     
     //Initialize CoreLocation
     locationManager = [[CLLocationManager alloc] init];
@@ -72,11 +68,6 @@
         self.deviceID = [defaults stringForKey:@"deviceID"];
     }
     
-    if([defaults objectForKey:@"userlastCabReviewed"] != nil) {
-        self.lastCabReviewed = [defaults stringForKey:@"userlastCabReviewed"];
-    }
-    
-    
     PFQuery *broadCast = [PFQuery queryWithClassName:@"DriverReviewObject"];
     [broadCast whereKey:@"deviceID" equalTo:self.deviceID];
     [broadCast whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
@@ -84,10 +75,20 @@
      {
          if(error) {
              _btnReviewThisDriver.titleLabel.text = @"Review This Driver >";
+             _btnReviewThisDriver.titleLabel.textColor = [UIColor colorWithRed:245.0f/255.0f
+                                                                         green:163.0f/255.0f
+                                                                          blue:76.0f/255.0f
+                                                                         alpha:1.0f];
+             
          }
          else
          {
               _btnReviewThisDriver.titleLabel.text = @"Edit Your Review >";
+             _btnReviewThisDriver.titleLabel.textColor = [UIColor colorWithRed:245.0f/255.0f
+                                                                         green:163.0f/255.0f
+                                                                          blue:76.0f/255.0f
+                                                                         alpha:1.0f];
+             
              NSDate *reviewDate = reviewObject.updatedAt;
              NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
              [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
@@ -155,8 +156,9 @@
                      NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
                      NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
                      
-                     _lblSearchResultDetailHeader.text = [NSString stringWithFormat:@"Driver Details - %@", driverMedallion];
-                     
+                     if([driverMedallion length] > 0) {
+                         _lblSearchResultDetailHeader.text = [NSString stringWithFormat:@"Driver Details - %@", driverMedallion];
+                     }
                      if ([driverType isEqualToString:@"Y"]) {
                          _driverType.text = @"Yellow Medallion Taxi";
                          _driverVINLabel.text = @"VIN:";
@@ -182,20 +184,12 @@
                  }
                  
                  PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
-                 [driverRatings whereKey:@"taxiUniqueID" equalTo:taxiUniqueID];
+                 [driverRatings whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
                  [driverRatings findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
                      if (!error)
                      {
                          TotalCount = (unsigned long)results.count;
                         
-                         if(TotalCount > 0) {
-                            /*
-                             NSString *btnMessage = [NSString stringWithFormat:@"Read %ld reviews of this driver >", TotalCount];
-                             _btnTaxiReviews.titleLabel.text = btnMessage;
-                             _btnTaxiReviews.titleLabel.textColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"blue"]];
-                             */
-                         }
-                         
                          for (PFObject *object in results)
                          {
                              NSInteger reviewOverall = [[object objectForKey:@"reviewOverall"] integerValue];
@@ -375,14 +369,14 @@
     if ([segue.identifier isEqualToString:@"pushSeqReviewThisDriver"]) {
         DDCabRideReview *destViewController = segue.destinationViewController;
         
-        if([self.taxiObject.objectId length] > 0) {
+        if(self.taxiObject != nil) {
             destViewController.taxiObject = self.taxiObject;
         }
     }
     if ([segue.identifier isEqualToString:@"pushSeqDetailToAllReviews"]) {
         DDCabReviews *destViewController = segue.destinationViewController;
         
-        if([self.taxiUniqueID length] > 0) {
+        if(self.taxiObject != nil) {
             destViewController.taxiObject = self.taxiObject;
         }
     }

@@ -11,6 +11,7 @@
 #import <Parse/Parse.h>
 #import <QuartzCore/QuartzCore.h>
 
+
 @interface DDViewController ()
 @property NSString *deviceID;
 @end
@@ -57,6 +58,10 @@
         self.txtSearch.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter Taxi Medallion Number." attributes:@{NSForegroundColorAttributeName: color}];
     }
     
+    //Disable typing/earch until supported city is found.
+    self.txtSearch.userInteractionEnabled = NO;
+    [self.txtSearch setBackgroundColor:[UIColor grayColor]];
+    
     //Responders to Textfields
     self.txtSearch.delegate = self;
     
@@ -69,6 +74,8 @@
     self.autocompleteTableView.layer.borderWidth = 2;
     self.autocompleteTableView.layer.borderColor = [[UIColor blackColor] CGColor];
     [self.view addSubview:autocompleteTableView];
+    
+    
 
 }
 
@@ -110,16 +117,29 @@
                  _userCity = placemark.locality;
                  _lblCurrentCity.text = _userCity;
                  
-                 if ([_userCity isEqualToString:@"New York"]) {
-                     cityObject = @"DriverObjectNewYork";
-                 } else if ([_userCity isEqualToString:@"Chicago"]) {
-                     cityObject = @"DriverObjectChicago";
-                 } else if ([_userCity isEqualToString:@"San Francisco"]) {
-                     cityObject = @"DriverObjectSanFran";
-                 } else {
-                     cityObject = @"DriverObjectNewYork";
+                 if([_userCity length] > 0)
+                 {
+                     self.txtSearch.userInteractionEnabled = YES;
+                     [self.txtSearch setBackgroundColor:[UIColor whiteColor]];
+                     
+                     if ([_userCity isEqualToString:@"New York"]) {
+                         cityObject = @"DriverObjectNewYork";
+                     } else if ([_userCity isEqualToString:@"Chicago"]) {
+                         cityObject = @"DriverObjectChicago";
+                     } else if ([_userCity isEqualToString:@"San Francisco"]) {
+                         cityObject = @"DriverObjectSanFran";
+                     } else {
+                         
+                         //Disable typing/earch until supported city is found.
+                         /*
+                         self.txtSearch.userInteractionEnabled = NO;
+                         [self.txtSearch setBackgroundColor:[UIColor grayColor]];
+                         
+                         _lblCityWarning.text = [NSString stringWithFormat:@"So sorry, CabCheck only supports New York, Chicago, and San Fran. We hope to expand to %@ soon. ", _userCity];
+                         */
+                         cityObject = @"DriverObjectNewYork";
+                     }
                  }
-                 
                 
              } else {
                  NSLog(@"ERROR: %@", error.debugDescription);

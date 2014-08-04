@@ -13,19 +13,20 @@
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewOverall;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewCarService;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewDriveSafe;
-@property (strong, nonatomic) IBOutlet UILabel *lblReviewDate;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewFollowDirections;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewKnowCity;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewHonestFare;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewCourteous;
+
 @property (strong, nonatomic) IBOutlet UITextField *reviewComments;
+
 @property (nonatomic, strong) PFObject *taxiObject;
 @property (nonatomic, strong) PFObject *reviewObject;
-- (IBAction)btnSaveReview:(id)sender;
+
 @property (strong, nonatomic) IBOutlet UIButton *btnSaveReview;
 @property (strong, nonatomic) IBOutlet UILabel *lblReviewHeader;
+@property (strong, nonatomic) IBOutlet UILabel *lblReviewDate;
 
-
-
+- (IBAction)btnSaveReview:(id)sender;
 
 @end

@@ -459,7 +459,6 @@
                         <outlet property="driverVINLabel" destination="nbW-3V-ov8" id="xLi-Ds-U8S"/>
                         <outlet property="lblLastReviewDate" destination="0js-JZ-Rgr" id="XAe-AR-HUB"/>
                         <outlet property="lblSearchResultDetailHeader" destination="1Ar-kS-gtD" id="UFc-f0-Rdk"/>
-                        <segue destination="Q19-jI-55q" kind="push" identifier="pushSeqToSettings" id="YA9-8g-xED"/>
                         <segue destination="HdP-FG-lE3" kind="push" identifier="seqPushToSearchController" id="g4o-yG-7jS"/>
                     </connections>
                 </viewController>
@@ -652,7 +651,7 @@
                         <outlet property="reviewKnowCity" destination="pDU-06-YZW" id="KWi-u5-R9x"/>
                         <outlet property="reviewOverall" destination="DeY-4p-Vkx" id="ZvU-Nm-Mmm"/>
                         <segue destination="Q19-jI-55q" kind="push" identifier="pushSeqToSettings" id="7fa-js-3hT"/>
-                        <segue destination="HdP-FG-lE3" kind="push" id="KU9-2B-Lpk"/>
+                        <segue destination="HdP-FG-lE3" kind="push" identifier="seqPushToSearchController" id="KU9-2B-Lpk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2qj-Mg-eBh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -762,12 +761,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="taxi_night-3.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="eQx-mr-r6j">
-                                <rect key="frame" x="0.0" y="117" width="320" height="260"/>
+                                <rect key="frame" x="0.0" y="108" width="320" height="260"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Taxi Medallion Number." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YNU-lA-GEe">
-                                <rect key="frame" x="9" y="53" width="302" height="30"/>
+                                <rect key="frame" x="9" y="55" width="302" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
@@ -776,6 +775,20 @@
                                 <rect key="frame" x="9" y="27" width="119" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="302" translatesAutoresizingMaskIntoConstraints="NO" id="dJA-ln-cYJ">
+                                <rect key="frame" x="9" y="93" width="302" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.80000001192092896" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DuomoDigital.com 2014 All rights reserved" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xyv-aR-Hqv">
+                                <rect key="frame" x="34" y="389" width="252" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -793,6 +806,7 @@
                     </navigationItem>
                     <size key="freeformSize" width="320" height="568"/>
                     <connections>
+                        <outlet property="lblCityWarning" destination="dJA-ln-cYJ" id="90f-zt-JVG"/>
                         <outlet property="lblCurrentCity" destination="u6s-mH-gcw" id="iJQ-pa-w5H"/>
                         <outlet property="txtSearch" destination="YNU-lA-GEe" id="mZ3-Y6-AmO"/>
                         <segue destination="Q19-jI-55q" kind="push" identifier="pushSeqToSettings" id="qJq-zf-38t"/>
@@ -816,7 +830,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="302" translatesAutoresizingMaskIntoConstraints="NO" id="Ci3-gb-IEJ">
-                                <rect key="frame" x="9" y="57" width="302" height="117"/>
+                                <rect key="frame" x="9" y="57" width="302" height="101"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <string key="text">Let’s face it, we’ve all had a bad experience in a taxi. From drivers running up the meter, driving recklessly, being unfamiliar with the city, or worse, not every taxi ride goes smoothly. </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -824,17 +838,16 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="302" translatesAutoresizingMaskIntoConstraints="NO" id="vvS-mo-ymu">
-                                <rect key="frame" x="9" y="172" width="302" height="87"/>
+                                <rect key="frame" x="9" y="160" width="302" height="87"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <string key="text">CabCheck is taxi rating system that gives customers the power to know “what they are getting into” before the meter starts running.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="302" translatesAutoresizingMaskIntoConstraints="NO" id="u7n-xV-9nD">
-                                <rect key="frame" x="9" y="256" width="302" height="130"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Simply type the taxi medallion number to search driver information and reviews from other passengers." lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="302" translatesAutoresizingMaskIntoConstraints="NO" id="u7n-xV-9nD">
+                                <rect key="frame" x="9" y="244" width="302" height="67"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <string key="text">Simply type the taxi medallion number to search driver information and reviews from other passengers. For peace of mind, you can also text message the driver, taxi, and pickup information to friends. </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -853,11 +866,18 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="We currently support New York City, Chicago, and San Francisco! More locations coming soon." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="302" translatesAutoresizingMaskIntoConstraints="NO" id="XSh-G5-AdU">
-                                <rect key="frame" x="9" y="386" width="302" height="63"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="We currently support New York City, Chicago, and San Francisco. More locations coming soon!" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="302" translatesAutoresizingMaskIntoConstraints="NO" id="XSh-G5-AdU">
+                                <rect key="frame" x="9" y="313" width="302" height="63"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DuomoDigital.com 2014 All rights reserved" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HVv-FC-EQV">
+                                <rect key="frame" x="34" y="384" width="252" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -907,7 +927,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="ygD-nH-KYA"/>
-        <segue reference="YA9-8g-xED"/>
+        <segue reference="7fa-js-3hT"/>
         <segue reference="g4o-yG-7jS"/>
     </inferredMetricsTieBreakers>
 </document>

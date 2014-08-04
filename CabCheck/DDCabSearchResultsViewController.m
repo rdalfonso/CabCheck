@@ -10,7 +10,6 @@
 #import "DDSearchResultDetailController.h"
 #import "CabSearchResultCell.h"
 
-
 @interface DDCabSearchResultsViewController ()
 @end
 
@@ -141,7 +140,9 @@
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     
     PFObject *taxiObject = [self.objects objectAtIndex:indexPath.row];
-    self.taxiObject = taxiObject;
+    if(taxiObject != nil) {
+        self.taxiObject = taxiObject;
+    }
     
     // Perform Segue
     [self performSegueWithIdentifier:@"pushSeqResultsToDetail" sender:self];

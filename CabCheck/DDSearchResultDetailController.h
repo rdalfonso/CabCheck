@@ -19,11 +19,8 @@
 }
 
 @property (strong, nonatomic) IBOutlet UIButton *btnReviewThisDriver;
-
-
 @property (strong, nonatomic) IBOutlet UIButton *btnTaxiReviews;
 
-@property (nonatomic, strong) NSString *taxiUniqueID;
 @property (strong, nonatomic, readwrite) NSString *userSMS1;
 @property (strong, nonatomic, readwrite) NSString *userSMS2;
 @property (strong, nonatomic, readwrite) NSString *userSMS3;

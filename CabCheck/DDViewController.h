@@ -23,6 +23,7 @@
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
 @property (strong, nonatomic, readwrite) NSString *userCity;
+@property (strong, nonatomic) IBOutlet UILabel *lblCityWarning;
 
 @property (strong, nonatomic) IBOutlet UILabel *lblCurrentCity;
 @property (strong, nonatomic) IBOutlet UITextField *txtSearch;

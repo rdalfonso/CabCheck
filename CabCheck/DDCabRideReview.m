@@ -66,7 +66,20 @@ NSString *reviewComments;
             _lblReviewHeader.text = @"Driver Review";
         }
     }
+    
+    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+                                                                                target:self action:@selector(searchBtnUserClick:)];
+    
+    NSArray *actionButtonItems = @[searchItem];
+    self.navigationItem.rightBarButtonItems = actionButtonItems;
+    [self.navigationItem setHidesBackButton:NO animated:YES];
 }
+
+-(void)searchBtnUserClick:(id)sender
+{
+    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
+}
+
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
