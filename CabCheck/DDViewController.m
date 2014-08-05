@@ -118,36 +118,52 @@
                  _userCity = placemark.locality;
                  
                  
+                 
+                 
+                 
+                 
                  if([_userCity length] > 0)
                  {
                      self.txtSearch.userInteractionEnabled = YES;
                      [self.txtSearch setBackgroundColor:[UIColor whiteColor]];
                      
-                     if(self.settingCity == 0){
-                         _userCity = @"New York";
+                     //If they saved a city value, use it.
+                     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                     if([defaults objectForKey:@"userCurrentCity"] != nil)
+                     {
+                         if(self.settingCity == 0){
+                             _userCity = @"New York";
+                         }
+                         else if(self.settingCity == 1){
+                             _userCity = @"Chicago";
+                         }
+                         else if(self.settingCity == 2){
+                             _userCity = @"San Francisco";
+                         }
+                         else if(self.settingCity == 3){
+                             _userCity = @"Las Vegas";
+                         } else {
+                             _userCity = @"NOT SUPPORTED";
+                         }
                      }
-                     else if(self.settingCity == 1){
-                         _userCity = @"Chicago";
-                     }
-                     else if(self.settingCity == 2){
-                         _userCity = @"San Francisco";
-                     }
-                     else if(self.settingCity == 3){
-                         _userCity = @"Las Vegas";
-                     } else {
-                         _userCity = @"NOT SUPPORTED";
-                     }
-                     
+                    
                      _lblCurrentCity.text = _userCity;
                      
                      if ([_userCity isEqualToString:@"New York"]) {
                          cityObject = @"DriverObjectNewYork";
+                         [defaults setInteger:0 forKey:@"userCurrentCity"];
                      } else if ([_userCity isEqualToString:@"Chicago"]) {
                          cityObject = @"DriverObjectChicago";
+                         [defaults setInteger:1 forKey:@"userCurrentCity"];
                      } else if ([_userCity isEqualToString:@"San Francisco"]) {
                          cityObject = @"DriverObjectSanFran";
-                     } else {
-                         
+                         [defaults setInteger:2 forKey:@"userCurrentCity"];
+                     } else if ([_userCity isEqualToString:@"Las Vegas"]) {
+                         cityObject = @"DriverObjectLasVegas";
+                         [defaults setInteger:3 forKey:@"userCurrentCity"];
+                     } else
+                     {
+                         [defaults setObject:_userCity forKey:@"userCurrentCityOther"];
                          //Disable typing/earch until supported city is found.
                          self.txtSearch.userInteractionEnabled = NO;
                          [self.txtSearch setBackgroundColor:[UIColor grayColor]];
@@ -156,6 +172,7 @@
                          
                          cityObject = @"DriverObjectNewYork";
                      }
+                     [defaults synchronize];
                  }
                 
              } else {

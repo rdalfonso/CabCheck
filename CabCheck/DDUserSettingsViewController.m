@@ -98,7 +98,6 @@
     [defaults setObject:smsNumbers forKey:@"userSMSNumbers"];
     [defaults setInteger:userCurrentCity forKey:@"userCurrentCity"];
     [defaults setObject:userCurrentCityOther forKey:@"userCurrentCityOther"];
-
     [defaults synchronize];
     
 }

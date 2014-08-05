@@ -159,28 +159,30 @@
                      if([driverMedallion length] > 0) {
                          _lblSearchResultDetailHeader.text = [NSString stringWithFormat:@"Driver Details - %@", driverMedallion];
                      }
-                     if ([driverType isEqualToString:@"Y"]) {
-                         _driverType.text = @"Yellow Medallion Taxi";
-                         _driverVINLabel.text = @"VIN:";
-                         _driverVIN.text = driverVIN;
-                         _driverLicense.text = [NSString stringWithFormat:@"%@ %@ %@", [driverCabMake capitalizedString], [driverCabModel capitalizedString], driverCabYear];
-                         
-                     } else if ([driverType isEqualToString:@"L"]) {
-                         _driverType.text = @"TLC Street Hail Livery";
-                         _driverVINLabel.text = @"License:";
-                         _driverVIN.text = driverDMVLicense;
-                         _driverLicense.text = @"Livery Sedan";
-                     } else {
-                         _driverType.text = @"Medallion Taxi";
-                         _driverVINLabel.text = @"VIN:";
-                         _driverVIN.text = driverVIN;
-                         _driverLicense.text = driverCabMake;
-                     }
                      
                      _driverName.text = driverName;
                      _driverMedallion.text = driverMedallion;
                      _driverPickUp.text = [address stringByReplacingOccurrencesOfString:@"," withString:@"\n"];
                      _driverPickupTime.text = [NSString stringWithFormat:@"%@", [theDateFormatter stringFromDate:todayDate]];
+                     
+                     if ([driverType isEqualToString:@"Y"]) {
+                         _driverType.text = @"Yellow Medallion Taxi";
+                         _driverVINLabel.text = @"VIN:";
+                         _driverVIN.text = driverVIN;
+                         _driverLicense.text = [NSString stringWithFormat:@"%@ %@ %@", [driverCabMake capitalizedString], [driverCabModel capitalizedString], driverCabYear];
+                     }
+                     else if ([driverType isEqualToString:@"L"]) {
+                         _driverType.text = @"TLC Street Hail Livery";
+                         _driverVINLabel.text = @"License:";
+                         _driverVIN.text = driverDMVLicense;
+                         _driverLicense.text = @"Livery Sedan";
+                        
+                     } else {
+                         _driverType.text = @"Medallion Taxi";
+                         _driverVINLabel.text = @"VIN:";
+                         _driverVIN.text = driverVIN;
+                         _driverLicense.text = [NSString stringWithFormat:@"%@ %@ %@", [driverCabMake capitalizedString], [driverCabModel capitalizedString], driverCabYear];
+                     }
                  }
                  
                  PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
