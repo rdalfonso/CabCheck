@@ -27,6 +27,7 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *lblCurrentCity;
 @property (strong, nonatomic) IBOutlet UITextField *txtSearch;
+- (IBAction)btnChangeCity:(id)sender;
 
 @property (nonatomic, strong) PFObject *taxiObject;
 @property (nonatomic, retain) NSMutableArray *autocompleteObjects;

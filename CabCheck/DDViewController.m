@@ -14,6 +14,8 @@
 
 @interface DDViewController ()
 @property NSString *deviceID;
+@property NSInteger settingCity;
+@property NSString *settingCityString;
 @end
 
 @implementation DDViewController
@@ -74,9 +76,6 @@
     self.autocompleteTableView.layer.borderWidth = 2;
     self.autocompleteTableView.layer.borderColor = [[UIColor blackColor] CGColor];
     [self.view addSubview:autocompleteTableView];
-    
-    
-
 }
 
 -(void) refreshUserDefaults
@@ -87,6 +86,8 @@
         [defaults synchronize];
     }
     self.deviceID = [defaults stringForKey:@"deviceID"];
+    self.settingCity = [defaults integerForKey:@"userCurrentCity"];
+    self.settingCityString = [defaults stringForKey:@"userCurrentCityOther"];
 }
 
 
@@ -115,12 +116,29 @@
              {
                  placemark = [placemarks lastObject];
                  _userCity = placemark.locality;
-                 _lblCurrentCity.text = _userCity;
+                 
                  
                  if([_userCity length] > 0)
                  {
                      self.txtSearch.userInteractionEnabled = YES;
                      [self.txtSearch setBackgroundColor:[UIColor whiteColor]];
+                     
+                     if(self.settingCity == 0){
+                         _userCity = @"New York";
+                     }
+                     else if(self.settingCity == 1){
+                         _userCity = @"Chicago";
+                     }
+                     else if(self.settingCity == 2){
+                         _userCity = @"San Francisco";
+                     }
+                     else if(self.settingCity == 3){
+                         _userCity = @"Las Vegas";
+                     } else {
+                         _userCity = @"NOT SUPPORTED";
+                     }
+                     
+                     _lblCurrentCity.text = _userCity;
                      
                      if ([_userCity isEqualToString:@"New York"]) {
                          cityObject = @"DriverObjectNewYork";
@@ -131,12 +149,11 @@
                      } else {
                          
                          //Disable typing/earch until supported city is found.
-                         /*
                          self.txtSearch.userInteractionEnabled = NO;
                          [self.txtSearch setBackgroundColor:[UIColor grayColor]];
                          
-                         _lblCityWarning.text = [NSString stringWithFormat:@"So sorry, CabCheck only supports New York, Chicago, and San Fran. We hope to expand to %@ soon. ", _userCity];
-                         */
+                         _lblCityWarning.text = [NSString stringWithFormat:@"So sorry, CabCheck only supports New York, Chicago, San Fran, and Vegas. We hope to expand to %@ soon. ", _userCity];
+                         
                          cityObject = @"DriverObjectNewYork";
                      }
                  }
@@ -226,6 +243,13 @@
     }
 }
 
+
+
+- (IBAction)btnChangeCity:(id)sender
+{
+    [self performSegueWithIdentifier:@"pushSeqToSettings" sender:sender];
+}
+
 -(void)settingsBtnUserClick:(id)sender
 {
     [self performSegueWithIdentifier:@"pushSeqToSettings" sender:sender];
@@ -293,7 +317,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 
 @end

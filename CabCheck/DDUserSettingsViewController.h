@@ -10,11 +10,12 @@
 
 @interface DDUserSettingsViewController : UIViewController<UITextFieldDelegate>
 {}
-@property (strong, nonatomic) IBOutlet UITextField *userHomeCity;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *userTaxiPrefer;
 @property (strong, nonatomic) IBOutlet UITextField *userSMSContact1;
 @property (strong, nonatomic) IBOutlet UITextField *userSMSContact2;
 @property (strong, nonatomic) IBOutlet UITextField *userSMSContact3;
 - (IBAction)btnSaveUserSettings:(id)sender;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *userCurrentCity;
+@property (strong, nonatomic) IBOutlet UITextField *userCurrentCityOther;
 
 @end
