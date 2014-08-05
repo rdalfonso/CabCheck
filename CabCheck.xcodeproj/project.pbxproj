@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A129CD9B198020F300CBA300 /* CabSearchResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A129CD9A198020F300CBA300 /* CabSearchResultCell.m */; };
 		A1307E851984CA13009C9BAE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1307E841984CA13009C9BAE /* MessageUI.framework */; };
-		A142A3C5197F0CB3002AAEEE /* DDCabSearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A142A3C4197F0CB3002AAEEE /* DDCabSearchResultsViewController.m */; };
 		A14458831986A17200BDEA28 /* DDCabReviews.m in Sources */ = {isa = PBXBuildFile; fileRef = A14458821986A17200BDEA28 /* DDCabReviews.m */; };
 		A14458861986A37400BDEA28 /* CabReviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A14458851986A37400BDEA28 /* CabReviewCell.m */; };
 		A14458891986B13400BDEA28 /* DDUserSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A14458881986B13400BDEA28 /* DDUserSettingsViewController.m */; };
@@ -63,11 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A129CD99198020F300CBA300 /* CabSearchResultCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CabSearchResultCell.h; sourceTree = "<group>"; };
-		A129CD9A198020F300CBA300 /* CabSearchResultCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CabSearchResultCell.m; sourceTree = "<group>"; };
 		A1307E841984CA13009C9BAE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		A142A3C3197F0CB3002AAEEE /* DDCabSearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCabSearchResultsViewController.h; sourceTree = "<group>"; };
-		A142A3C4197F0CB3002AAEEE /* DDCabSearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCabSearchResultsViewController.m; sourceTree = "<group>"; };
 		A14458811986A17100BDEA28 /* DDCabReviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCabReviews.h; sourceTree = "<group>"; };
 		A14458821986A17200BDEA28 /* DDCabReviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCabReviews.m; sourceTree = "<group>"; };
 		A14458841986A37400BDEA28 /* CabReviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CabReviewCell.h; sourceTree = "<group>"; };
@@ -209,10 +203,6 @@
 				A1AB562A1979C9B3004D23AD /* Supporting Files */,
 				A182505C197CC9A600483B5A /* DDAboutController.h */,
 				A182505D197CC9A600483B5A /* DDAboutController.m */,
-				A142A3C3197F0CB3002AAEEE /* DDCabSearchResultsViewController.h */,
-				A142A3C4197F0CB3002AAEEE /* DDCabSearchResultsViewController.m */,
-				A129CD99198020F300CBA300 /* CabSearchResultCell.h */,
-				A129CD9A198020F300CBA300 /* CabSearchResultCell.m */,
 				A1565EA61981D3D4008E5D2B /* DDSearchResultDetailController.h */,
 				A1565EA71981D3D4008E5D2B /* DDSearchResultDetailController.m */,
 				A19CA74C1984B1D100E5AC04 /* DDCabRideReview.h */,
@@ -378,11 +368,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A14458891986B13400BDEA28 /* DDUserSettingsViewController.m in Sources */,
-				A142A3C5197F0CB3002AAEEE /* DDCabSearchResultsViewController.m in Sources */,
 				A1AB56341979C9B3004D23AD /* DDAppDelegate.m in Sources */,
 				A182505E197CC9A600483B5A /* DDAboutController.m in Sources */,
 				A1565EA81981D3D4008E5D2B /* DDSearchResultDetailController.m in Sources */,
-				A129CD9B198020F300CBA300 /* CabSearchResultCell.m in Sources */,
 				A1AB563A1979C9B3004D23AD /* DDViewController.m in Sources */,
 				A14458861986A37400BDEA28 /* CabReviewCell.m in Sources */,
 				A14458831986A17200BDEA28 /* DDCabReviews.m in Sources */,
