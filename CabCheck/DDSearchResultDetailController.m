@@ -70,21 +70,19 @@
         self.deviceID = [defaults stringForKey:@"deviceID"];
     }
     
-    int settingCity = -1;
     if([defaults objectForKey:@"userCurrentCity"] != nil)
     {
-        settingCity = [defaults integerForKey:@"userCurrentCity"];
-        
-        if(settingCity == 0){
+        NSInteger settingCity = [defaults integerForKey:@"userCurrentCity"];
+        if(settingCity == 0) {
             self.settingCityString = @"New York City";
         }
-        else if(settingCity == 1){
+        else if(settingCity == 1) {
             self.settingCityString = @"Chicago";
         }
-        else if(settingCity == 2){
+        else if(settingCity == 2) {
             self.settingCityString = @"San Francisco";
         }
-        else if(settingCity == 3){
+        else if(settingCity == 3) {
             self.settingCityString = @"Las Vegas";
         }
     }
