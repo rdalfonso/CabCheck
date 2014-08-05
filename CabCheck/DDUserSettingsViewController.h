@@ -10,7 +10,6 @@
 
 @interface DDUserSettingsViewController : UIViewController<UITextFieldDelegate>
 {}
-@property (strong, nonatomic) IBOutlet UISegmentedControl *userTaxiPrefer;
 @property (strong, nonatomic) IBOutlet UITextField *userSMSContact1;
 @property (strong, nonatomic) IBOutlet UITextField *userSMSContact2;
 @property (strong, nonatomic) IBOutlet UITextField *userSMSContact3;

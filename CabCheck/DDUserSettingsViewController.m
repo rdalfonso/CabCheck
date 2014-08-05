@@ -39,11 +39,9 @@
     self.userCurrentCityOther.delegate = self;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    int userTaxiPreferValue =(int)[defaults integerForKey:@"userTaxiPreferValue"];
     int userCurrentCity =(int)[defaults integerForKey:@"userCurrentCity"];
     NSString *userCurrentCityOther = [defaults stringForKey:@"userCurrentCityOther"];
     
-    [_userTaxiPrefer setSelectedSegmentIndex:userTaxiPreferValue];
     [_userCurrentCity setSelectedSegmentIndex:userCurrentCity];
     _userCurrentCityOther.text = userCurrentCityOther;
     
@@ -77,7 +75,6 @@
 
 - (IBAction)btnSaveUserSettings:(id)sender {
     
-    int userTaxiPreferValue = (int)_userTaxiPrefer.selectedSegmentIndex;
     int userCurrentCity = (int)_userCurrentCity.selectedSegmentIndex;
     NSString *userSMS1 = _userSMSContact1.text;
     NSString *userSMS2 = _userSMSContact2.text;
@@ -98,7 +95,6 @@
     
     // Store the data
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setInteger:userTaxiPreferValue forKey:@"userTaxiPreferValue"];
     [defaults setObject:smsNumbers forKey:@"userSMSNumbers"];
     [defaults setInteger:userCurrentCity forKey:@"userCurrentCity"];
     [defaults setObject:userCurrentCityOther forKey:@"userCurrentCityOther"];
