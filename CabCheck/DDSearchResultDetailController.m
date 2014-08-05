@@ -15,8 +15,8 @@
 
 @interface DDSearchResultDetailController ()
 @property NSString *deviceID;
-@property NSInteger settingCity;
 @property NSString *settingCityString;
+@property NSInteger userLocationIsSupported;
 @end
 
 @implementation DDSearchResultDetailController
@@ -70,8 +70,26 @@
         self.deviceID = [defaults stringForKey:@"deviceID"];
     }
     
-    self.settingCity = [defaults integerForKey:@"userCurrentCity"];
-    self.settingCityString = [defaults stringForKey:@"userCurrentCityOther"];
+    int settingCity = -1;
+    if([defaults objectForKey:@"userCurrentCity"] != nil)
+    {
+        settingCity = [defaults integerForKey:@"userCurrentCity"];
+        
+        if(settingCity == 0){
+            self.settingCityString = @"New York City";
+        }
+        else if(settingCity == 1){
+            self.settingCityString = @"Chicago";
+        }
+        else if(settingCity == 2){
+            self.settingCityString = @"San Francisco";
+        }
+        else if(settingCity == 3){
+            self.settingCityString = @"Las Vegas";
+        }
+    }
+    
+    self.userLocationIsSupported = [defaults integerForKey:@"userCurrentCityLocationIsSupported"];
     
     PFQuery *broadCast = [PFQuery queryWithClassName:@"DriverReviewObject"];
     [broadCast whereKey:@"deviceID" equalTo:self.deviceID];
@@ -109,7 +127,6 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     CLLocation *currentLocation = newLocation;
-    
     
     __block int GoodCount = 0;
     __block int OkCount = 0;
@@ -436,6 +453,7 @@
      NSMutableString *passengerSMS = [NSMutableString stringWithString:@""];
     [passengerSMS appendString:@"CabCheck App Message:\n"];
     [passengerSMS appendString:@"I just got into a "];
+    [passengerSMS appendString:self.settingCityString];
     
     if ([driverType isEqualToString:@"Y"]) {
         [passengerSMS appendString:@" Yellow Medallion Taxi\n"];
@@ -445,8 +463,9 @@
     } else {
         [passengerSMS appendString:@" Medallion Taxi\n"];
     }
-
-    [passengerSMS appendString:[NSString stringWithFormat:@"near %@ on %@.\n", self.userAddress, self.userDate]];
+    if(self.self.userLocationIsSupported == 1) {
+        [passengerSMS appendString:[NSString stringWithFormat:@"near %@ on %@.\n", self.userAddress, self.userDate]];
+    }
     if([driverMake length] > 0) {
         [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Model: %@.\n", driverMake]];
     } else {

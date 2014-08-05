@@ -15,7 +15,6 @@
 @interface DDViewController ()
 @property NSString *deviceID;
 @property NSInteger settingCity;
-@property NSString *settingCityString;
 @end
 
 @implementation DDViewController
@@ -26,6 +25,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //Get/Set User settings used throughout app.
     [self refreshUserDefaults];
     
     //Initialize CoreLocation
@@ -45,6 +46,8 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     
+    
+    //Add search icon to navigation
     UIBarButtonItem *settingsItem = [[UIBarButtonItem alloc] initWithTitle:@"\u2699"
                                                                      style:UIBarButtonItemStylePlain target:self action:@selector(settingsBtnUserClick:)];
     UIFont *customFont = [UIFont fontWithName:@"Helvetica" size:24.0];
@@ -54,13 +57,13 @@
     NSArray *actionButtonItems = @[settingsItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
-    //Change Placeholder
+    //Change Placeholder text on search field to be darker.
     if ([self.txtSearch respondsToSelector:@selector(setAttributedPlaceholder:)]) {
         UIColor *color = [UIColor grayColor];
         self.txtSearch.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter Taxi Medallion Number." attributes:@{NSForegroundColorAttributeName: color}];
     }
     
-    //Disable typing/earch until supported city is found.
+    //Disable typing/search until supported city is found.
     self.txtSearch.userInteractionEnabled = NO;
     [self.txtSearch setBackgroundColor:[UIColor grayColor]];
     
@@ -81,10 +84,17 @@
 -(void) refreshUserDefaults
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    //Initialize the user deviceID and if geoloction city is supported.
     if([defaults objectForKey:@"deviceID"] == nil) {
         [defaults setObject:[[[UIDevice currentDevice] identifierForVendor] UUIDString] forKey:@"deviceID"];
-        [defaults synchronize];
     }
+    
+    if([defaults objectForKey:@"userCurrentCityLocationIsSupported"] == nil) {
+        [defaults setInteger:1 forKey:@"userCurrentCityLocationIsSupported"];
+    }
+    [defaults synchronize];
+    
     self.deviceID = [defaults stringForKey:@"deviceID"];
     
     if([defaults objectForKey:@"userCurrentCity"] == nil) {
@@ -92,10 +102,7 @@
     } else {
         self.settingCity = [defaults integerForKey:@"userCurrentCity"];
     }
-    self.settingCityString = [defaults stringForKey:@"userCurrentCityOther"];
 }
-
-
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.txtSearch resignFirstResponder];
@@ -105,6 +112,50 @@
     [self.txtSearch resignFirstResponder];
     return NO;
 }
+
+- (NSString*) IsUserCurrentCitySupported:(NSString*)currentCity
+{
+    NSString *returnCity;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([currentCity isEqualToString:@"New York"]) {
+        [defaults setInteger:1 forKey:@"userCurrentCityLocationIsSupported"];
+        returnCity = currentCity;
+    } else if ([currentCity isEqualToString:@"Chicago"]) {
+        [defaults setInteger:1 forKey:@"userCurrentCityLocationIsSupported"];
+        returnCity = currentCity;
+    } else if ([_userCity isEqualToString:@"San Francisco"]) {
+        [defaults setInteger:1 forKey:@"userCurrentCityLocationIsSupported"];
+        returnCity = currentCity;
+    } else if ([_userCity isEqualToString:@"Las Vegas"]) {
+        [defaults setInteger:1 forKey:@"userCurrentCityLocationIsSupported"];
+        returnCity = currentCity;
+    }
+    else
+    {
+        [defaults setInteger:0 forKey:@"userCurrentCityLocationIsSupported"];
+        
+        if(self.settingCity == 0){
+            returnCity = @"New York";
+        }
+        else if(self.settingCity == 1){
+            returnCity = @"Chicago";
+        }
+        else if(self.settingCity == 2){
+            returnCity = @"San Francisco";
+        }
+        else if(self.settingCity == 3){
+            returnCity = @"Las Vegas";
+        } else {
+            returnCity = currentCity;
+        }
+    }
+    [defaults synchronize];
+    
+    return returnCity;
+    
+}
+
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
@@ -127,38 +178,20 @@
                      self.txtSearch.userInteractionEnabled = YES;
                      [self.txtSearch setBackgroundColor:[UIColor whiteColor]];
                      
-                     //If they saved a city value, use it.
-                     if(self.settingCity == 0){
-                         _userCity = @"New York";
-                     }
-                     else if(self.settingCity == 1){
-                         _userCity = @"Chicago";
-                     }
-                     else if(self.settingCity == 2){
-                         _userCity = @"San Francisco";
-                     }
-                     else if(self.settingCity == 3){
-                         _userCity = @"Las Vegas";
-                     }
-                    
-                     _lblCurrentCity.text = _userCity;
+                     //Determine on load if geolocated city is a supported city for later use.
+                     NSString *returnCity = [self IsUserCurrentCitySupported:_userCity];
+                     _lblCurrentCity.text = returnCity;
                      
-                     if ([_userCity isEqualToString:@"New York"]) {
+                     if ([returnCity isEqualToString:@"New York"]) {
                          cityObject = @"DriverObjectNewYork";
-                     } else if ([_userCity isEqualToString:@"Chicago"]) {
+                     } else if ([returnCity isEqualToString:@"Chicago"]) {
                          cityObject = @"DriverObjectChicago";
-                     } else if ([_userCity isEqualToString:@"San Francisco"]) {
+                     } else if ([returnCity isEqualToString:@"San Francisco"]) {
                          cityObject = @"DriverObjectSanFran";
-                     } else if ([_userCity isEqualToString:@"Las Vegas"]) {
+                     } else if ([returnCity isEqualToString:@"Las Vegas"]) {
                          cityObject = @"DriverObjectLasVegas";
                      } else
                      {
-                         //If Inital city is un-supported,make city string the other city field.
-                         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                         [defaults setInteger:-1 forKey:@"userCurrentCity"];
-                         [defaults setObject:_userCity forKey:@"userCurrentCityOther"];
-                         [defaults synchronize];
-                         
                          //Disable typing/earch until supported city is found.
                          self.txtSearch.userInteractionEnabled = NO;
                          [self.txtSearch setBackgroundColor:[UIColor grayColor]];

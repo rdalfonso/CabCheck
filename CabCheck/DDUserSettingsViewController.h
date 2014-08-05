@@ -15,6 +15,5 @@
 @property (strong, nonatomic) IBOutlet UITextField *userSMSContact3;
 - (IBAction)btnSaveUserSettings:(id)sender;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *userCurrentCity;
-@property (strong, nonatomic) IBOutlet UITextField *userCurrentCityOther;
 
 @end
