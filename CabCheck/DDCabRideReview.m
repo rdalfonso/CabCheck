@@ -110,7 +110,7 @@ NSString *reviewComments;
         self.lastCabReviewDate = [defaults objectForKey:@"userLastCabReviewDate"];
     }
     
-    NSLog(@"deviceID: %@", self.deviceID);
+    //NSLog(@"deviceID: %@", self.deviceID);
 }
 
 -(void) getCurrentReview
@@ -157,31 +157,13 @@ NSString *reviewComments;
 - (IBAction)btnSaveReview:(id)sender {
     
     reviewOverallValue = (int)_reviewOverall.selectedSegmentIndex;
-    NSLog(@"reviewOverall %d", reviewOverallValue);
-    
     reviewCarServiceValue = 0;
-    NSLog(@"reviewCarService %d", reviewCarServiceValue);
-    
     reviewDriveSafeValue = (int)_reviewDriveSafe.selectedSegmentIndex;
-    NSLog(@"reviewDriveSafe %d", reviewDriveSafeValue);
-    
     reviewFollowDirectionsValue = (int)_reviewFollowDirections.selectedSegmentIndex;
-    NSLog(@"reviewFollowDirections %d", reviewFollowDirectionsValue);
-    
     reviewKnowCityValue = (int)_reviewKnowCity.selectedSegmentIndex;
-    NSLog(@"reviewKnowCity %d", reviewKnowCityValue);
-    
     reviewHonestFareValue = (int)_reviewHonestFare.selectedSegmentIndex;
-    NSLog(@"reviewHonestFare %d", reviewHonestFareValue);
-    
     reviewCourteousValue = (int)_reviewCourteous.selectedSegmentIndex;
-    NSLog(@"reviewCourteous %d", reviewCourteousValue);
-    
     reviewComments = _reviewComments.text;
-    NSLog(@"reviewComments %@", reviewComments);
-    
-    NSLog(@"self.deviceID %@", self.deviceID);
-    
     
     if(self.reviewObject == nil){
         PFObject *reviewCab = [PFObject objectWithClassName:@"DriverReviewObject"];

@@ -44,9 +44,6 @@
     int userCurrentCity =(int)[defaults integerForKey:@"userCurrentCity"];
     NSString *userCurrentCityOther = [defaults stringForKey:@"userCurrentCityOther"];
     
-    NSLog(@"current city %d", userCurrentCity);
-    NSLog(@"userCurrentCityOther %@", userCurrentCityOther);
-    
     [_userCurrentCity setSelectedSegmentIndex:userCurrentCity];
     _userCurrentCityOther.text = userCurrentCityOther;
     
@@ -112,10 +109,6 @@
 }
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-    NSCharacterSet *blockedCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"1234567890"] invertedSet];
-    BOOL badChars = ([[textField.text componentsSeparatedByCharactersInSet:blockedCharacters] count] <= 1);
-    NSLog(badChars ? @"yes" : @"no");
     
     NSUInteger oldLength = [textField.text length];
     NSUInteger replacementLength = [string length];

@@ -127,8 +127,6 @@
                      self.txtSearch.userInteractionEnabled = YES;
                      [self.txtSearch setBackgroundColor:[UIColor whiteColor]];
                      
-                     NSLog(@"self city %ld", (long)self.settingCity);
-                     
                      //If they saved a city value, use it.
                      if(self.settingCity == 0){
                          _userCity = @"New York";
