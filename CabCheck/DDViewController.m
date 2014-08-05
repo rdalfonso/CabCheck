@@ -86,7 +86,12 @@
         [defaults synchronize];
     }
     self.deviceID = [defaults stringForKey:@"deviceID"];
-    self.settingCity = [defaults integerForKey:@"userCurrentCity"];
+    
+    if([defaults objectForKey:@"userCurrentCity"] == nil) {
+        self.settingCity = -1;
+    } else {
+        self.settingCity = [defaults integerForKey:@"userCurrentCity"];
+    }
     self.settingCityString = [defaults stringForKey:@"userCurrentCityOther"];
 }
 
@@ -116,63 +121,55 @@
              {
                  placemark = [placemarks lastObject];
                  _userCity = placemark.locality;
-                 
-                 
-                 
-                 
-                 
-                 
+
                  if([_userCity length] > 0)
                  {
                      self.txtSearch.userInteractionEnabled = YES;
                      [self.txtSearch setBackgroundColor:[UIColor whiteColor]];
                      
+                     NSLog(@"self city %ld", (long)self.settingCity);
+                     
                      //If they saved a city value, use it.
-                     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                     if([defaults objectForKey:@"userCurrentCity"] != nil)
-                     {
-                         if(self.settingCity == 0){
-                             _userCity = @"New York";
-                         }
-                         else if(self.settingCity == 1){
-                             _userCity = @"Chicago";
-                         }
-                         else if(self.settingCity == 2){
-                             _userCity = @"San Francisco";
-                         }
-                         else if(self.settingCity == 3){
-                             _userCity = @"Las Vegas";
-                         } else {
-                             _userCity = @"NOT SUPPORTED";
-                         }
+                     if(self.settingCity == 0){
+                         _userCity = @"New York";
+                     }
+                     else if(self.settingCity == 1){
+                         _userCity = @"Chicago";
+                     }
+                     else if(self.settingCity == 2){
+                         _userCity = @"San Francisco";
+                     }
+                     else if(self.settingCity == 3){
+                         _userCity = @"Las Vegas";
                      }
                     
                      _lblCurrentCity.text = _userCity;
                      
                      if ([_userCity isEqualToString:@"New York"]) {
                          cityObject = @"DriverObjectNewYork";
-                         [defaults setInteger:0 forKey:@"userCurrentCity"];
                      } else if ([_userCity isEqualToString:@"Chicago"]) {
                          cityObject = @"DriverObjectChicago";
-                         [defaults setInteger:1 forKey:@"userCurrentCity"];
                      } else if ([_userCity isEqualToString:@"San Francisco"]) {
                          cityObject = @"DriverObjectSanFran";
-                         [defaults setInteger:2 forKey:@"userCurrentCity"];
                      } else if ([_userCity isEqualToString:@"Las Vegas"]) {
                          cityObject = @"DriverObjectLasVegas";
-                         [defaults setInteger:3 forKey:@"userCurrentCity"];
                      } else
                      {
+                         //If Inital city is un-supported,make city string the other city field.
+                         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                         [defaults setInteger:-1 forKey:@"userCurrentCity"];
                          [defaults setObject:_userCity forKey:@"userCurrentCityOther"];
+                         [defaults synchronize];
+                         
                          //Disable typing/earch until supported city is found.
                          self.txtSearch.userInteractionEnabled = NO;
                          [self.txtSearch setBackgroundColor:[UIColor grayColor]];
                          
-                         _lblCityWarning.text = [NSString stringWithFormat:@"So sorry, CabCheck only supports New York, Chicago, San Fran, and Vegas. We hope to expand to %@ soon. ", _userCity];
+                         _lblCityWarning.text = [NSString stringWithFormat:@"Sorry, CabCheck only supports New York, Chicago, San Francisco, and Las Vegas. Hopefully we expand to %@ soon. ", _userCity];
                          
                          cityObject = @"DriverObjectNewYork";
                      }
-                     [defaults synchronize];
+                     
                  }
                 
              } else {

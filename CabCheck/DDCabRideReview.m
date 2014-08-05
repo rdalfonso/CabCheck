@@ -124,7 +124,6 @@ NSString *reviewComments;
         {
             self.reviewObject = reviewObject;
             NSString *reviewOverallValue =              [reviewObject objectForKey:@"reviewOverall"];
-            NSString *reviewCarServiceValue =           [reviewObject objectForKey:@"reviewCarService"];
             NSString *reviewDriveSafeValue =            [reviewObject objectForKey:@"reviewDriveSafe"];
             NSString *reviewFollowDirectionsValue =     [reviewObject objectForKey:@"reviewFollowDirections"];
             NSString *reviewKnowCityValue =             [reviewObject objectForKey:@"reviewKnowCity"];
@@ -133,7 +132,6 @@ NSString *reviewComments;
             NSString *reviewCommentsValue =             [reviewObject objectForKey:@"reviewComments"];
             
             [_reviewOverall setSelectedSegmentIndex:[reviewOverallValue intValue]];
-            [_reviewCarService setSelectedSegmentIndex:[reviewCarServiceValue intValue]];
             [_reviewDriveSafe setSelectedSegmentIndex:[reviewDriveSafeValue intValue]];
             [_reviewFollowDirections setSelectedSegmentIndex:[reviewFollowDirectionsValue intValue]];
             [_reviewKnowCity setSelectedSegmentIndex:[reviewKnowCityValue intValue]];
@@ -161,7 +159,7 @@ NSString *reviewComments;
     reviewOverallValue = (int)_reviewOverall.selectedSegmentIndex;
     NSLog(@"reviewOverall %d", reviewOverallValue);
     
-    reviewCarServiceValue = (int)_reviewCarService.selectedSegmentIndex;
+    reviewCarServiceValue = 0;
     NSLog(@"reviewCarService %d", reviewCarServiceValue);
     
     reviewDriveSafeValue = (int)_reviewDriveSafe.selectedSegmentIndex;

@@ -15,6 +15,8 @@
 
 @interface DDSearchResultDetailController ()
 @property NSString *deviceID;
+@property NSInteger settingCity;
+@property NSString *settingCityString;
 @end
 
 @implementation DDSearchResultDetailController
@@ -67,6 +69,9 @@
     } else {
         self.deviceID = [defaults stringForKey:@"deviceID"];
     }
+    
+    self.settingCity = [defaults integerForKey:@"userCurrentCity"];
+    self.settingCityString = [defaults stringForKey:@"userCurrentCityOther"];
     
     PFQuery *broadCast = [PFQuery queryWithClassName:@"DriverReviewObject"];
     [broadCast whereKey:@"deviceID" equalTo:self.deviceID];
@@ -438,14 +443,14 @@
     [passengerSMS appendString:@"I just got into a "];
     
     if ([driverType isEqualToString:@"Y"]) {
-        [passengerSMS appendString:@"Yellow Medallion Taxi\n"];
+        [passengerSMS appendString:@" Yellow Medallion Taxi\n"];
     }
     else if ([driverType isEqualToString:@"L"]) {
-        [passengerSMS appendString:@"TLC Street Hail Livery Taxi\n"];
+        [passengerSMS appendString:@" TLC Street Hail Livery Taxi\n"];
     } else {
-        [passengerSMS appendString:@"Medallion Taxi\n"];
+        [passengerSMS appendString:@" Medallion Taxi\n"];
     }
-    
+
     [passengerSMS appendString:[NSString stringWithFormat:@"near %@ on %@.\n", self.userAddress, self.userDate]];
     if([driverMake length] > 0) {
         [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Model: %@.\n", driverMake]];

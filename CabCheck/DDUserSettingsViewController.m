@@ -28,6 +28,8 @@
 {
     [super viewDidLoad];
     
+    [_userCurrentCity setSelectedSegmentIndex:UISegmentedControlNoSegment];
+    
     [self.userSMSContact1 resignFirstResponder];
     [self.userSMSContact2 resignFirstResponder];
     [self.userSMSContact3 resignFirstResponder];
@@ -41,6 +43,9 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     int userCurrentCity =(int)[defaults integerForKey:@"userCurrentCity"];
     NSString *userCurrentCityOther = [defaults stringForKey:@"userCurrentCityOther"];
+    
+    NSLog(@"current city %d", userCurrentCity);
+    NSLog(@"userCurrentCityOther %@", userCurrentCityOther);
     
     [_userCurrentCity setSelectedSegmentIndex:userCurrentCity];
     _userCurrentCityOther.text = userCurrentCityOther;

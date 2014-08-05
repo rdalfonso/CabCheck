@@ -11,7 +11,6 @@
 
 @interface DDCabRideReview : UIViewController<UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewOverall;
-@property (strong, nonatomic) IBOutlet UISegmentedControl *reviewCarService;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewDriveSafe;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewFollowDirections;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewKnowCity;
