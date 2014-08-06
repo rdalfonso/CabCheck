@@ -307,6 +307,8 @@
     
     PFQuery *searchByMedallion = [PFQuery queryWithClassName:cityObject];
     [searchByMedallion whereKey:@"driverMedallion" containsString:substring];
+    searchByMedallion.limit=20;
+    [searchByMedallion orderByAscending:@"driverMedallion"];
     searchByMedallion.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [searchByMedallion findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error)
      {

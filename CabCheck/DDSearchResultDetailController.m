@@ -90,25 +90,18 @@
     self.userLocationIsSupported = [defaults integerForKey:@"userCurrentCityLocationIsSupported"];
     
     PFQuery *broadCast = [PFQuery queryWithClassName:@"DriverReviewObject"];
+    
+    NSLog(@"self.deviceID: %@", self.deviceID);
+    NSLog(@"equalTo:self.taxiObject.objectId: %@", self.taxiObject.objectId);
+    
     [broadCast whereKey:@"deviceID" equalTo:self.deviceID];
     [broadCast whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
     [broadCast getFirstObjectInBackgroundWithBlock:^(PFObject *reviewObject, NSError *error)
      {
-         if(error) {
-             _btnReviewThisDriver.titleLabel.text = @"Review This Driver >";
-             _btnReviewThisDriver.titleLabel.textColor = [UIColor colorWithRed:245.0f/255.0f
-                                                                         green:163.0f/255.0f
-                                                                          blue:76.0f/255.0f
-                                                                         alpha:1.0f];
-             
-         }
-         else
-         {
-              _btnReviewThisDriver.titleLabel.text = @"Edit Your Review >";
-             _btnReviewThisDriver.titleLabel.textColor = [UIColor colorWithRed:245.0f/255.0f
-                                                                         green:163.0f/255.0f
-                                                                          blue:76.0f/255.0f
-                                                                         alpha:1.0f];
+         
+         if(!error){
+             _btnReviewThisDriver.titleLabel.text = @"[Edit Your Review]";
+             _btnReviewThisDriver.titleLabel.textColor = [UIColor colorWithRed:30.0f/255.0f green:144.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
              
              NSDate *reviewDate = reviewObject.updatedAt;
              NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
@@ -207,6 +200,8 @@
                  
                  PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
                  [driverRatings whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
+                 driverRatings.limit = 20;
+                 
                   driverRatings.cachePolicy = kPFCachePolicyCacheThenNetwork;
                  [driverRatings findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
                      if (!error)
