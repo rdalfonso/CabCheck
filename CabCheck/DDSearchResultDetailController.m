@@ -90,15 +90,10 @@
     self.userLocationIsSupported = [defaults integerForKey:@"userCurrentCityLocationIsSupported"];
     
     PFQuery *broadCast = [PFQuery queryWithClassName:@"DriverReviewObject"];
-    
-    NSLog(@"self.deviceID: %@", self.deviceID);
-    NSLog(@"equalTo:self.taxiObject.objectId: %@", self.taxiObject.objectId);
-    
     [broadCast whereKey:@"deviceID" equalTo:self.deviceID];
     [broadCast whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
     [broadCast getFirstObjectInBackgroundWithBlock:^(PFObject *reviewObject, NSError *error)
      {
-         
          if(!error){
              _btnReviewThisDriver.titleLabel.text = @"[Edit Your Review]";
              _btnReviewThisDriver.titleLabel.textColor = [UIColor colorWithRed:30.0f/255.0f green:144.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
@@ -165,9 +160,22 @@
                      if([driverVIN length] <= 0){
                          driverVIN = @"N/A";
                      }
+                     NSMutableString *driverCabType = [NSMutableString stringWithString:@""];
                      NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
                      NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
                      NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
+                     
+                     if([driverCabMake length] > 0) {
+                         [driverCabType appendString:[driverCabMake capitalizedString]];
+                     }
+                     if([driverCabModel length] > 0) {
+                         [driverCabType appendString:@" "];
+                         [driverCabType appendString:[driverCabModel capitalizedString]];
+                     }
+                     if([driverCabYear length] > 0) {
+                         [driverCabType appendString:@" "];
+                         [driverCabType appendString:driverCabYear];
+                     }
                      
                      if([driverMedallion length] > 0) {
                          _lblSearchResultDetailHeader.text = [NSString stringWithFormat:@"Driver Details - %@", driverMedallion];
@@ -182,7 +190,7 @@
                          _driverType.text = @"Yellow Medallion Taxi";
                          _driverVINLabel.text = @"VIN:";
                          _driverVIN.text = driverVIN;
-                         _driverLicense.text = [NSString stringWithFormat:@"%@ %@ %@", [driverCabMake capitalizedString], [driverCabModel capitalizedString], driverCabYear];
+                         _driverLicense.text = driverCabType;
                      }
                      else if ([driverType isEqualToString:@"L"]) {
                          _driverType.text = @"TLC Street Hail Livery";
@@ -194,7 +202,7 @@
                          _driverType.text = @"Medallion Taxi";
                          _driverVINLabel.text = @"VIN:";
                          _driverVIN.text = driverVIN;
-                         _driverLicense.text = [NSString stringWithFormat:@"%@ %@ %@", [driverCabMake capitalizedString], [driverCabModel capitalizedString], driverCabYear];
+                         _driverLicense.text = driverCabType;
                      }
                  }
                  
@@ -243,14 +251,16 @@
                              }
                          }
                          
-                         if( (GoodCount + OkCount + BadCount) == 0){
+                         if( TotalCount == 0){
                              _driverRatingImage.image = [UIImage imageNamed: @"review-green-large.jpg"];
                              _driverReviewTags.text = @"No Reviews Yet.";
-                             _btnTaxiReviews.hidden = true;
+                             _btnTaxiReviews.enabled = NO;
+                             _btnTaxiReviews.titleLabel.textColor = [UIColor grayColor];
                          }
                          else
                          {
-                             _btnTaxiReviews.hidden = false;
+                              _btnTaxiReviews.enabled = YES;
+                              _btnTaxiReviews.titleLabel.textColor = [UIColor colorWithRed:30.0f/255.0f green:144.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
                              
                              //Calculate scores
                              float pcGood =  [self getReviewPercent:TotalCount withInteger:GoodCount];
