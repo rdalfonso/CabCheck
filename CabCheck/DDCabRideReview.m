@@ -70,8 +70,7 @@ NSString *reviewComments;
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
                                                                                 target:self action:@selector(searchBtnUserClick:)];
     
-    NSArray *actionButtonItems = @[searchItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems;
+    self.navigationItem.rightBarButtonItem = searchItem;
     [self.navigationItem setHidesBackButton:NO animated:YES];
 }
 

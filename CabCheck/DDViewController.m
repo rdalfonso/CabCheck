@@ -50,12 +50,7 @@
     //Add search icon to navigation
     UIBarButtonItem *settingsItem = [[UIBarButtonItem alloc] initWithTitle:@"\u2699"
                                                                      style:UIBarButtonItemStylePlain target:self action:@selector(settingsBtnUserClick:)];
-    UIFont *customFont = [UIFont fontWithName:@"Helvetica" size:24.0];
-    NSDictionary *fontDictionary = @{NSFontAttributeName : customFont};
-    [settingsItem setTitleTextAttributes:fontDictionary forState:UIControlStateNormal];
-    
-    NSArray *actionButtonItems = @[settingsItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems;
+    self.navigationItem.rightBarButtonItem = settingsItem;
     
     //Change Placeholder text on search field to be darker.
     if ([self.txtSearch respondsToSelector:@selector(setAttributedPlaceholder:)]) {
