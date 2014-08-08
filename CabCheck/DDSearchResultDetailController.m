@@ -9,7 +9,6 @@
 #import "DDSearchResultDetailController.h"
 #import "DDCabRideReview.h"
 #import "DDCabReviews.h"
-#define UICantolopeColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & f5a316) >> 16))/255.0 green:((float)((rgbValue & f5a316) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #define PERCENT_LEVEL 25.0
 
