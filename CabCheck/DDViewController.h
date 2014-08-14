@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import <CoreLocation/CoreLocation.h>
+#import <iAd/iAd.h>
 
-@interface DDViewController : UIViewController<CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
+@interface DDViewController : UIViewController<CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate,ADBannerViewDelegate> {
     
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
@@ -33,6 +34,9 @@
 @property (nonatomic, retain) NSMutableArray *autocompleteObjects;
 @property (nonatomic, retain) UITableView *autocompleteTableView;
 @property (nonatomic, strong) NSString *cityObject;
+
+@property (nonatomic, assign) NSString *deviceID;
+@property (nonatomic, assign) NSInteger settingCity;
 
 - (IBAction)goPressed;
 - (void)searchAutocompleteEntriesWithSubstring:(NSString *)substring;

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <iAd/iAd.h>
 
-@interface DDUserSettingsViewController : UIViewController<UITextFieldDelegate>
+@interface DDUserSettingsViewController : UIViewController<UITextFieldDelegate,ADBannerViewDelegate>
 {}
 @property (strong, nonatomic) IBOutlet UITextField *userSMSContact1;
 @property (strong, nonatomic) IBOutlet UITextField *userSMSContact2;

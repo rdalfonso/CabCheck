@@ -10,8 +10,9 @@
 #import <Parse/Parse.h>
 #import <MessageUI/MessageUI.h>
 #import <CoreLocation/CoreLocation.h>
+#import <iAd/iAd.h>
 
-@interface DDSearchResultDetailController : UIViewController<MFMessageComposeViewControllerDelegate, CLLocationManagerDelegate>
+@interface DDSearchResultDetailController : UIViewController<MFMessageComposeViewControllerDelegate, CLLocationManagerDelegate,ADBannerViewDelegate>
 {
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
@@ -44,6 +45,10 @@
 
 @property (strong, nonatomic) IBOutlet UIImageView *driverRatingImage;
 @property (strong, nonatomic, readwrite) NSDate *userDate;
+
+@property (nonatomic, assign) NSString *deviceID;
+@property (nonatomic, assign) NSString *settingCityString;
+@property (nonatomic, assign) NSInteger userLocationIsSupported;
 
 
 - (IBAction)btnSendData:(id)sender;

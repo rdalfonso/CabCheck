@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface DDAboutController : UIViewController
+#import <iAd/iAd.h>
+@interface DDAboutController : UIViewController<ADBannerViewDelegate>
 
 @end

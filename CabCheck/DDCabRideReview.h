@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import <iAd/iAd.h>
 
-@interface DDCabRideReview : UIViewController<UITextFieldDelegate>
+@interface DDCabRideReview : UIViewController<UITextFieldDelegate,ADBannerViewDelegate>
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewOverall;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewDriveSafe;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewFollowDirections;

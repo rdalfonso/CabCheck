@@ -45,6 +45,7 @@
 		A1C6AC29199039B700D55E31 /* review-green-large.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1C6AC23199039B700D55E31 /* review-green-large.jpg */; };
 		A1C6AC2A199039B700D55E31 /* review-yellow-large.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1C6AC24199039B700D55E31 /* review-yellow-large.jpg */; };
 		A1C6AC2B199039B700D55E31 /* review-red-large.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1C6AC25199039B700D55E31 /* review-red-large.jpg */; };
+		A1F30EF5199D3C8B00DA79EE /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F30EF4199D3C8B00DA79EE /* iAd.framework */; };
 		A1FE67ED197C3AA700504D5D /* taxi_night-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67E7197C3AA700504D5D /* taxi_night-3.jpg */; };
 		A1FE67EF197C3AA700504D5D /* taxi-fare.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67E9197C3AA700504D5D /* taxi-fare.jpg */; };
 		A1FE67F3197C430000504D5D /* stop-light.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67F2197C430000504D5D /* stop-light.jpg */; };
@@ -110,6 +111,7 @@
 		A1C6AC23199039B700D55E31 /* review-green-large.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "review-green-large.jpg"; path = "../../../../../Downloads/review-green-large.jpg"; sourceTree = "<group>"; };
 		A1C6AC24199039B700D55E31 /* review-yellow-large.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "review-yellow-large.jpg"; path = "../../../../../Downloads/review-yellow-large.jpg"; sourceTree = "<group>"; };
 		A1C6AC25199039B700D55E31 /* review-red-large.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "review-red-large.jpg"; path = "../../../../../Downloads/review-red-large.jpg"; sourceTree = "<group>"; };
+		A1F30EF4199D3C8B00DA79EE /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		A1FE67E7197C3AA700504D5D /* taxi_night-3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "taxi_night-3.jpg"; path = "../../../../../Downloads/taxi_night-3.jpg"; sourceTree = "<group>"; };
 		A1FE67E9197C3AA700504D5D /* taxi-fare.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "taxi-fare.jpg"; path = "../../../../../Downloads/taxi-fare.jpg"; sourceTree = "<group>"; };
 		A1FE67F2197C430000504D5D /* stop-light.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "stop-light.jpg"; path = "../../../../../Downloads/stop-light.jpg"; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1F30EF5199D3C8B00DA79EE /* iAd.framework in Frameworks */,
 				A1307E851984CA13009C9BAE /* MessageUI.framework in Frameworks */,
 				A1AB566B1979CA66004D23AD /* SystemConfiguration.framework in Frameworks */,
 				A1AB56691979CA5A004D23AD /* StoreKit.framework in Frameworks */,
@@ -172,6 +175,7 @@
 		A1AB56221979C9B3004D23AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A1F30EF4199D3C8B00DA79EE /* iAd.framework */,
 				A1307E841984CA13009C9BAE /* MessageUI.framework */,
 				A1AB566A1979CA66004D23AD /* SystemConfiguration.framework */,
 				A1AB56681979CA5A004D23AD /* StoreKit.framework */,
@@ -458,7 +462,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -491,7 +495,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = NO;
 			};
