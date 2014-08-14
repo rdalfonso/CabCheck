@@ -82,7 +82,13 @@ NSString *reviewComments;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    _adBanner = [[ADBannerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, 320, 50)];
+    
+    // On iOS 6 ADBannerView introduces a new initializer, use it when available.
+    if ([ADBannerView instancesRespondToSelector:@selector(initWithAdType:)]) {
+        _adBanner = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
+    } else {
+        _adBanner = [[ADBannerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, 320, 50)];
+    }
     _adBanner.delegate = self;
 }
 
