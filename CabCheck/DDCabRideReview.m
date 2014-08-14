@@ -11,9 +11,10 @@
 #import <Parse/Parse.h>
 
 @interface DDCabRideReview ()
-    @property NSString *deviceID;
-    @property NSString *lastCabReviewed;
-    @property NSDate *lastCabReviewDate;
+{
+    BOOL _bannerIsVisible;
+    ADBannerView *_adBanner;
+}
 @end
 
 @implementation DDCabRideReview
@@ -72,7 +73,51 @@ NSString *reviewComments;
     
     self.navigationItem.rightBarButtonItem = searchItem;
     [self.navigationItem setHidesBackButton:NO animated:YES];
+    
+    //allow banner ads
+    self.canDisplayBannerAds = YES;
 }
+
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    _adBanner = [[ADBannerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, 320, 50)];
+    _adBanner.delegate = self;
+}
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    if (!_bannerIsVisible)
+    {
+        // If banner isn't part of view hierarchy, add it
+        if (_adBanner.superview == nil)
+        {
+            [self.view addSubview:_adBanner];
+        }
+        
+        [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
+        banner.frame = CGRectOffset(banner.frame, 0, -banner.frame.size.height);
+        
+        [UIView commitAnimations];
+        _bannerIsVisible = YES;
+    }
+}
+
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    NSLog(@"bannerview did not receive any banner due to %@", error);
+    if (_bannerIsVisible)
+    {
+        [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
+        // Assumes the banner view is placed at the bottom of the screen.
+        banner.frame = CGRectOffset(banner.frame, 0, banner.frame.size.height);
+        [UIView commitAnimations];
+        _bannerIsVisible = NO;
+    }
+}
+
 
 -(void)searchBtnUserClick:(id)sender
 {

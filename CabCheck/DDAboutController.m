@@ -34,6 +34,9 @@
     self.edgesForExtendedLayout = UIRectEdgeAll;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     
+    //allow banner ads
+    self.canDisplayBannerAds = YES;
+    
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -45,7 +48,6 @@
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-    NSLog(@"loading ads");
     if (!_bannerIsVisible)
     {
         // If banner isn't part of view hierarchy, add it
@@ -65,7 +67,7 @@
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
-    NSLog(@"Failed to retrieve ad");
+    NSLog(@"bannerview did not receive any banner due to %@", error);
     
     if (_bannerIsVisible)
     {

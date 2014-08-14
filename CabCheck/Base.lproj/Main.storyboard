@@ -279,7 +279,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0js-JZ-Rgr">
-                                <rect key="frame" x="16" y="377" width="283" height="21"/>
+                                <rect key="frame" x="16" y="352" width="283" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -784,8 +784,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="x24-lF-Ej6"/>
-        <segue reference="g4o-yG-7jS"/>
-        <segue reference="qJq-zf-38t"/>
+        <segue reference="KU9-2B-Lpk"/>
+        <segue reference="ygD-nH-KYA"/>
+        <segue reference="7fa-js-3hT"/>
     </inferredMetricsTieBreakers>
 </document>

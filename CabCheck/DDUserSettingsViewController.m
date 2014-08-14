@@ -70,6 +70,9 @@
             _userSMSContact3.text = userSMS3;
         }
     }
+    
+    //allow banner ads
+    self.canDisplayBannerAds = YES;
 }
 
 
@@ -83,7 +86,6 @@
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-    NSLog(@"loading ads");
     if (!_bannerIsVisible)
     {
         // If banner isn't part of view hierarchy, add it
@@ -103,8 +105,7 @@
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
-    NSLog(@"Failed to retrieve ad");
-    
+    NSLog(@"bannerview did not receive any banner due to %@", error);
     if (_bannerIsVisible)
     {
         [UIView beginAnimations:@"animateAdBannerOff" context:NULL];

@@ -27,6 +27,10 @@
 @property (strong, nonatomic) IBOutlet UILabel *lblReviewHeader;
 @property (strong, nonatomic) IBOutlet UILabel *lblReviewDate;
 
+@property (nonatomic, assign) NSString *deviceID;
+@property (nonatomic, assign) NSString *lastCabReviewed;
+@property (nonatomic, assign) NSDate *lastCabReviewDate;
+
 - (IBAction)btnSaveReview:(id)sender;
 
 @end

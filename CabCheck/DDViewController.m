@@ -76,20 +76,21 @@
     self.autocompleteTableView.layer.borderWidth = 2;
     self.autocompleteTableView.layer.borderColor = [[UIColor blackColor] CGColor];
     [self.view addSubview:autocompleteTableView];
+    
+    //allow banner ads
+    self.canDisplayBannerAds = YES;
 }
 
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     _adBanner = [[ADBannerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, 320, 50)];
     _adBanner.delegate = self;
 }
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-    NSLog(@"loading ads");
     if (!_bannerIsVisible)
     {
         // If banner isn't part of view hierarchy, add it
@@ -109,7 +110,7 @@
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
-    NSLog(@"Failed to retrieve ad");
+    NSLog(@"bannerview did not receive any banner due to %@", error);
     
     if (_bannerIsVisible)
     {
