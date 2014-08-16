@@ -69,6 +69,8 @@
         _adBanner = [[ADBannerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, 320, 50)];
     }
     _adBanner.delegate = self;
+    
+    [self buildReviewSection];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -160,11 +162,8 @@
     }
 }
 
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+- (void)buildReviewSection
 {
-    CLLocation *currentLocation = newLocation;
-    
     __block int GoodCount = 0;
     __block int OkCount = 0;
     __block int BadCount = 0;
@@ -175,6 +174,99 @@
     __block int RespectCount = 0;
     __block int DirectionsCount = 0;
     __block long TotalCount = 0;
+    
+    PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
+    [driverRatings whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
+    driverRatings.limit = 20;
+    
+    driverRatings.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [driverRatings findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+        if (!error)
+        {
+            TotalCount = (unsigned long)results.count;
+            
+            for (PFObject *object in results)
+            {
+                NSInteger reviewOverall = [[object objectForKey:@"reviewOverall"] integerValue];
+                NSInteger reviewActCourteous = [[object objectForKey:@"reviewActCourteous"] integerValue];
+                NSInteger reviewDriveSafe = [[object objectForKey:@"reviewDriveSafe"] integerValue];
+                NSInteger reviewFollowDirections = [[object objectForKey:@"reviewFollowDirections"] integerValue];
+                NSInteger reviewHonestFare = [[object objectForKey:@"reviewHonestFare"] integerValue];
+                NSInteger reviewKnowCity = [[object objectForKey:@"reviewKnowCity"] integerValue];
+                
+                if(reviewOverall == 0){
+                    GoodCount++;
+                }
+                if(reviewOverall == 1){
+                    OkCount++;
+                }
+                if(reviewOverall == 2){
+                    BadCount++;
+                }
+                if(reviewActCourteous == 1) {
+                    RespectCount++;
+                }
+                if(reviewDriveSafe == 1) {
+                    DrivingCount++;
+                }
+                if(reviewFollowDirections == 1) {
+                    EnglishCount++;
+                }
+                if(reviewHonestFare == 1) {
+                    HonestCount++;
+                }
+                if(reviewKnowCity == 1) {
+                    DirectionsCount++;
+                }
+            }
+            
+            if( TotalCount == 0){
+                _driverRatingImage.image = [UIImage imageNamed: @"review-green-large.jpg"];
+                _driverReviewTags.text = @"No Reviews Yet.";
+                _btnTaxiReviews.enabled = NO;
+                _btnTaxiReviews.titleLabel.textColor = [UIColor grayColor];
+            }
+            else
+            {
+                _btnTaxiReviews.enabled = YES;
+                _btnTaxiReviews.titleLabel.textColor = [UIColor colorWithRed:30.0f/255.0f green:144.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
+                
+                //Calculate scores
+                float pcGood =  [self getReviewPercent:TotalCount withInteger:GoodCount];
+                float pcOk = [self getReviewPercent:TotalCount withInteger:OkCount];
+                float pcBad = [self getReviewPercent:TotalCount withInteger:BadCount];
+                
+                if( pcGood >= 50.0  )
+                {
+                    _driverRatingImage.image = [UIImage imageNamed: @"review-green-large.jpg"];
+                    _driverReviewTags.text = @"Good Driver. Few Complaints.";
+                }
+                else
+                {
+                    
+                    NSString *reviewTags = [self getReviewTags:TotalCount withInteger:RespectCount withInteger:DrivingCount withInteger:EnglishCount withInteger:HonestCount withInteger:DirectionsCount];
+                    
+                    if( (pcOk > 30.0) || (pcGood ==  pcBad) ) {
+                        _driverRatingImage.image = [UIImage imageNamed: @"review-yellow-large.jpg"];
+                        _driverReviewTags.text = reviewTags;
+                    }
+                    
+                    if( pcBad >= 50.0 ) {
+                        _driverRatingImage.image = [UIImage imageNamed: @"review-red-large.jpg"];
+                        _driverReviewTags.text = reviewTags;
+                    }
+                }
+            }
+            
+        }
+        
+    }];
+}
+
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    CLLocation *currentLocation = newLocation;
     
     NSDate *todayDate = [NSDate date];
     NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
@@ -257,92 +349,7 @@
                      }
                  }
                  
-                 PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
-                 [driverRatings whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
-                 driverRatings.limit = 20;
-                 
-                  driverRatings.cachePolicy = kPFCachePolicyCacheThenNetwork;
-                 [driverRatings findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
-                     if (!error)
-                     {
-                         TotalCount = (unsigned long)results.count;
-                        
-                         for (PFObject *object in results)
-                         {
-                             NSInteger reviewOverall = [[object objectForKey:@"reviewOverall"] integerValue];
-                             NSInteger reviewActCourteous = [[object objectForKey:@"reviewActCourteous"] integerValue];
-                             NSInteger reviewDriveSafe = [[object objectForKey:@"reviewDriveSafe"] integerValue];
-                             NSInteger reviewFollowDirections = [[object objectForKey:@"reviewFollowDirections"] integerValue];
-                             NSInteger reviewHonestFare = [[object objectForKey:@"reviewHonestFare"] integerValue];
-                             NSInteger reviewKnowCity = [[object objectForKey:@"reviewKnowCity"] integerValue];
-                             
-                             if(reviewOverall == 0){
-                                 GoodCount++;
-                             }
-                             if(reviewOverall == 1){
-                                 OkCount++;
-                             }
-                             if(reviewOverall == 2){
-                                 BadCount++;
-                             }
-                             if(reviewActCourteous == 1) {
-                                 RespectCount++;
-                             }
-                             if(reviewDriveSafe == 1) {
-                                 DrivingCount++;
-                             }
-                             if(reviewFollowDirections == 1) {
-                                 EnglishCount++;
-                             }
-                             if(reviewHonestFare == 1) {
-                                 HonestCount++;
-                             }
-                             if(reviewKnowCity == 1) {
-                                 DirectionsCount++;
-                             }
-                         }
-                         
-                         if( TotalCount == 0){
-                             _driverRatingImage.image = [UIImage imageNamed: @"review-green-large.jpg"];
-                             _driverReviewTags.text = @"No Reviews Yet.";
-                             _btnTaxiReviews.enabled = NO;
-                             _btnTaxiReviews.titleLabel.textColor = [UIColor grayColor];
-                         }
-                         else
-                         {
-                              _btnTaxiReviews.enabled = YES;
-                              _btnTaxiReviews.titleLabel.textColor = [UIColor colorWithRed:30.0f/255.0f green:144.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
-                             
-                             //Calculate scores
-                             float pcGood =  [self getReviewPercent:TotalCount withInteger:GoodCount];
-                             float pcOk = [self getReviewPercent:TotalCount withInteger:OkCount];
-                             float pcBad = [self getReviewPercent:TotalCount withInteger:BadCount];
-                             
-                             if( pcGood >= 50.0  )
-                             {
-                                 _driverRatingImage.image = [UIImage imageNamed: @"review-green-large.jpg"];
-                                 _driverReviewTags.text = @"Good Driver. Few Complaints.";
-                             }
-                             else
-                             {
-                                
-                                 NSString *reviewTags = [self getReviewTags:TotalCount withInteger:RespectCount withInteger:DrivingCount withInteger:EnglishCount withInteger:HonestCount withInteger:DirectionsCount];
-                                 
-                                 if( (pcOk > 30.0) || (pcGood ==  pcBad) ) {
-                                     _driverRatingImage.image = [UIImage imageNamed: @"review-yellow-large.jpg"];
-                                     _driverReviewTags.text = reviewTags;
-                                 }
-                                 
-                                 if( pcBad >= 50.0 ) {
-                                     _driverRatingImage.image = [UIImage imageNamed: @"review-red-large.jpg"];
-                                     _driverReviewTags.text = reviewTags;
-                                 }
-                             }
-                        }
-                         
-                     }
-                     
-                 }];
+                 //[self buildReviewSection];
                  
              }
          } ];

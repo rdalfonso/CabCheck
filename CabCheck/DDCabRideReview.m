@@ -201,7 +201,7 @@ NSString *reviewComments;
             [theDateFormatter setDateFormat:@"EEE, MMM d, h:mm a"];
             _lblReviewDate.text = [NSString stringWithFormat:@"You reviewed this cab on %@", [theDateFormatter stringFromDate:reviewDate]];
             
-            [_btnSaveReview setTitle:@"Edit Your Review" forState:UIControlStateNormal];
+            [_btnSaveReview setTitle:@"[Edit Your Review]" forState:UIControlStateNormal];
             
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
