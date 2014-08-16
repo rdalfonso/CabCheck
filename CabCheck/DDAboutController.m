@@ -51,6 +51,12 @@
     _adBanner.delegate = self;
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+    [_adBanner removeFromSuperview];
+    _adBanner.delegate = nil;
+    _adBanner = nil;
+}
+
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
     if (!_bannerIsVisible)
