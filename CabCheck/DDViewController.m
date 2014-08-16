@@ -268,8 +268,16 @@
     NSString *substring = [NSString stringWithString:textField.text];
     substring = [substring stringByReplacingCharactersInRange:range withString:string];
     
-    if([substring length] >= 2) {
+    NSInteger newTextLength = [textField.text length] - range.length + [string length];
+    if (newTextLength > 8) {
+        return NO;
+    }
+    
+    if( [substring length] >= 2 && [substring length] < 8) {
+        NSLog(@"searching...");
         [self searchAutocompleteEntriesWithSubstring:substring];
+    } else {
+         NSLog(@"ignoring...");
     }
     return YES;
 }

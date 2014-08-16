@@ -69,7 +69,7 @@
     [self.tableView setBackgroundColor:[UIColor blackColor]];
     
     NSString *driverMedallion = [self.taxiObject objectForKey:@"driverMedallion"];
-    _lblCabReviewsHeader.text = [NSString stringWithFormat:@"Taxi Reviews - %@", driverMedallion];
+    _lblCabReviewsHeader.text = [NSString stringWithFormat:@"  Driver Reviews - %@", driverMedallion];
 }
 
 
