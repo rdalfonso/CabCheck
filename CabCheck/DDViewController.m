@@ -274,10 +274,7 @@
     }
     
     if( [substring length] >= 2 && [substring length] < 8) {
-        NSLog(@"searching...");
         [self searchAutocompleteEntriesWithSubstring:substring];
-    } else {
-         NSLog(@"ignoring...");
     }
     return YES;
 }

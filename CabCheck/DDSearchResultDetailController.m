@@ -170,15 +170,10 @@
                 NSInteger reviewHonestFare = [[object objectForKey:@"reviewHonestFare"] integerValue];
                 NSInteger reviewKnowCity = [[object objectForKey:@"reviewKnowCity"] integerValue];
                 
-                NSLog(@"self.taxiObject.objectId %@", self.taxiObject.objectId);
-                NSLog(@"reviewOverall %ld", (long)reviewOverall);
-                
-                NSLog(@"GoodCount %d", GoodCount);
                 if(reviewOverall == 0){
                     GoodCount++;
                 }
                 
-                NSLog(@"GoodCount after %d", GoodCount);
                 if(reviewOverall == 1){
                     OkCount++;
                 }
@@ -216,17 +211,11 @@
                 _btnTaxiReviews.titleLabel.textColor = [UIColor colorWithRed:30.0f/255.0f green:144.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
                 
                 //Calculate scores
-                NSLog(@"TotalCount %ld", TotalCount);
-                NSLog(@"GoodCount %d", GoodCount);
-                NSLog(@"OkCount %d", OkCount);
-                NSLog(@"BadCount %d", BadCount);
-                
                 float pcGood =  [self getReviewPercent:TotalCount withInteger:GoodCount];
                 float pcOk = [self getReviewPercent:TotalCount withInteger:OkCount];
                 float pcBad = [self getReviewPercent:TotalCount withInteger:BadCount];
                 
                 
-                NSLog(@"pcGood %f", pcGood);
                 if( pcGood >= 50.0  )
                 {
                     _driverRatingImage.image = [UIImage imageNamed: @"review-green-large.jpg"];
@@ -237,14 +226,11 @@
                     
                     NSString *reviewTags = [self getReviewTags:TotalCount withInteger:RespectCount withInteger:DrivingCount withInteger:EnglishCount withInteger:HonestCount withInteger:DirectionsCount];
                     
-                    NSLog(@"pcOk %f", pcOk);
                     
                     if( (pcOk > 30.0) || (pcGood ==  pcBad) ) {
                         _driverRatingImage.image = [UIImage imageNamed: @"review-yellow-large.jpg"];
                         _driverReviewTags.text = reviewTags;
                     }
-                    
-                    NSLog(@"pcBad %f", pcBad);
                     
                     if( pcBad >= 50.0 ) {
                         _driverRatingImage.image = [UIImage imageNamed: @"review-red-large.jpg"];
