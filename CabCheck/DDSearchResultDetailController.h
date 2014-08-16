@@ -21,6 +21,7 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *btnReviewThisDriver;
 @property (strong, nonatomic) IBOutlet UIButton *btnTaxiReviews;
+@property (strong, nonatomic) IBOutlet UILabel *lblReviewBlurb;
 
 @property (strong, nonatomic, readwrite) NSString *userSMS1;
 @property (strong, nonatomic, readwrite) NSString *userSMS2;

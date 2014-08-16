@@ -309,6 +309,13 @@
                                     <segue destination="mTn-1w-69Z" kind="push" identifier="pushSeqReviewThisDriver" id="qMw-rh-A2y"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vvK-9z-daB">
+                                <rect key="frame" x="211" y="256" width="95" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -329,6 +336,7 @@
                         <outlet property="driverVIN" destination="C7P-7d-Ymn" id="Kjm-0n-zM5"/>
                         <outlet property="driverVINLabel" destination="nbW-3V-ov8" id="xLi-Ds-U8S"/>
                         <outlet property="lblLastReviewDate" destination="0js-JZ-Rgr" id="XAe-AR-HUB"/>
+                        <outlet property="lblReviewBlurb" destination="vvK-9z-daB" id="b1I-cp-P3H"/>
                         <outlet property="lblSearchResultDetailHeader" destination="1Ar-kS-gtD" id="UFc-f0-Rdk"/>
                         <segue destination="HdP-FG-lE3" kind="push" identifier="seqPushToSearchController" id="g4o-yG-7jS"/>
                     </connections>
@@ -537,21 +545,21 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="reviewText" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iAt-hn-p2p">
-                                            <rect key="frame" x="45" y="20" width="257" height="21"/>
+                                            <rect key="frame" x="45" y="27" width="257" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="reviewDetails" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="T4p-sL-Xeb">
-                                            <rect key="frame" x="45" y="33" width="280" height="43"/>
+                                            <rect key="frame" x="45" y="42" width="280" height="43"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="reviewDate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sbe-Uc-29j">
-                                            <rect key="frame" x="45" y="0.0" width="247" height="21"/>
+                                            <rect key="frame" x="45" y="4" width="247" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" red="1" green="0.80000001192092896" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
@@ -778,7 +786,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="ygD-nH-KYA"/>
-        <segue reference="KU9-2B-Lpk"/>
         <segue reference="7fa-js-3hT"/>
+        <segue reference="g4o-yG-7jS"/>
     </inferredMetricsTieBreakers>
 </document>

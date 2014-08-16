@@ -55,8 +55,15 @@
     
     //allow banner ads
     self.canDisplayBannerAds = YES;
+    
+   // [self buildReviewSection];
+    
 }
 
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self buildReviewSection];
+}
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -69,8 +76,7 @@
         _adBanner = [[ADBannerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, 320, 50)];
     }
     _adBanner.delegate = self;
-    
-    [self buildReviewSection];
+
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -129,41 +135,11 @@
 
 }
 
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
-{
-    if (!_bannerIsVisible)
-    {
-        // If banner isn't part of view hierarchy, add it
-        if (_adBanner.superview == nil)
-        {
-            [self.view addSubview:_adBanner];
-        }
-        
-        [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
-        banner.frame = CGRectOffset(banner.frame, 0, -banner.frame.size.height);
-        
-        [UIView commitAnimations];
-        _bannerIsVisible = YES;
-    }
-}
 
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
-{
-    NSLog(@"bannerview did not receive any banner due to %@", error);
-    if (_bannerIsVisible)
-    {
-        [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
-        
-        // Assumes the banner view is placed at the bottom of the screen.
-        banner.frame = CGRectOffset(banner.frame, 0, banner.frame.size.height);
-        [UIView commitAnimations];
-        _bannerIsVisible = NO;
-    }
-}
 
 - (void)buildReviewSection
 {
+    NSLog(@"Build Review Section");
     __block int GoodCount = 0;
     __block int OkCount = 0;
     __block int BadCount = 0;
@@ -179,7 +155,7 @@
     [driverRatings whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
     driverRatings.limit = 20;
     
-    driverRatings.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    //driverRatings.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [driverRatings findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
         if (!error)
         {
@@ -194,9 +170,15 @@
                 NSInteger reviewHonestFare = [[object objectForKey:@"reviewHonestFare"] integerValue];
                 NSInteger reviewKnowCity = [[object objectForKey:@"reviewKnowCity"] integerValue];
                 
+                NSLog(@"self.taxiObject.objectId %@", self.taxiObject.objectId);
+                NSLog(@"reviewOverall %ld", (long)reviewOverall);
+                
+                NSLog(@"GoodCount %d", GoodCount);
                 if(reviewOverall == 0){
                     GoodCount++;
                 }
+                
+                NSLog(@"GoodCount after %d", GoodCount);
                 if(reviewOverall == 1){
                     OkCount++;
                 }
@@ -228,14 +210,23 @@
             }
             else
             {
+                _lblReviewBlurb.text = [NSString stringWithFormat:@"%ld user reviews.", TotalCount];
+
                 _btnTaxiReviews.enabled = YES;
                 _btnTaxiReviews.titleLabel.textColor = [UIColor colorWithRed:30.0f/255.0f green:144.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
                 
                 //Calculate scores
+                NSLog(@"TotalCount %ld", TotalCount);
+                NSLog(@"GoodCount %d", GoodCount);
+                NSLog(@"OkCount %d", OkCount);
+                NSLog(@"BadCount %d", BadCount);
+                
                 float pcGood =  [self getReviewPercent:TotalCount withInteger:GoodCount];
                 float pcOk = [self getReviewPercent:TotalCount withInteger:OkCount];
                 float pcBad = [self getReviewPercent:TotalCount withInteger:BadCount];
                 
+                
+                NSLog(@"pcGood %f", pcGood);
                 if( pcGood >= 50.0  )
                 {
                     _driverRatingImage.image = [UIImage imageNamed: @"review-green-large.jpg"];
@@ -246,10 +237,14 @@
                     
                     NSString *reviewTags = [self getReviewTags:TotalCount withInteger:RespectCount withInteger:DrivingCount withInteger:EnglishCount withInteger:HonestCount withInteger:DirectionsCount];
                     
+                    NSLog(@"pcOk %f", pcOk);
+                    
                     if( (pcOk > 30.0) || (pcGood ==  pcBad) ) {
                         _driverRatingImage.image = [UIImage imageNamed: @"review-yellow-large.jpg"];
                         _driverReviewTags.text = reviewTags;
                     }
+                    
+                    NSLog(@"pcBad %f", pcBad);
                     
                     if( pcBad >= 50.0 ) {
                         _driverRatingImage.image = [UIImage imageNamed: @"review-red-large.jpg"];
@@ -349,10 +344,43 @@
                      }
                  }
                  
-                 //[self buildReviewSection];
+                
                  
              }
          } ];
+    }
+}
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    if (!_bannerIsVisible)
+    {
+        // If banner isn't part of view hierarchy, add it
+        if (_adBanner.superview == nil)
+        {
+            [self.view addSubview:_adBanner];
+        }
+        
+        [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
+        banner.frame = CGRectOffset(banner.frame, 0, -banner.frame.size.height);
+        
+        [UIView commitAnimations];
+        _bannerIsVisible = YES;
+    }
+}
+
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    NSLog(@"bannerview did not receive any banner due to %@", error);
+    if (_bannerIsVisible)
+    {
+        [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
+        
+        // Assumes the banner view is placed at the bottom of the screen.
+        banner.frame = CGRectOffset(banner.frame, 0, banner.frame.size.height);
+        [UIView commitAnimations];
+        _bannerIsVisible = NO;
     }
 }
 
