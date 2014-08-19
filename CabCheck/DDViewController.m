@@ -95,13 +95,18 @@
     _adBanner.delegate = self;
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+    [_adBanner removeFromSuperview];
+    _adBanner.delegate = nil;
+    _adBanner = nil;
+}
+
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
     if (!_bannerIsVisible)
     {
         // If banner isn't part of view hierarchy, add it
-        if (_adBanner.superview == nil)
-        {
+        if (_adBanner.superview == nil) {
             [self.view addSubview:_adBanner];
         }
         
@@ -117,11 +122,9 @@
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
     NSLog(@"bannerview did not receive any banner due to %@", error);
-    
     if (_bannerIsVisible)
     {
         [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
-        
         // Assumes the banner view is placed at the bottom of the screen.
         banner.frame = CGRectOffset(banner.frame, 0, banner.frame.size.height);
         [UIView commitAnimations];
