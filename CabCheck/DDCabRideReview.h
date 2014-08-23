@@ -30,6 +30,7 @@
 @property (nonatomic, assign) NSString *deviceID;
 @property (nonatomic, assign) NSString *lastCabReviewed;
 @property (nonatomic, assign) NSDate *lastCabReviewDate;
+@property (strong, nonatomic) ADBannerView *UIiAD;
 
 - (IBAction)btnSaveReview:(id)sender;
 

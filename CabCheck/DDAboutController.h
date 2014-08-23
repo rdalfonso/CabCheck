@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 #import <iAd/iAd.h>
 @interface DDAboutController : UIViewController<ADBannerViewDelegate>
-
+@property (strong, nonatomic) ADBannerView *UIiAD;
 @end

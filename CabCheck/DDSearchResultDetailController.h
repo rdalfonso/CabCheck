@@ -19,6 +19,7 @@
     CLPlacemark *placemark;
 }
 
+@property (strong, nonatomic) ADBannerView *UIiAD;
 @property (strong, nonatomic) IBOutlet UIButton *btnReviewThisDriver;
 @property (strong, nonatomic) IBOutlet UIButton *btnTaxiReviews;
 @property (strong, nonatomic) IBOutlet UILabel *lblReviewBlurb;

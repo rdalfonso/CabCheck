@@ -21,6 +21,8 @@
     UITableView *autocompleteTableView;
     NSString *cityObject;
 }
+
+@property (strong, nonatomic) ADBannerView *UIiAD;
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
 @property (strong, nonatomic, readwrite) NSString *userCity;

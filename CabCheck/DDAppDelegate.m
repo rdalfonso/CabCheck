@@ -18,9 +18,12 @@
                   clientKey:@"SGDYQaGgVbDXHpPIKXwR505RJL0plP8D3zYOFwWW"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
-    //NSLog(@"bundle %@",[[NSBundle mainBundle] bundlePath]);
+    if ([ADBannerView instancesRespondToSelector:@selector(initWithAdType:)]) {
+        _UIiAD = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
+    } else {
+        _UIiAD = [[ADBannerView alloc] init];
+    }
     
-   //Make navigation bar items blue globally
     [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0 green:.62 blue:.984 alpha:1]];
     
     return YES;

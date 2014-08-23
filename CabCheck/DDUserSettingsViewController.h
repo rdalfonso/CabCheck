@@ -11,6 +11,7 @@
 
 @interface DDUserSettingsViewController : UIViewController<UITextFieldDelegate,ADBannerViewDelegate>
 {}
+@property (strong, nonatomic) ADBannerView *UIiAD;
 @property (strong, nonatomic) IBOutlet UITextField *userSMSContact1;
 @property (strong, nonatomic) IBOutlet UITextField *userSMSContact2;
 @property (strong, nonatomic) IBOutlet UITextField *userSMSContact3;

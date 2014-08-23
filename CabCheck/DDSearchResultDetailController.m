@@ -9,17 +9,62 @@
 #import "DDSearchResultDetailController.h"
 #import "DDCabRideReview.h"
 #import "DDCabReviews.h"
-
+#import "DDAppDelegate.h"
 #define PERCENT_LEVEL 25.0
 
-@interface DDSearchResultDetailController ()
-{
-    BOOL _bannerIsVisible;
-    ADBannerView *_adBanner;
-}
-@end
 
 @implementation DDSearchResultDetailController
+
+- (DDAppDelegate *) appdelegate {
+    return (DDAppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
+-(void) viewWillAppear:(BOOL)animated{
+    _UIiAD = [[self appdelegate] UIiAD];
+    _UIiAD.delegate = self;
+    [_UIiAD setFrame:CGRectMake(0, self.view.frame.size.height, 320, 50)];
+    [self.view addSubview:_UIiAD];
+}
+
+
+-(void) viewWillDisappear:(BOOL)animated{
+    _UIiAD.delegate = nil;
+    _UIiAD=nil;
+    [_UIiAD removeFromSuperview];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
+-(void)bannerViewDidLoadAd:(ADBannerView *)banner{
+    NSLog(@"ads loaded");
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:1];
+    [_UIiAD setAlpha:1];
+    [UIView commitAnimations];
+}
+
+-(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error{
+    NSLog(@"ads not loaded");
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:1];
+    [_UIiAD setAlpha:0];
+    [UIView commitAnimations];
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    NSLog(@"bannerview was selected");
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+    return willLeave;
+}
+
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -59,33 +104,6 @@
    // [self buildReviewSection];
     
 }
-
-
-- (void)viewWillAppear:(BOOL)animated {
-    [self buildReviewSection];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    // On iOS 6 ADBannerView introduces a new initializer, use it when available.
-    if ([ADBannerView instancesRespondToSelector:@selector(initWithAdType:)]) {
-        _adBanner = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
-    } else {
-        _adBanner = [[ADBannerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, 320, 50)];
-    }
-    _adBanner.delegate = self;
-
-}
-
-- (void) viewWillDisappear:(BOOL)animated {
-    [_adBanner removeFromSuperview];
-    _adBanner.delegate = nil;
-    _adBanner = nil;
-}
-
-
 
 -(void) refreshUserDefaults
 {
@@ -334,39 +352,6 @@
                  
              }
          } ];
-    }
-}
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
-{
-    if (!_bannerIsVisible)
-    {
-        // If banner isn't part of view hierarchy, add it
-        if (_adBanner.superview == nil)
-        {
-            [self.view addSubview:_adBanner];
-        }
-        
-        [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
-        banner.frame = CGRectOffset(banner.frame, 0, -banner.frame.size.height);
-        
-        [UIView commitAnimations];
-        _bannerIsVisible = YES;
-    }
-}
-
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
-{
-    NSLog(@"bannerview did not receive any banner due to %@", error);
-    if (_bannerIsVisible)
-    {
-        [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
-        
-        // Assumes the banner view is placed at the bottom of the screen.
-        banner.frame = CGRectOffset(banner.frame, 0, banner.frame.size.height);
-        [UIView commitAnimations];
-        _bannerIsVisible = NO;
     }
 }
 
