@@ -61,7 +61,7 @@
 }
 
 -(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error{
-    NSLog(@"ads not loaded");
+   // NSLog(@"ads not loaded");
     if (_bannerIsVisible)
     {
         [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
@@ -120,7 +120,7 @@
     //allow banner ads
     self.canDisplayBannerAds = YES;
     
-   // [self buildReviewSection];
+    [self buildReviewSection];
     
 }
 

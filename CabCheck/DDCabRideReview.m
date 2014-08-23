@@ -68,7 +68,7 @@ NSString *reviewComments;
 }
 
 -(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error{
-    NSLog(@"ads not loaded");
+    //NSLog(@"ads not loaded");
     if (_bannerIsVisible)
     {
         [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
