@@ -10,8 +10,13 @@
 #import "DDViewController.h"
 #import "DDAppDelegate.h"
 
-@implementation DDUserSettingsViewController
+@interface DDUserSettingsViewController ()
+{
+    BOOL _bannerIsVisible;
+}
+@end
 
+@implementation DDUserSettingsViewController
 
 - (DDAppDelegate *) appdelegate {
     return (DDAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -36,20 +41,35 @@
     [super viewDidAppear:animated];
 }
 
+
 -(void)bannerViewDidLoadAd:(ADBannerView *)banner{
-    NSLog(@"ads loaded");
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:1];
-    [_UIiAD setAlpha:1];
-    [UIView commitAnimations];
+    if (!_bannerIsVisible)
+    {
+        // If banner isn't part of view hierarchy, add it
+        if (_UIiAD.superview == nil)
+        {
+            [self.view addSubview:_UIiAD];
+        }
+        
+        [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
+        banner.frame = CGRectOffset(banner.frame, 0, -banner.frame.size.height);
+        [_UIiAD setAlpha:1];
+        [UIView commitAnimations];
+        _bannerIsVisible = YES;
+    }
 }
 
 -(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error{
     NSLog(@"ads not loaded");
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:1];
-    [_UIiAD setAlpha:0];
-    [UIView commitAnimations];
+    if (_bannerIsVisible)
+    {
+        [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
+        banner.frame = CGRectOffset(banner.frame, 0, banner.frame.size.height);
+        [_UIiAD setAlpha:0];
+        [UIView commitAnimations];
+        _bannerIsVisible = NO;
+    }
+    
 }
 
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner
@@ -61,9 +81,6 @@
 {
     return willLeave;
 }
-
-
-
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
