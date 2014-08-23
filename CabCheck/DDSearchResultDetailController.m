@@ -190,6 +190,7 @@
     
     PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
     [driverRatings whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
+     driverRatings.cachePolicy = kPFCachePolicyNetworkOnly;
     driverRatings.limit = 20;
     
     //driverRatings.cachePolicy = kPFCachePolicyCacheThenNetwork;
