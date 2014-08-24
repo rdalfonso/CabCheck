@@ -46,7 +46,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *driverPickupTime;
 
 @property (strong, nonatomic) IBOutlet UIImageView *driverRatingImage;
-@property (strong, nonatomic, readwrite) NSDate *userDate;
+@property (strong, nonatomic, readwrite) NSString *userDate;
 
 @property (nonatomic, assign) NSString *deviceID;
 @property (nonatomic, assign) NSString *settingCityString;

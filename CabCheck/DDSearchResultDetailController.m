@@ -20,6 +20,8 @@
 
 @implementation DDSearchResultDetailController
 
+//Methods for iADs....
+
 - (DDAppDelegate *) appdelegate {
     return (DDAppDelegate *)[[UIApplication sharedApplication] delegate];
 }
@@ -172,8 +174,6 @@
 
 }
 
-
-
 - (void)buildReviewSection
 {
     NSLog(@"Build Review Section");
@@ -291,8 +291,10 @@
     NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
     [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
     [theDateFormatter setDateFormat:@"EEE, MMM d, h:mm a"];
-    self.userDate = todayDate;
     
+    self.userDate = [NSString stringWithFormat:@"%@", [theDateFormatter stringFromDate:todayDate]];
+    
+
     if (currentLocation != nil) {
         
         _userLat = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
@@ -543,9 +545,9 @@
     } else {
         [passengerSMS appendString:@" Medallion Taxi\n"];
     }
-    if(self.self.userLocationIsSupported == 1) {
-        [passengerSMS appendString:[NSString stringWithFormat:@"near %@ on %@.\n", self.userAddress, self.userDate]];
-    }
+    //if(self.userLocationIsSupported == 1) {
+     [passengerSMS appendString:[NSString stringWithFormat:@"near %@ on %@.\n", self.userAddress, self.userDate]];
+    //}
     if([driverMake length] > 0) {
         [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Model: %@.\n", driverMake]];
     } else {
