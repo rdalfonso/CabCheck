@@ -7,7 +7,6 @@
 //
 
 #import "DDSearchResultDetailController.h"
-#import "DDCabRideReview.h"
 #import "DDCabReviews.h"
 #import "DDAppDelegate.h"
 #define PERCENT_LEVEL 25.0
@@ -85,8 +84,6 @@
     return willLeave;
 }
 
-
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -100,7 +97,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self refreshUserDefaults];
+    [self buildCabInfoSection];
     
     //Initialize CoreLocation
     locationManager = [[CLLocationManager alloc] init];
@@ -126,6 +125,71 @@
     
 }
 
+-(void) buildCabInfoSection
+{
+    NSDate *todayDate = [NSDate date];
+    NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
+    [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [theDateFormatter setDateFormat:@"EEE, MMM d, h:mm a"];
+    self.userDate = [NSString stringWithFormat:@"%@", [theDateFormatter stringFromDate:todayDate]];
+    
+    PFObject *object = self.taxiObject;
+    if(object != nil)
+    {
+        NSString *driverType = [object objectForKey:@"driverType"];
+        NSString *driverName = [object objectForKey:@"driverName"];
+        NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
+        NSString *driverDMVLicense = [object objectForKey:@"driverDMVLicense"];
+        NSString *driverVIN = [object objectForKey:@"driverVIN"];
+        
+        if([driverDMVLicense length] <= 0){
+            driverDMVLicense = @"N/A";
+        }
+        
+        if([driverVIN length] <= 0){
+            driverVIN = @"N/A";
+        }
+        
+        NSMutableString *driverCabType = [NSMutableString stringWithString:@""];
+        NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
+        NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
+        NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
+        
+        if([driverCabMake length] > 0) {
+            [driverCabType appendString:[driverCabMake capitalizedString]];
+        }
+        if([driverCabModel length] > 0) {
+            [driverCabType appendString:@" "];
+            [driverCabType appendString:[driverCabModel capitalizedString]];
+        }
+        if([driverCabYear length] > 0) {
+            [driverCabType appendString:@" "];
+            [driverCabType appendString:driverCabYear];
+        }
+        
+        if([driverMedallion length] > 0) {
+            _lblSearchResultDetailHeader.text = [NSString stringWithFormat:@"Driver Details - %@", driverMedallion];
+        }
+        
+        _driverName.text = driverName;
+        _driverMedallion.text = driverMedallion;
+        _driverLicense.text = driverDMVLicense;
+        _driverPickupTime.text = [NSString stringWithFormat:@"%@", [theDateFormatter stringFromDate:todayDate]];
+        
+        if ([driverType isEqualToString:@"Y"]) {
+            _driverType.text = @"Yellow Medallion Taxi";
+            _driverCabInfo.text = driverCabType;
+        }
+        else if ([driverType isEqualToString:@"L"]) {
+            _driverType.text = @"TLC Street Hail Livery";
+            _driverCabInfo.text = @"Livery Sedan";
+            
+        } else {
+            _driverType.text = @"Medallion Taxi";
+            _driverCabInfo.text = driverCabType;
+        }
+    }
+}
 -(void) refreshUserDefaults
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -151,27 +215,6 @@
             self.settingCityString = @"Las Vegas";
         }
     }
-    
-    self.userLocationIsSupported = [defaults integerForKey:@"userCurrentCityLocationIsSupported"];
-    
-    PFQuery *broadCast = [PFQuery queryWithClassName:@"DriverReviewObject"];
-    [broadCast whereKey:@"deviceID" equalTo:self.deviceID];
-    [broadCast whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
-    [broadCast getFirstObjectInBackgroundWithBlock:^(PFObject *reviewObject, NSError *error)
-     {
-         if(!error){
-             _btnReviewThisDriver.titleLabel.text = @"[Edit Your Review]";
-             _btnReviewThisDriver.titleLabel.textColor = [UIColor colorWithRed:30.0f/255.0f green:144.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
-             
-             NSDate *reviewDate = reviewObject.updatedAt;
-             NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
-             [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-             [theDateFormatter setDateFormat:@"EEE, MMM d, h:mm a"];
-             
-            _lblLastReviewDate.text = [NSString stringWithFormat:@"You reviewed this cab on %@", [theDateFormatter stringFromDate:reviewDate]];
-         }
-     }];
-
 }
 
 - (void)buildReviewSection
@@ -238,15 +281,15 @@
             if( TotalCount == 0){
                 _driverRatingImage.image = [UIImage imageNamed: @"review-green-large.jpg"];
                 _driverReviewTags.text = @"No Reviews Yet.";
-                _btnTaxiReviews.enabled = NO;
-                _btnTaxiReviews.titleLabel.textColor = [UIColor grayColor];
+                _btnReadRevews = NO;
+                _btnReadRevews.titleLabel.textColor = [UIColor grayColor];
             }
             else
             {
-                _lblReviewBlurb.text = [NSString stringWithFormat:@"%ld user reviews.", TotalCount];
-
-                _btnTaxiReviews.enabled = YES;
-                _btnTaxiReviews.titleLabel.textColor = [UIColor colorWithRed:30.0f/255.0f green:144.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
+                
+                _btnReadRevews.enabled = YES;
+                _btnReadRevews.titleLabel.textColor = [UIColor colorWithRed:30.0f/255.0f green:144.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
+                [_btnReadRevews setTitle:[NSString stringWithFormat:@"%ld user reviews.", TotalCount] forState:UIControlStateNormal];
                 
                 //Calculate scores
                 float pcGood =  [self getReviewPercent:TotalCount withInteger:GoodCount];
@@ -261,7 +304,6 @@
                 }
                 else
                 {
-                    
                     NSString *reviewTags = [self getReviewTags:TotalCount withInteger:RespectCount withInteger:DrivingCount withInteger:EnglishCount withInteger:HonestCount withInteger:DirectionsCount];
                     
                     
@@ -287,14 +329,6 @@
 {
     CLLocation *currentLocation = newLocation;
     
-    NSDate *todayDate = [NSDate date];
-    NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
-    [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-    [theDateFormatter setDateFormat:@"EEE, MMM d, h:mm a"];
-    
-    self.userDate = [NSString stringWithFormat:@"%@", [theDateFormatter stringFromDate:todayDate]];
-    
-
     if (currentLocation != nil) {
         
         _userLat = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
@@ -310,72 +344,57 @@
                  NSString *address = [NSString stringWithFormat:@"%@ %@,%@ %@", [placemark subThoroughfare],[placemark thoroughfare],[placemark locality], [placemark administrativeArea]];
                  self.userAddress = address;
                  
-                 PFObject *object = self.taxiObject;
-                 if(object != nil)
-                 {
-                     NSString *driverType = [object objectForKey:@"driverType"];
-                     NSString *driverName = [object objectForKey:@"driverName"];
-                     NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
-                     NSString *driverDMVLicense = [object objectForKey:@"driverDMVLicense"];
-                     if([driverDMVLicense length] <= 0){
-                         driverDMVLicense = @"N/A";
-                     }
-                     NSString *driverVIN = [object objectForKey:@"driverVIN"];
-                     if([driverVIN length] <= 0){
-                         driverVIN = @"N/A";
-                     }
-                     NSMutableString *driverCabType = [NSMutableString stringWithString:@""];
-                     NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
-                     NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
-                     NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
-                     
-                     if([driverCabMake length] > 0) {
-                         [driverCabType appendString:[driverCabMake capitalizedString]];
-                     }
-                     if([driverCabModel length] > 0) {
-                         [driverCabType appendString:@" "];
-                         [driverCabType appendString:[driverCabModel capitalizedString]];
-                     }
-                     if([driverCabYear length] > 0) {
-                         [driverCabType appendString:@" "];
-                         [driverCabType appendString:driverCabYear];
-                     }
-                     
-                     if([driverMedallion length] > 0) {
-                         _lblSearchResultDetailHeader.text = [NSString stringWithFormat:@"Driver Details - %@", driverMedallion];
-                     }
-                     
-                     _driverName.text = driverName;
-                     _driverMedallion.text = driverMedallion;
-                     _driverPickUp.text = [address stringByReplacingOccurrencesOfString:@"," withString:@"\n"];
-                     _driverPickupTime.text = [NSString stringWithFormat:@"%@", [theDateFormatter stringFromDate:todayDate]];
-                     
-                     if ([driverType isEqualToString:@"Y"]) {
-                         _driverType.text = @"Yellow Medallion Taxi";
-                         _driverVINLabel.text = @"VIN:";
-                         _driverVIN.text = driverVIN;
-                         _driverLicense.text = driverCabType;
-                     }
-                     else if ([driverType isEqualToString:@"L"]) {
-                         _driverType.text = @"TLC Street Hail Livery";
-                         _driverVINLabel.text = @"License:";
-                         _driverVIN.text = driverDMVLicense;
-                         _driverLicense.text = @"Livery Sedan";
-                        
-                     } else {
-                         _driverType.text = @"Medallion Taxi";
-                         _driverVINLabel.text = @"VIN:";
-                         _driverVIN.text = driverVIN;
-                         _driverLicense.text = driverCabType;
-                     }
-                 }
+                 // Store the pickup address and date
+                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                 [defaults setObject:self.userAddress forKey:@"userPickUpAddress"];
+                 [defaults setObject:self.userDate forKey:@"userPickUpDate"];
+                 [defaults setObject:_userLat forKey:@"userLatPickUp"];
+                 [defaults setObject:_userLong forKey:@"userLongPickUp"];
+                 [defaults synchronize];
                  
-                
-                 
+                 _driverPickUp.text = [self.userAddress stringByReplacingOccurrencesOfString:@"," withString:@"\n"];
              }
          } ];
     }
 }
+
+
+
+-(void)searchBtnUserClick:(id)sender
+{
+    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
+}
+
+
+- (IBAction)btnSendData:(id)sender {
+
+}
+
+
+- (IBAction)btnReviewsLink:(id)sender {
+}
+
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+   if ([segue.identifier isEqualToString:@"pushSeqDetailToAllReviews"]) {
+        DDCabReviews *destViewController = segue.destinationViewController;
+        
+        if(self.taxiObject != nil) {
+            destViewController.taxiObject = self.taxiObject;
+        }
+    }
+    
+    if ([segue.identifier isEqualToString:@"pushSeqDetailToSMS"]) {
+        DDCabReviews *destViewController = segue.destinationViewController;
+        
+        if(self.taxiObject != nil) {
+            destViewController.taxiObject = self.taxiObject;
+        }
+    }
+    
+}
+
 
 -(NSString *) getReviewTags:(long)TotalCount withInteger:(int)RespectCount withInteger:(int)DrivingCount withInteger:(int)EnglishCount withInteger:(int)HonestCount withInteger:(int)DirectionsCount
 {
@@ -407,7 +426,7 @@
     }
     
     return reviewTags;
-
+    
 }
 
 -(float) getReviewPercent:(long)TotalCount withInteger:(int)categoryCount
@@ -426,153 +445,7 @@
         precentage = 0;
     }
     
-    
     return precentage;
-}
-
--(void)searchBtnUserClick:(id)sender
-{
-    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
-}
-
-
-- (IBAction)btnSendData:(id)sender {
-    
-    [self showTaxiInformationSMS:self.taxiObject];
-}
-
-
-- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
-{
-    switch (result) {
-        case MessageComposeResultCancelled:
-            break;
-            
-        case MessageComposeResultFailed:
-        {
-            UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to send SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [warningAlert show];
-            break;
-        }
-            
-        case MessageComposeResultSent:
-            break;
-            
-        default:
-            break;
-    }
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"pushSeqReviewThisDriver"]) {
-        DDCabRideReview *destViewController = segue.destinationViewController;
-        
-        if(self.taxiObject != nil) {
-            destViewController.taxiObject = self.taxiObject;
-        }
-    }
-    if ([segue.identifier isEqualToString:@"pushSeqDetailToAllReviews"]) {
-        DDCabReviews *destViewController = segue.destinationViewController;
-        
-        if(self.taxiObject != nil) {
-            destViewController.taxiObject = self.taxiObject;
-        }
-    }
-    
-}
-
-- (void)showTaxiInformationSMS:(PFObject*)taxiObject {
-    
-    if(![MFMessageComposeViewController canSendText]) {
-        UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your device doesn't support SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [warningAlert show];
-        return;
-    }
-    
-    
-    //Get Use Contacts
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSMutableArray *userSMSNumbers = [NSMutableArray arrayWithArray:[defaults objectForKey:@"userSMSNumbers"]];
-    NSArray *recipents = [userSMSNumbers copy];
-    
-    //Get Taxi Object information
-    PFObject *object = self.taxiObject;
-    
-    NSString *driverType = [object objectForKey:@"driverType"];
-    NSString *driverName = [object objectForKey:@"driverName"];
-    NSString *driverCompany = [object objectForKey:@"driverCompany"];
-    NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
-    NSString *driverDMVLicense = [object objectForKey:@"driverDMVLicense"];
-    if([driverDMVLicense length] <= 0){
-        driverDMVLicense = @"N/A";
-    }
-    NSString *driverVIN = [object objectForKey:@"driverVIN"];
-    NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
-    NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
-    NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
-    
-    NSMutableString *driverMake = [NSMutableString stringWithString:@""];
-
-    
-    if([driverCabMake length] > 0) {
-        [driverMake appendString:driverCabMake];
-        [driverMake appendString:@" "];
-    }
-    
-    if([driverCabModel length] > 0) {
-        [driverMake appendString:driverCabModel];
-        [driverMake appendString:@" "];
-    }
-    
-    if([driverCabYear length] > 0) {
-        [driverMake appendString:driverCabYear];
-    }
-    
-     NSMutableString *passengerSMS = [NSMutableString stringWithString:@""];
-    [passengerSMS appendString:@"CabCheck App Message:\n"];
-    [passengerSMS appendString:@"I just got into a "];
-    [passengerSMS appendString:self.settingCityString];
-    
-    if ([driverType isEqualToString:@"Y"]) {
-        [passengerSMS appendString:@" Yellow Medallion Taxi\n"];
-    }
-    else if ([driverType isEqualToString:@"L"]) {
-        [passengerSMS appendString:@" TLC Street Hail Livery Taxi\n"];
-    } else {
-        [passengerSMS appendString:@" Medallion Taxi\n"];
-    }
-    //if(self.userLocationIsSupported == 1) {
-     [passengerSMS appendString:[NSString stringWithFormat:@"near %@ on %@.\n", self.userAddress, self.userDate]];
-    //}
-    if([driverMake length] > 0) {
-        [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Model: %@.\n", driverMake]];
-    } else {
-        [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Company: %@.\n", driverCompany]];
-    }
-    [passengerSMS appendString:[NSString stringWithFormat:@"Driver: %@.\n", driverName]];
-    [passengerSMS appendString:[NSString stringWithFormat:@"Medallion Number: %@.\n", driverMedallion]];
-    if ([driverVIN length] > 0)
-    {
-        [passengerSMS appendString:[NSString stringWithFormat:@"VIN: %@.\n", driverVIN]];
-    }
-    else if ([driverType isEqualToString:@"L"])
-    {
-        [passengerSMS appendString:[NSString stringWithFormat:@"License Plate: %@.\n", driverDMVLicense]];
-    }
-    
-    [passengerSMS appendString:[NSString stringWithFormat:@"\n Download this app at http://www.duomodigital.com/cabcheck.html"]];
-    
-    MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
-    messageController.messageComposeDelegate = self;
-    [messageController setRecipients:recipents];
-    [messageController setBody:passengerSMS];
-    
-    // Present message view controller on screen
-    [self presentViewController:messageController animated:YES completion:nil];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
@@ -630,8 +503,5 @@
 }
 */
 
-
-- (IBAction)btnReviewsLink:(id)sender {
-}
 
 @end

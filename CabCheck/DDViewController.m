@@ -112,7 +112,6 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     
-    
     //Add search icon to navigation
     UIBarButtonItem *settingsItem = [[UIBarButtonItem alloc] initWithTitle:@"\u2699"
                                                                      style:UIBarButtonItemStylePlain target:self action:@selector(settingsBtnUserClick:)];
@@ -276,8 +275,6 @@
     }
 }
 
-
-
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     autocompleteTableView.hidden = NO;
     
@@ -335,6 +332,16 @@
         self.taxiObject = taxiObject;
         [self goPressed];
     }
+    /*
+    for (int i = 0; i < [autocompleteObjects count]; i++) {
+        NSNumber *rowSelected = [NSNumber numberWithBool:(indexPath.row == i)];
+        [autocompleteObjects replaceObjectAtIndex:i withObject:rowSelected];
+        PFObject *taxiObject = [autocompleteObjects objectAtIndex:indexPath.row];
+        self.taxiObject = taxiObject;
+        [self goPressed];
+        
+    }
+    */
 }
 
 

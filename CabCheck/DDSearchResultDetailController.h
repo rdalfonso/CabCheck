@@ -8,11 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
-#import <MessageUI/MessageUI.h>
 #import <CoreLocation/CoreLocation.h>
 #import <iAd/iAd.h>
 
-@interface DDSearchResultDetailController : UIViewController<MFMessageComposeViewControllerDelegate, CLLocationManagerDelegate,ADBannerViewDelegate>
+@interface DDSearchResultDetailController : UIViewController<CLLocationManagerDelegate,ADBannerViewDelegate>
 {
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
@@ -20,37 +19,34 @@
 }
 
 @property (strong, nonatomic) ADBannerView *UIiAD;
-@property (strong, nonatomic) IBOutlet UIButton *btnReviewThisDriver;
-@property (strong, nonatomic) IBOutlet UIButton *btnTaxiReviews;
-@property (strong, nonatomic) IBOutlet UILabel *lblReviewBlurb;
+@property (nonatomic, assign) NSString *deviceID;
+@property (nonatomic, assign) NSString *settingCityString;
 
 @property (strong, nonatomic, readwrite) NSString *userSMS1;
 @property (strong, nonatomic, readwrite) NSString *userSMS2;
 @property (strong, nonatomic, readwrite) NSString *userSMS3;
 @property (strong, nonatomic, readwrite) NSString *userCity;
 @property (strong, nonatomic, readwrite) NSString *userAddress;
+@property (strong, nonatomic, readwrite) NSString *userDate;
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
 
 @property (nonatomic, strong) PFObject *taxiObject;
-@property (strong, nonatomic) IBOutlet UILabel *lblLastReviewDate;
-@property (strong, nonatomic) IBOutlet UILabel *driverReviewTags;
-@property (strong, nonatomic) IBOutlet UILabel *driverVINLabel;
 @property (strong, nonatomic) IBOutlet UILabel *lblSearchResultDetailHeader;
+
+@property (strong, nonatomic) IBOutlet UILabel *driverReviewTags;
+@property (strong, nonatomic) IBOutlet UILabel *driverLicense;
+@property (strong, nonatomic) IBOutlet UILabel *driverLicenseLabel;
 @property (strong, nonatomic) IBOutlet UILabel *driverType;
 @property (strong, nonatomic) IBOutlet UILabel *driverName;
 @property (strong, nonatomic) IBOutlet UILabel *driverMedallion;
-@property (strong, nonatomic) IBOutlet UILabel *driverLicense;
-@property (strong, nonatomic) IBOutlet UILabel *driverVIN;
+@property (strong, nonatomic) IBOutlet UILabel *driverCabInfo;
+
 @property (strong, nonatomic) IBOutlet UILabel *driverPickUp;
 @property (strong, nonatomic) IBOutlet UILabel *driverPickupTime;
 
+@property (strong, nonatomic) IBOutlet UIButton *btnReadRevews;
 @property (strong, nonatomic) IBOutlet UIImageView *driverRatingImage;
-@property (strong, nonatomic, readwrite) NSString *userDate;
-
-@property (nonatomic, assign) NSString *deviceID;
-@property (nonatomic, assign) NSString *settingCityString;
-@property (nonatomic, assign) NSInteger userLocationIsSupported;
 
 
 - (IBAction)btnSendData:(id)sender;

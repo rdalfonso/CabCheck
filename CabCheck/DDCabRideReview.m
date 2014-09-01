@@ -281,7 +281,7 @@ NSString *reviewComments;
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"pushSeqPostReviewToDetail"]) {
+    if ([segue.identifier isEqualToString:@"seqPushPostReviewEnd"]) {
         DDSearchResultDetailController *destViewController = segue.destinationViewController;
         
         if([self.taxiObject.objectId length] > 0) {

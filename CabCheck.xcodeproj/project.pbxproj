@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A12A9E9D19B4E2F5002A2426 /* DDBeginCabCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = A12A9E9C19B4E2F5002A2426 /* DDBeginCabCheck.m */; };
+		A12A9EA019B515C6002A2426 /* MKMapViewZoomLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = A12A9E9F19B515C6002A2426 /* MKMapViewZoomLevel.m */; };
+		A12A9EA319B51E4A002A2426 /* DDEndCabCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = A12A9EA219B51E4A002A2426 /* DDEndCabCheck.m */; };
 		A1307E851984CA13009C9BAE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1307E841984CA13009C9BAE /* MessageUI.framework */; };
 		A14458831986A17200BDEA28 /* DDCabReviews.m in Sources */ = {isa = PBXBuildFile; fileRef = A14458821986A17200BDEA28 /* DDCabReviews.m */; };
 		A14458861986A37400BDEA28 /* CabReviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A14458851986A37400BDEA28 /* CabReviewCell.m */; };
@@ -62,6 +65,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A12A9E9B19B4E2F5002A2426 /* DDBeginCabCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDBeginCabCheck.h; sourceTree = "<group>"; };
+		A12A9E9C19B4E2F5002A2426 /* DDBeginCabCheck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDBeginCabCheck.m; sourceTree = "<group>"; };
+		A12A9E9E19B515C6002A2426 /* MKMapViewZoomLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMapViewZoomLevel.h; sourceTree = "<group>"; };
+		A12A9E9F19B515C6002A2426 /* MKMapViewZoomLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMapViewZoomLevel.m; sourceTree = "<group>"; };
+		A12A9EA119B51E4A002A2426 /* DDEndCabCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDEndCabCheck.h; sourceTree = "<group>"; };
+		A12A9EA219B51E4A002A2426 /* DDEndCabCheck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDEndCabCheck.m; sourceTree = "<group>"; };
 		A1307E841984CA13009C9BAE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		A14458811986A17100BDEA28 /* DDCabReviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCabReviews.h; sourceTree = "<group>"; };
 		A14458821986A17200BDEA28 /* DDCabReviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCabReviews.m; sourceTree = "<group>"; };
@@ -217,6 +226,12 @@
 				A14458851986A37400BDEA28 /* CabReviewCell.m */,
 				A14458871986B13400BDEA28 /* DDUserSettingsViewController.h */,
 				A14458881986B13400BDEA28 /* DDUserSettingsViewController.m */,
+				A12A9E9B19B4E2F5002A2426 /* DDBeginCabCheck.h */,
+				A12A9E9C19B4E2F5002A2426 /* DDBeginCabCheck.m */,
+				A12A9E9E19B515C6002A2426 /* MKMapViewZoomLevel.h */,
+				A12A9E9F19B515C6002A2426 /* MKMapViewZoomLevel.m */,
+				A12A9EA119B51E4A002A2426 /* DDEndCabCheck.h */,
+				A12A9EA219B51E4A002A2426 /* DDEndCabCheck.m */,
 			);
 			path = CabCheck;
 			sourceTree = "<group>";
@@ -371,9 +386,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A12A9EA019B515C6002A2426 /* MKMapViewZoomLevel.m in Sources */,
+				A12A9EA319B51E4A002A2426 /* DDEndCabCheck.m in Sources */,
 				A14458891986B13400BDEA28 /* DDUserSettingsViewController.m in Sources */,
 				A1AB56341979C9B3004D23AD /* DDAppDelegate.m in Sources */,
 				A182505E197CC9A600483B5A /* DDAboutController.m in Sources */,
+				A12A9E9D19B4E2F5002A2426 /* DDBeginCabCheck.m in Sources */,
 				A1565EA81981D3D4008E5D2B /* DDSearchResultDetailController.m in Sources */,
 				A1AB563A1979C9B3004D23AD /* DDViewController.m in Sources */,
 				A14458861986A37400BDEA28 /* CabReviewCell.m in Sources */,
@@ -461,7 +479,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -494,7 +512,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = NO;
@@ -517,7 +535,7 @@
 				INFOPLIST_FILE = "CabCheck/CabCheck-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d972d154-d607-4f58-9238-f74df6e465d1";
+				PROVISIONING_PROFILE = "";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -539,7 +557,7 @@
 				INFOPLIST_FILE = "CabCheck/CabCheck-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d972d154-d607-4f58-9238-f74df6e465d1";
+				PROVISIONING_PROFILE = "";
 				VALIDATE_PRODUCT = NO;
 				WRAPPER_EXTENSION = app;
 			};
