@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <iAd/iAd.h>
 #import <MapKit/MapKit.h>
-#import <CoreLocation/CoreLocation.h>
 #import <Parse/Parse.h>
 #import <MessageUI/MessageUI.h>
-#import <iAd/iAd.h>
+#import <CoreLocation/CoreLocation.h>
 @interface DDBeginCabCheck : UIViewController<CLLocationManagerDelegate,MFMessageComposeViewControllerDelegate,ADBannerViewDelegate>
 {
     CLLocationManager *locationManager;
@@ -25,7 +25,6 @@
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
 @property (strong, nonatomic, readwrite) NSString *userCity;
-
 
 @property (nonatomic, assign) NSString *settingCityString;
 @property (nonatomic, strong) PFObject *taxiObject;

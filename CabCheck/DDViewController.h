@@ -26,20 +26,17 @@
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
 @property (strong, nonatomic, readwrite) NSString *userCity;
+@property (nonatomic, strong) NSString *cityObject;
+@property (nonatomic, assign) NSString *deviceID;
+@property (nonatomic, assign) NSInteger settingCity;
 @property (strong, nonatomic) IBOutlet UILabel *lblCityWarning;
-
 @property (strong, nonatomic) IBOutlet UILabel *lblCurrentCity;
 @property (strong, nonatomic) IBOutlet UITextField *txtSearch;
-- (IBAction)btnChangeCity:(id)sender;
-
 @property (nonatomic, strong) PFObject *taxiObject;
 @property (nonatomic, retain) NSMutableArray *autocompleteObjects;
 @property (nonatomic, retain) UITableView *autocompleteTableView;
-@property (nonatomic, strong) NSString *cityObject;
 
-@property (nonatomic, assign) NSString *deviceID;
-@property (nonatomic, assign) NSInteger settingCity;
-
+- (IBAction)btnChangeCity:(id)sender;
 - (IBAction)goPressed;
 - (void)searchAutocompleteEntriesWithSubstring:(NSString *)substring;
 

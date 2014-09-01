@@ -69,7 +69,6 @@
         [UIView commitAnimations];
         _bannerIsVisible = NO;
     }
-    
 }
 
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner

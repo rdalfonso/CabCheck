@@ -33,7 +33,6 @@
 
 @property (nonatomic, strong) PFObject *taxiObject;
 @property (strong, nonatomic) IBOutlet UILabel *lblSearchResultDetailHeader;
-
 @property (strong, nonatomic) IBOutlet UILabel *driverReviewTags;
 @property (strong, nonatomic) IBOutlet UILabel *driverLicense;
 @property (strong, nonatomic) IBOutlet UILabel *driverLicenseLabel;
@@ -41,7 +40,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *driverName;
 @property (strong, nonatomic) IBOutlet UILabel *driverMedallion;
 @property (strong, nonatomic) IBOutlet UILabel *driverCabInfo;
-
 @property (strong, nonatomic) IBOutlet UILabel *driverPickUp;
 @property (strong, nonatomic) IBOutlet UILabel *driverPickupTime;
 

@@ -96,14 +96,20 @@
 {
     [super viewDidLoad];
     
+    [self refreshUserDefaults];
     [self.mapView setShowsUserLocation:YES];
+    
     //Front-end control manipulation
     self.edgesForExtendedLayout = UIRectEdgeAll;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
-    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-                                                                                target:self action:@selector(searchBtnUserClick:)];
     
+    //Add Search icon
+    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+        target:self action:@selector(searchBtnUserClick:)];
     self.navigationItem.rightBarButtonItem = searchItem;
+    
+    //allow banner ads
+    self.canDisplayBannerAds = YES;
     
     //Initialize CoreLocation
     locationManager = [[CLLocationManager alloc] init];
@@ -113,7 +119,7 @@
     [locationManager startUpdatingLocation];
     geocoder = [[CLGeocoder alloc] init];
     
-    [self refreshUserDefaults];
+    //Viewload methods
     [self setMapPoints];
     
 }

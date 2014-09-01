@@ -151,10 +151,6 @@
     if([defaults objectForKey:@"deviceID"] == nil) {
         [defaults setObject:[[[UIDevice currentDevice] identifierForVendor] UUIDString] forKey:@"deviceID"];
     }
-    
-    if([defaults objectForKey:@"userCurrentCityLocationIsSupported"] == nil) {
-        [defaults setInteger:1 forKey:@"userCurrentCityLocationIsSupported"];
-    }
     [defaults synchronize];
     
     self.deviceID = [defaults stringForKey:@"deviceID"];
@@ -181,22 +177,16 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     if ([currentCity isEqualToString:@"New York"]) {
-        [defaults setInteger:1 forKey:@"userCurrentCityLocationIsSupported"];
         returnCity = currentCity;
     } else if ([currentCity isEqualToString:@"Chicago"]) {
-        [defaults setInteger:1 forKey:@"userCurrentCityLocationIsSupported"];
         returnCity = currentCity;
     } else if ([_userCity isEqualToString:@"San Francisco"]) {
-        [defaults setInteger:1 forKey:@"userCurrentCityLocationIsSupported"];
         returnCity = currentCity;
     } else if ([_userCity isEqualToString:@"Las Vegas"]) {
-        [defaults setInteger:1 forKey:@"userCurrentCityLocationIsSupported"];
         returnCity = currentCity;
     }
     else
     {
-        [defaults setInteger:0 forKey:@"userCurrentCityLocationIsSupported"];
-        
         if(self.settingCity == 0){
             returnCity = @"New York";
         }
@@ -213,7 +203,6 @@
         }
     }
     [defaults synchronize];
-    
     return returnCity;
     
 }
