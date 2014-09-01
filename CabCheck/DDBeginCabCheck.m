@@ -9,14 +9,78 @@
 #import "DDBeginCabCheck.h"
 #import "DDCabRideReview.h"
 #import "MKMapViewZoomLevel.h"
+#import "DDAppDelegate.h"
 
 @interface DDBeginCabCheck ()
-
+{
+    BOOL _bannerIsVisible;
+}
 @end
 
 @implementation DDBeginCabCheck
 @synthesize mapView;
 @synthesize deviceID;
+
+- (DDAppDelegate *) appdelegate {
+    return (DDAppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
+-(void) viewWillAppear:(BOOL)animated{
+    _UIiAD = [[self appdelegate] UIiAD];
+    _UIiAD.delegate = self;
+    [_UIiAD setFrame:CGRectMake(0, self.view.frame.size.height, 320, 50)];
+    [self.view addSubview:_UIiAD];
+}
+
+
+-(void) viewWillDisappear:(BOOL)animated{
+    _UIiAD.delegate = nil;
+    _UIiAD=nil;
+    [_UIiAD removeFromSuperview];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
+-(void)bannerViewDidLoadAd:(ADBannerView *)banner{
+    if (!_bannerIsVisible)
+    {
+        // If banner isn't part of view hierarchy, add it
+        if (_UIiAD.superview == nil)
+        {
+            [self.view addSubview:_UIiAD];
+        }
+        
+        [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
+        banner.frame = CGRectOffset(banner.frame, 0, -banner.frame.size.height);
+        [_UIiAD setAlpha:1];
+        [UIView commitAnimations];
+        _bannerIsVisible = YES;
+    }
+}
+
+-(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error{
+    if (_bannerIsVisible)
+    {
+        [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
+        banner.frame = CGRectOffset(banner.frame, 0, banner.frame.size.height);
+        [_UIiAD setAlpha:0];
+        [UIView commitAnimations];
+        _bannerIsVisible = NO;
+    }
+    
+}
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    NSLog(@"bannerview was selected");
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+    return willLeave;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,10 +99,51 @@
     //Front-end control manipulation
     self.edgesForExtendedLayout = UIRectEdgeAll;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
+    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+            target:self action:@selector(searchBtnUserClick:)];
+    
+    self.navigationItem.rightBarButtonItem = searchItem;
    
+    //Initialize CoreLocation
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.distanceFilter=10.0;
+    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    [locationManager startUpdatingLocation];
+    geocoder = [[CLGeocoder alloc] init];
+    
     [self refreshUserDefaults];
     [self showTaxiInformationSMS:self.taxiObject];
     [self setMapPoints];
+}
+
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    CLLocation *currentLocation = newLocation;
+    
+    if (currentLocation != nil) {
+        
+        _userLat = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
+        _userLong = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
+        
+        NSString *alertMessage = [NSString stringWithFormat:@"Your new location %@ %@.", _userLat, _userLong];
+        
+        UIAlertView    *alert = [[UIAlertView alloc] initWithTitle:@"didUpdateToLocation"
+            message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+        
+        [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
+         {
+             if (error == nil && [placemarks count] > 0)
+             {
+                 placemark = [placemarks lastObject];
+                 _userCity = placemark.locality;
+                 
+             }
+         } ];
+    }
 }
 
 
@@ -130,6 +235,12 @@
     }
     
 }
+
+-(void)searchBtnUserClick:(id)sender
+{
+    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
+}
+
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
 {

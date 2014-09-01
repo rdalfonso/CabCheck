@@ -8,16 +8,28 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import <Parse/Parse.h>
 #import <MessageUI/MessageUI.h>
-@interface DDBeginCabCheck : UIViewController<MFMessageComposeViewControllerDelegate>
+#import <iAd/iAd.h>
+@interface DDBeginCabCheck : UIViewController<CLLocationManagerDelegate,MFMessageComposeViewControllerDelegate,ADBannerViewDelegate>
+{
+    CLLocationManager *locationManager;
+    CLGeocoder *geocoder;
+    CLPlacemark *placemark;
+}
+@property (nonatomic, assign) NSString *deviceID;
+
 @property (strong, nonatomic, readwrite) NSString *userAddress;
 @property (strong, nonatomic, readwrite) NSString *userDate;
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
+@property (strong, nonatomic, readwrite) NSString *userCity;
+
+
 @property (nonatomic, assign) NSString *settingCityString;
 @property (nonatomic, strong) PFObject *taxiObject;
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) IBOutlet UIButton *btnReviewThisDriver;
-@property (nonatomic, assign) NSString *deviceID;
+@property (strong, nonatomic) ADBannerView *UIiAD;
 @end

@@ -10,8 +10,8 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <Parse/Parse.h>
-
-@interface DDEndCabCheck : UIViewController<CLLocationManagerDelegate>
+#import <iAd/iAd.h>
+@interface DDEndCabCheck : UIViewController<CLLocationManagerDelegate,ADBannerViewDelegate>
 {
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
@@ -28,5 +28,5 @@
 @property (strong, nonatomic, readwrite) NSString *userCity;
 @property (nonatomic, strong) PFObject *taxiObject;
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
-
+@property (strong, nonatomic) ADBannerView *UIiAD;
 @end

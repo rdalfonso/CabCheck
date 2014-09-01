@@ -8,15 +8,80 @@
 
 #import "DDEndCabCheck.h"
 #import "MKMapViewZoomLevel.h"
-#import "MKMapViewZoomLevel.h"
+#import "DDAppDelegate.h"
 
 @interface DDEndCabCheck ()
-
+{
+    BOOL _bannerIsVisible;
+}
+@property (nonatomic, strong) NSMutableArray *allPins;
+@property (nonatomic, strong) MKPolylineView *lineView;
+@property (nonatomic, strong) MKPolyline *polyline;
 @end
 
 @implementation DDEndCabCheck
 @synthesize mapView;
 @synthesize deviceID;
+
+
+- (DDAppDelegate *) appdelegate {
+    return (DDAppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
+-(void) viewWillAppear:(BOOL)animated{
+    _UIiAD = [[self appdelegate] UIiAD];
+    _UIiAD.delegate = self;
+    [_UIiAD setFrame:CGRectMake(0, self.view.frame.size.height, 320, 50)];
+    [self.view addSubview:_UIiAD];
+}
+
+
+-(void) viewWillDisappear:(BOOL)animated{
+    _UIiAD.delegate = nil;
+    _UIiAD=nil;
+    [_UIiAD removeFromSuperview];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
+-(void)bannerViewDidLoadAd:(ADBannerView *)banner{
+    if (!_bannerIsVisible)
+    {
+        // If banner isn't part of view hierarchy, add it
+        if (_UIiAD.superview == nil)
+        {
+            [self.view addSubview:_UIiAD];
+        }
+        
+        [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
+        banner.frame = CGRectOffset(banner.frame, 0, -banner.frame.size.height);
+        [_UIiAD setAlpha:1];
+        [UIView commitAnimations];
+        _bannerIsVisible = YES;
+    }
+}
+
+-(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error{
+    if (_bannerIsVisible)
+    {
+        [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
+        banner.frame = CGRectOffset(banner.frame, 0, banner.frame.size.height);
+        [_UIiAD setAlpha:0];
+        [UIView commitAnimations];
+        _bannerIsVisible = NO;
+    }
+    
+}
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner {
+    NSLog(@"bannerview was selected");
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave {
+    return willLeave;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,13 +96,14 @@
 {
     [super viewDidLoad];
     
-    
     [self.mapView setShowsUserLocation:YES];
     //Front-end control manipulation
     self.edgesForExtendedLayout = UIRectEdgeAll;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
+    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+                                                                                target:self action:@selector(searchBtnUserClick:)];
     
-    [self refreshUserDefaults];
+    self.navigationItem.rightBarButtonItem = searchItem;
     
     //Initialize CoreLocation
     locationManager = [[CLLocationManager alloc] init];
@@ -47,7 +113,9 @@
     [locationManager startUpdatingLocation];
     geocoder = [[CLGeocoder alloc] init];
     
+    [self refreshUserDefaults];
     [self setMapPoints];
+    
 }
 
 
@@ -60,6 +128,39 @@
         _userLatEnd = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
         _userLongEnd = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
         
+        /*
+        // remove polyline if one exists
+        [self.mapView removeOverlay:self.polyline];
+        
+        CLLocationCoordinate2D annotationCoord;
+        double latdouble = [self.userLat doubleValue];
+        double londouble = [self.userLong doubleValue];
+        annotationCoord.latitude = latdouble;
+        annotationCoord.longitude = londouble;
+    
+        
+        CLLocationCoordinate2D annotationCoordEnd;
+        double latdoubleEnd = [_userLatEnd doubleValue];
+        double londoubleEnd = [_userLongEnd doubleValue];
+        annotationCoordEnd.latitude = latdoubleEnd;
+        annotationCoordEnd.longitude = londoubleEnd;
+        
+        
+        // create an array of coordinates from allPins
+        CLLocationCoordinate2D coordinates[2];
+        coordinates[0] = annotationCoord;
+        coordinates[1] = annotationCoordEnd;
+        
+        // create a polyline with all cooridnates
+        MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coordinates count:self.allPins.count];
+        [self.mapView addOverlay:polyline];
+        self.polyline = polyline;
+        
+        // create an MKPolylineView and add it to the map view
+        self.lineView = [[MKPolylineView alloc]initWithPolyline:self.polyline];
+        self.lineView.strokeColor = [UIColor redColor];
+        self.lineView.lineWidth = 5;
+        */
         [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
          {
              if (error == nil && [placemarks count] > 0)
@@ -76,25 +177,33 @@
 }
 
 
+
 -(void) setMapPoints
 {
     //add pins to mapView
     CLLocationCoordinate2D annotationCoord;
-    double latdouble = [self.userLat doubleValue];
-    double londouble = [self.userLong doubleValue];
+    double latdouble = [self.userLatEnd doubleValue];
+    double londouble = [self.userLongEnd doubleValue];
     annotationCoord.latitude = latdouble;
     annotationCoord.longitude = londouble;
     
     MKPointAnnotation *annotationPoint = [[MKPointAnnotation alloc] init];
     annotationPoint.coordinate = annotationCoord;
-    annotationPoint.title = @"Your pickup location was:";
+    annotationPoint.title = @"Your dropoff location was:";
     annotationPoint.subtitle = self.userAddress;
     
     [mapView addAnnotation:annotationPoint];
     
-    CLLocationCoordinate2D centerCoord = { [self.userLat doubleValue], [self.userLong doubleValue] };
+    CLLocationCoordinate2D centerCoord = { [self.userLatEnd doubleValue], [self.userLongEnd doubleValue] };
     [self.mapView setCenterCoordinate:centerCoord zoomLevel:12 animated:NO];
 }
+
+
+-(void)searchBtnUserClick:(id)sender
+{
+    [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
+}
+
 
 -(void) refreshUserDefaults
 {
