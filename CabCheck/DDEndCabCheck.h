@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import <CoreLocation/CoreLocation.h>
 #import <Parse/Parse.h>
 #import <iAd/iAd.h>
+#import <CoreLocation/CoreLocation.h>
+
 @interface DDEndCabCheck : UIViewController<CLLocationManagerDelegate,ADBannerViewDelegate>
 {
     CLLocationManager *locationManager;

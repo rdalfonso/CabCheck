@@ -14,15 +14,14 @@
 {
     BOOL _bannerIsVisible;
 }
-@property (nonatomic, strong) NSMutableArray *allPins;
-@property (nonatomic, strong) MKPolylineView *lineView;
-@property (nonatomic, strong) MKPolyline *polyline;
+//@property (nonatomic, strong) NSMutableArray *allPins;
+//@property (nonatomic, strong) MKPolylineView *lineView;
+//@property (nonatomic, strong) MKPolyline *polyline;
 @end
 
 @implementation DDEndCabCheck
 @synthesize mapView;
 @synthesize deviceID;
-
 
 - (DDAppDelegate *) appdelegate {
     return (DDAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -134,39 +133,6 @@
         _userLatEnd = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
         _userLongEnd = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
         
-        /*
-        // remove polyline if one exists
-        [self.mapView removeOverlay:self.polyline];
-        
-        CLLocationCoordinate2D annotationCoord;
-        double latdouble = [self.userLat doubleValue];
-        double londouble = [self.userLong doubleValue];
-        annotationCoord.latitude = latdouble;
-        annotationCoord.longitude = londouble;
-    
-        
-        CLLocationCoordinate2D annotationCoordEnd;
-        double latdoubleEnd = [_userLatEnd doubleValue];
-        double londoubleEnd = [_userLongEnd doubleValue];
-        annotationCoordEnd.latitude = latdoubleEnd;
-        annotationCoordEnd.longitude = londoubleEnd;
-        
-        
-        // create an array of coordinates from allPins
-        CLLocationCoordinate2D coordinates[2];
-        coordinates[0] = annotationCoord;
-        coordinates[1] = annotationCoordEnd;
-        
-        // create a polyline with all cooridnates
-        MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coordinates count:self.allPins.count];
-        [self.mapView addOverlay:polyline];
-        self.polyline = polyline;
-        
-        // create an MKPolylineView and add it to the map view
-        self.lineView = [[MKPolylineView alloc]initWithPolyline:self.polyline];
-        self.lineView.strokeColor = [UIColor redColor];
-        self.lineView.lineWidth = 5;
-        */
         [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
          {
              if (error == nil && [placemarks count] > 0)
@@ -183,13 +149,12 @@
 }
 
 
-
 -(void) setMapPoints
 {
     //add pins to mapView
     CLLocationCoordinate2D annotationCoord;
-    double latdouble = [self.userLatEnd doubleValue];
-    double londouble = [self.userLongEnd doubleValue];
+    double latdouble = [self.userLat doubleValue];
+    double londouble = [self.userLong doubleValue];
     annotationCoord.latitude = latdouble;
     annotationCoord.longitude = londouble;
     
@@ -200,7 +165,7 @@
     
     [mapView addAnnotation:annotationPoint];
     
-    CLLocationCoordinate2D centerCoord = { [self.userLatEnd doubleValue], [self.userLongEnd doubleValue] };
+    CLLocationCoordinate2D centerCoord = { [self.userLat doubleValue], [self.userLong doubleValue] };
     [self.mapView setCenterCoordinate:centerCoord zoomLevel:12 animated:NO];
 }
 

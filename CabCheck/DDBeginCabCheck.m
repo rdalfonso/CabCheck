@@ -19,7 +19,7 @@
 
 @implementation DDBeginCabCheck
 @synthesize mapView;
-@synthesize deviceID;
+@synthesize userCabPoints;
 
 - (DDAppDelegate *) appdelegate {
     return (DDAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -133,10 +133,14 @@
         _userLat = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
         _userLong = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
         
-        NSString *alertMessage = [NSString stringWithFormat:@"Your new location %@ %@.", _userLat, _userLong];
+        //store coordinates for final map route.
+        /*
+        CLLocationCoordinate2D centerCoord = { [_userLat doubleValue], [_userLong doubleValue] };
+        [userCabPoints addObject:[NSValue valueWithMKCoordinate:centerCoord]];
         
+        NSString *alertMessage = [NSString stringWithFormat:@"Your new location %@ %@.", _userLat, _userLong];
         UIAlertView    *alert = [[UIAlertView alloc] initWithTitle:@"didUpdateToLocation"
-            message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                                                           message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
         
         [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
@@ -148,6 +152,7 @@
                  
              }
          } ];
+         */
     }
 }
 
@@ -164,7 +169,6 @@
     annotationPoint.coordinate = annotationCoord;
     annotationPoint.title = @"Your pickup location was:";
     annotationPoint.subtitle = self.userAddress;
-    
     [mapView addAnnotation:annotationPoint];
     
     CLLocationCoordinate2D centerCoord = { [self.userLat doubleValue], [self.userLong doubleValue] };
@@ -173,39 +177,21 @@
 
 -(void) refreshUserDefaults
 {
-    NSLog(@"refreshUserDefaults");
-    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if([defaults objectForKey:@"deviceID"] == nil) {
-        self.deviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    } else {
-        self.deviceID = [defaults stringForKey:@"deviceID"];
-    }
-    
     if([defaults objectForKey:@"userPickUpAddress"] != nil) {
         self.userAddress = [defaults stringForKey:@"userPickUpAddress"];
-        NSLog(@"userAddress %@", self.userAddress );
-        
     }
     
     if([defaults objectForKey:@"userPickUpDate"] != nil) {
         self.userDate = [defaults stringForKey:@"userPickUpDate"];
-        NSLog(@"userDate %@", self.userDate );
-    }
-    
-    if([defaults objectForKey:@"userPickUpAddress"] != nil) {
-        self.userAddress = [defaults stringForKey:@"userPickUpAddress"];
-        NSLog(@"userAddress %@", self.userAddress );
     }
     
     if([defaults objectForKey:@"userLatPickUp"] != nil) {
         self.userLat = [defaults stringForKey:@"userLatPickUp"];
-        NSLog(@"userLatPickUp %@", self.userLat );
     }
     
     if([defaults objectForKey:@"userLongPickUp"] != nil) {
         self.userLong = [defaults stringForKey:@"userLongPickUp"];
-        NSLog(@"userLatPickUp %@", self.userLong );
     }
     
     if([defaults objectForKey:@"userCurrentCity"] != nil)
@@ -350,8 +336,6 @@
     messageController.messageComposeDelegate = self;
     [messageController setRecipients:recipents];
     [messageController setBody:passengerSMS];
-    
-    
     
     // Present message view controller on screen
     [self presentViewController:messageController animated:YES completion:nil];

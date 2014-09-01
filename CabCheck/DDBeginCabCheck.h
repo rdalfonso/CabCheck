@@ -18,13 +18,15 @@
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
 }
-@property (nonatomic, assign) NSString *deviceID;
+
 
 @property (strong, nonatomic, readwrite) NSString *userAddress;
 @property (strong, nonatomic, readwrite) NSString *userDate;
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
 @property (strong, nonatomic, readwrite) NSString *userCity;
+
+@property (strong, nonatomic, readwrite) NSMutableArray *userCabPoints;
 
 @property (nonatomic, assign) NSString *settingCityString;
 @property (nonatomic, strong) PFObject *taxiObject;
