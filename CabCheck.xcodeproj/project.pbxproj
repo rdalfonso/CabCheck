@@ -18,6 +18,7 @@
 		A1565EA81981D3D4008E5D2B /* DDSearchResultDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1565EA71981D3D4008E5D2B /* DDSearchResultDetailController.m */; };
 		A182505E197CC9A600483B5A /* DDAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = A182505D197CC9A600483B5A /* DDAboutController.m */; };
 		A19CA74E1984B1D100E5AC04 /* DDCabRideReview.m in Sources */ = {isa = PBXBuildFile; fileRef = A19CA74D1984B1D100E5AC04 /* DDCabRideReview.m */; };
+		A1A36DAD19B68383005F1653 /* CabCheck.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A1A36DAC19B68383005F1653 /* CabCheck.sqlite */; };
 		A1AB56241979C9B3004D23AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56231979C9B3004D23AD /* Foundation.framework */; };
 		A1AB56261979C9B3004D23AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56251979C9B3004D23AD /* CoreGraphics.framework */; };
 		A1AB56281979C9B3004D23AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1AB56271979C9B3004D23AD /* UIKit.framework */; };
@@ -49,6 +50,9 @@
 		A1C6AC2A199039B700D55E31 /* review-yellow-large.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1C6AC24199039B700D55E31 /* review-yellow-large.jpg */; };
 		A1C6AC2B199039B700D55E31 /* review-red-large.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1C6AC25199039B700D55E31 /* review-red-large.jpg */; };
 		A1F30EF5199D3C8B00DA79EE /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F30EF4199D3C8B00DA79EE /* iAd.framework */; };
+		A1FA812519B6522F0092DBED /* CabObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FA812419B6522F0092DBED /* CabObject.m */; };
+		A1FA812819B6557E0092DBED /* CabObjectDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FA812719B6557E0092DBED /* CabObjectDataBase.m */; };
+		A1FA812A19B65DF70092DBED /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1FA812919B65DF70092DBED /* libsqlite3.dylib */; };
 		A1FE67ED197C3AA700504D5D /* taxi_night-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67E7197C3AA700504D5D /* taxi_night-3.jpg */; };
 		A1FE67EF197C3AA700504D5D /* taxi-fare.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67E9197C3AA700504D5D /* taxi-fare.jpg */; };
 		A1FE67F3197C430000504D5D /* stop-light.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1FE67F2197C430000504D5D /* stop-light.jpg */; };
@@ -85,6 +89,7 @@
 		A182505D197CC9A600483B5A /* DDAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAboutController.m; sourceTree = "<group>"; };
 		A19CA74C1984B1D100E5AC04 /* DDCabRideReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCabRideReview.h; sourceTree = "<group>"; };
 		A19CA74D1984B1D100E5AC04 /* DDCabRideReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCabRideReview.m; sourceTree = "<group>"; };
+		A1A36DAC19B68383005F1653 /* CabCheck.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = CabCheck.sqlite; sourceTree = SOURCE_ROOT; };
 		A1AB56201979C9B3004D23AD /* CabCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CabCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1AB56231979C9B3004D23AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A1AB56251979C9B3004D23AD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -121,6 +126,11 @@
 		A1C6AC24199039B700D55E31 /* review-yellow-large.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "review-yellow-large.jpg"; path = "../../../../../Downloads/review-yellow-large.jpg"; sourceTree = "<group>"; };
 		A1C6AC25199039B700D55E31 /* review-red-large.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "review-red-large.jpg"; path = "../../../../../Downloads/review-red-large.jpg"; sourceTree = "<group>"; };
 		A1F30EF4199D3C8B00DA79EE /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		A1FA812319B6522F0092DBED /* CabObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CabObject.h; sourceTree = "<group>"; };
+		A1FA812419B6522F0092DBED /* CabObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CabObject.m; sourceTree = "<group>"; };
+		A1FA812619B6557E0092DBED /* CabObjectDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CabObjectDataBase.h; sourceTree = "<group>"; };
+		A1FA812719B6557E0092DBED /* CabObjectDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CabObjectDataBase.m; sourceTree = "<group>"; };
+		A1FA812919B65DF70092DBED /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A1FE67E7197C3AA700504D5D /* taxi_night-3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "taxi_night-3.jpg"; path = "../../../../../Downloads/taxi_night-3.jpg"; sourceTree = "<group>"; };
 		A1FE67E9197C3AA700504D5D /* taxi-fare.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "taxi-fare.jpg"; path = "../../../../../Downloads/taxi-fare.jpg"; sourceTree = "<group>"; };
 		A1FE67F2197C430000504D5D /* stop-light.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "stop-light.jpg"; path = "../../../../../Downloads/stop-light.jpg"; sourceTree = "<group>"; };
@@ -131,6 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1FA812A19B65DF70092DBED /* libsqlite3.dylib in Frameworks */,
 				A1F30EF5199D3C8B00DA79EE /* iAd.framework in Frameworks */,
 				A1307E851984CA13009C9BAE /* MessageUI.framework in Frameworks */,
 				A1AB566B1979CA66004D23AD /* SystemConfiguration.framework in Frameworks */,
@@ -184,6 +195,7 @@
 		A1AB56221979C9B3004D23AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A1FA812919B65DF70092DBED /* libsqlite3.dylib */,
 				A1F30EF4199D3C8B00DA79EE /* iAd.framework */,
 				A1307E841984CA13009C9BAE /* MessageUI.framework */,
 				A1AB566A1979CA66004D23AD /* SystemConfiguration.framework */,
@@ -232,6 +244,10 @@
 				A12A9E9F19B515C6002A2426 /* MKMapViewZoomLevel.m */,
 				A12A9EA119B51E4A002A2426 /* DDEndCabCheck.h */,
 				A12A9EA219B51E4A002A2426 /* DDEndCabCheck.m */,
+				A1FA812319B6522F0092DBED /* CabObject.h */,
+				A1FA812419B6522F0092DBED /* CabObject.m */,
+				A1FA812619B6557E0092DBED /* CabObjectDataBase.h */,
+				A1FA812719B6557E0092DBED /* CabObjectDataBase.m */,
 			);
 			path = CabCheck;
 			sourceTree = "<group>";
@@ -239,6 +255,7 @@
 		A1AB562A1979C9B3004D23AD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A1A36DAC19B68383005F1653 /* CabCheck.sqlite */,
 				A14661051986CD79008AF0A9 /* stop-light-horizontal.jpg */,
 				A1C6AC20199039B700D55E31 /* review-yellow-small.jpg */,
 				A1C6AC21199039B700D55E31 /* review-red-small.jpg */,
@@ -356,6 +373,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1AB563C1979C9B3004D23AD /* Images.xcassets in Resources */,
+				A1A36DAD19B68383005F1653 /* CabCheck.sqlite in Resources */,
 				A1FE67EF197C3AA700504D5D /* taxi-fare.jpg in Resources */,
 				A1C6AC29199039B700D55E31 /* review-green-large.jpg in Resources */,
 				A1C6AC28199039B700D55E31 /* review-green-small.jpg in Resources */,
@@ -394,9 +412,11 @@
 				A12A9E9D19B4E2F5002A2426 /* DDBeginCabCheck.m in Sources */,
 				A1565EA81981D3D4008E5D2B /* DDSearchResultDetailController.m in Sources */,
 				A1AB563A1979C9B3004D23AD /* DDViewController.m in Sources */,
+				A1FA812819B6557E0092DBED /* CabObjectDataBase.m in Sources */,
 				A14458861986A37400BDEA28 /* CabReviewCell.m in Sources */,
 				A14458831986A17200BDEA28 /* DDCabReviews.m in Sources */,
 				A1AB56301979C9B3004D23AD /* main.m in Sources */,
+				A1FA812519B6522F0092DBED /* CabObject.m in Sources */,
 				A19CA74E1984B1D100E5AC04 /* DDCabRideReview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
