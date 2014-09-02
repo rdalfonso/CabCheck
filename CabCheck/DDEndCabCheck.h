@@ -18,6 +18,11 @@
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
 }
+
+@property (nonatomic, strong) PFObject *taxiObject;
+@property (strong, nonatomic) IBOutlet MKMapView *mapView;
+@property (strong, nonatomic) ADBannerView *UIiAD;
+
 @property (nonatomic, assign) NSString *deviceID;
 @property (strong, nonatomic, readwrite) NSString *userAddress;
 @property (strong, nonatomic, readwrite) NSString *userDate;
@@ -25,10 +30,7 @@
 @property (strong, nonatomic, readwrite) NSString *userLong;
 @property (strong, nonatomic, readwrite) NSString *userLatEnd;
 @property (strong, nonatomic, readwrite) NSString *userLongEnd;
-
-
 @property (strong, nonatomic, readwrite) NSString *userCity;
-@property (nonatomic, strong) PFObject *taxiObject;
-@property (strong, nonatomic) IBOutlet MKMapView *mapView;
-@property (strong, nonatomic) ADBannerView *UIiAD;
+
+@property (strong, nonatomic, readwrite) NSMutableArray *userCabPoints;
 @end

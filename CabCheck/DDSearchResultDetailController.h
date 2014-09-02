@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import <CoreLocation/CoreLocation.h>
+#import <MessageUI/MessageUI.h>
 #import <iAd/iAd.h>
 
-@interface DDSearchResultDetailController : UIViewController<CLLocationManagerDelegate,ADBannerViewDelegate>
+@interface DDSearchResultDetailController : UIViewController<CLLocationManagerDelegate,ADBannerViewDelegate,MFMessageComposeViewControllerDelegate>
 {
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;

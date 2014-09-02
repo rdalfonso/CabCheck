@@ -113,7 +113,7 @@
     //Initialize CoreLocation
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
-    locationManager.distanceFilter=10.0;
+    locationManager.distanceFilter=20.0;
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
     geocoder = [[CLGeocoder alloc] init];
@@ -122,7 +122,6 @@
     self.userCabPoints = [[NSMutableArray alloc] init];
     
     //Viewload methods
-    [self showTaxiInformationSMS:self.taxiObject];
     [self setMapPoints];
 }
 
@@ -137,11 +136,26 @@
         _userLong = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
         
         //store coordinates for final map route.
-        CLLocationCoordinate2D centerCoord = { [_userLat doubleValue], [_userLong doubleValue] };
-        [userCabPoints addObject:[NSValue valueWithMKCoordinate:centerCoord]];
+        if( (_userLatHolder != _userLat) || (_userLongHolder != _userLong))
+        {
+            NSString *alertMessage = [NSString stringWithFormat:@"Your new location %@ %@.", _userLat, _userLong];
+            NSLog(@" lat and long: %@", alertMessage);
+            
+            UIAlertView    *alert = [[UIAlertView alloc] initWithTitle:@"New Location at 30 meters"
+                message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+            
+            CLLocationCoordinate2D centerCoord = { [_userLat doubleValue], [_userLong doubleValue] };
+            [userCabPoints addObject:[NSValue valueWithMKCoordinate:centerCoord]];
+        } else {
+            NSString *alertMessage = [NSString stringWithFormat:@"Same location %@ %@.", _userLat, _userLong];
+            NSLog(@" lat and long: %@", alertMessage);
+        }
         
-        NSString *alertMessage = [NSString stringWithFormat:@"Your new location %@ %@.", _userLat, _userLong];
-        NSLog(@" lat and long: %@", alertMessage);
+        _userLatHolder = _userLat;
+        _userLongHolder = _userLong;
+        
+        
         
         [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
          {
@@ -181,10 +195,6 @@
         self.userAddress = [defaults stringForKey:@"userPickUpAddress"];
     }
     
-    if([defaults objectForKey:@"userPickUpDate"] != nil) {
-        self.userDate = [defaults stringForKey:@"userPickUpDate"];
-    }
-    
     if([defaults objectForKey:@"userLatPickUp"] != nil) {
         self.userLat = [defaults stringForKey:@"userLatPickUp"];
     }
@@ -192,24 +202,6 @@
     if([defaults objectForKey:@"userLongPickUp"] != nil) {
         self.userLong = [defaults stringForKey:@"userLongPickUp"];
     }
-    
-    if([defaults objectForKey:@"userCurrentCity"] != nil)
-    {
-        NSInteger settingCity = [defaults integerForKey:@"userCurrentCity"];
-        if(settingCity == 0) {
-            self.settingCityString = @"New York City";
-        }
-        else if(settingCity == 1) {
-            self.settingCityString = @"Chicago";
-        }
-        else if(settingCity == 2) {
-            self.settingCityString = @"San Francisco";
-        }
-        else if(settingCity == 3) {
-            self.settingCityString = @"Las Vegas";
-        }
-    }
-    
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -227,117 +219,6 @@
 -(void)searchBtnUserClick:(id)sender
 {
     [self performSegueWithIdentifier:@"seqPushToSearchController" sender:sender];
-}
-
-
-- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
-{
-    switch (result) {
-        case MessageComposeResultCancelled:
-            break;
-            
-        case MessageComposeResultFailed:
-        {
-            UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to send SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-           [warningAlert show];
-            break;
-        }
-            
-        case MessageComposeResultSent:
-            break;
-            
-        default:
-            break;
-    }
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)showTaxiInformationSMS:(PFObject*)taxiObject {
-    
-    if(![MFMessageComposeViewController canSendText]) {
-        UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your device doesn't support SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [warningAlert show];
-        return;
-    }
-    
-    //Get Use Contacts
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSMutableArray *userSMSNumbers = [NSMutableArray arrayWithArray:[defaults objectForKey:@"userSMSNumbers"]];
-    NSArray *recipents = [userSMSNumbers copy];
-    //Get Taxi Object information
-    PFObject *object = self.taxiObject;
-    
-    NSString *driverType = [object objectForKey:@"driverType"];
-    NSString *driverName = [object objectForKey:@"driverName"];
-    NSString *driverCompany = [object objectForKey:@"driverCompany"];
-    NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
-    NSString *driverDMVLicense = [object objectForKey:@"driverDMVLicense"];
-    if([driverDMVLicense length] <= 0){
-        driverDMVLicense = @"N/A";
-    }
-    NSString *driverVIN = [object objectForKey:@"driverVIN"];
-    NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
-    NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
-    NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
-    
-    NSMutableString *driverMake = [NSMutableString stringWithString:@""];
-    if([driverCabMake length] > 0) {
-        [driverMake appendString:driverCabMake];
-        [driverMake appendString:@" "];
-    }
-    
-    if([driverCabModel length] > 0) {
-        [driverMake appendString:driverCabModel];
-        [driverMake appendString:@" "];
-    }
-    
-    if([driverCabYear length] > 0) {
-        [driverMake appendString:driverCabYear];
-    }
-    
-    NSMutableString *passengerSMS = [NSMutableString stringWithString:@""];
-    [passengerSMS appendString:@"CabCheck App Message:\n"];
-    [passengerSMS appendString:@"I just got into a "];
-    [passengerSMS appendString:self.settingCityString];
-    
-    if ([driverType isEqualToString:@"Y"]) {
-        [passengerSMS appendString:@" Yellow Medallion Taxi\n"];
-    }
-    else if ([driverType isEqualToString:@"L"]) {
-        [passengerSMS appendString:@" TLC Street Hail Livery Taxi\n"];
-    } else {
-        [passengerSMS appendString:@" Medallion Taxi\n"];
-    }
-    
-    [passengerSMS appendString:[NSString stringWithFormat:@"near %@ on %@.\n", self.userAddress, self.userDate]];
-    
-    if([driverMake length] > 0) {
-        [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Model: %@.\n", driverMake]];
-    } else {
-        [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Company: %@.\n", driverCompany]];
-    }
-    [passengerSMS appendString:[NSString stringWithFormat:@"Driver: %@.\n", driverName]];
-    [passengerSMS appendString:[NSString stringWithFormat:@"Medallion Number: %@.\n", driverMedallion]];
-    
-    if ([driverVIN length] > 0)
-    {
-        [passengerSMS appendString:[NSString stringWithFormat:@"VIN: %@.\n", driverVIN]];
-    }
-    if ([driverDMVLicense length] > 0)
-    {
-        [passengerSMS appendString:[NSString stringWithFormat:@"License Plate: %@.\n", driverDMVLicense]];
-    }
-    
-    [passengerSMS appendString:[NSString stringWithFormat:@"\n Download this app at http://www.duomodigital.com/cabcheck.html"]];
-    
-    MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
-    messageController.messageComposeDelegate = self;
-    [messageController setRecipients:recipents];
-    [messageController setBody:passengerSMS];
-    
-    // Present message view controller on screen
-    [self presentViewController:messageController animated:YES completion:nil];
 }
 
 

@@ -96,6 +96,7 @@
     [self.mapView setShowsUserLocation:YES];
     
     //Front-end control manipulation
+    [self.navigationItem setHidesBackButton:YES];
     self.edgesForExtendedLayout = UIRectEdgeAll;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     
@@ -162,8 +163,8 @@
     
     [mapView addAnnotation:annotationPoint];
     
-    CLLocationCoordinate2D centerCoord = { [self.userLat doubleValue], [self.userLong doubleValue] };
-    [self.mapView setCenterCoordinate:centerCoord zoomLevel:12 animated:NO];
+    //CLLocationCoordinate2D centerCoord = { [self.userLat doubleValue], [self.userLong doubleValue] };
+    [self.mapView setCenterCoordinate:annotationCoord zoomLevel:12 animated:NO];
 }
 
 

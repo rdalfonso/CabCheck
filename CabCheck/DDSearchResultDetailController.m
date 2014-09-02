@@ -8,6 +8,7 @@
 
 #import "DDSearchResultDetailController.h"
 #import "DDCabReviews.h"
+#import "DDBeginCabCheck.h"
 #import "DDAppDelegate.h"
 #define PERCENT_LEVEL 25.0
 
@@ -367,34 +368,9 @@
 
 
 - (IBAction)btnSendData:(id)sender {
-
+    NSLog(@"trying SMS");
+    [self showTaxiInformationSMS:self.taxiObject];
 }
-
-
-- (IBAction)btnReviewsLink:(id)sender {
-}
-
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-   if ([segue.identifier isEqualToString:@"pushSeqDetailToAllReviews"]) {
-        DDCabReviews *destViewController = segue.destinationViewController;
-        
-        if(self.taxiObject != nil) {
-            destViewController.taxiObject = self.taxiObject;
-        }
-    }
-    
-    if ([segue.identifier isEqualToString:@"pushSeqDetailToSMS"]) {
-        DDCabReviews *destViewController = segue.destinationViewController;
-        
-        if(self.taxiObject != nil) {
-            destViewController.taxiObject = self.taxiObject;
-        }
-    }
-    
-}
-
 
 -(NSString *) getReviewTags:(long)TotalCount withInteger:(int)RespectCount withInteger:(int)DrivingCount withInteger:(int)EnglishCount withInteger:(int)HonestCount withInteger:(int)DirectionsCount
 {
@@ -428,6 +404,153 @@
     return reviewTags;
     
 }
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"pushSeqDetailToAllReviews"]) {
+        DDCabReviews *destViewController = segue.destinationViewController;
+        
+        if(self.taxiObject != nil) {
+            destViewController.taxiObject = self.taxiObject;
+        }
+    }
+    
+    if ([segue.identifier isEqualToString:@"seqPushSMSConfirm"]) {
+        DDBeginCabCheck *destViewController = segue.destinationViewController;
+        
+        if(self.taxiObject != nil) {
+            destViewController.taxiObject = self.taxiObject;
+        }
+    }
+    
+    
+}
+
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
+{
+    switch (result) {
+        case MessageComposeResultCancelled:
+            NSLog(@"Cancelled");
+            [self dismissViewControllerAnimated:YES completion:nil];
+            break;
+            
+        case MessageComposeResultFailed:
+        {
+            UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to send SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [warningAlert show];
+            [self dismissViewControllerAnimated:YES completion:nil];
+            break;
+        }
+            
+        case MessageComposeResultSent:
+            NSLog(@"loaded or pressed");
+            [self dismissViewControllerAnimated:YES completion:nil];
+            [self performSegueWithIdentifier:@"seqPushSMSConfirm" sender:nil];
+            break;
+            
+        default:
+            [self dismissViewControllerAnimated:YES completion:nil];
+            break;
+    }
+    
+}
+
+
+- (void)showTaxiInformationSMS:(PFObject*)taxiObject {
+    
+    
+    //Send email to user
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *userEmailAddress = [defaults objectForKey:@"userEmailAddress"];
+    if([userEmailAddress length] > 0) {
+        NSLog(@"userEmailAddress: %@", userEmailAddress);
+    }
+    
+    if(![MFMessageComposeViewController canSendText]) {
+        UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your device doesn't support SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [warningAlert show];
+        return;
+    }
+    
+    
+    //Get Taxi Object information
+    PFObject *object = self.taxiObject;
+    
+    NSString *driverType = [object objectForKey:@"driverType"];
+    NSString *driverName = [object objectForKey:@"driverName"];
+    NSString *driverCompany = [object objectForKey:@"driverCompany"];
+    NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
+    NSString *driverDMVLicense = [object objectForKey:@"driverDMVLicense"];
+    if([driverDMVLicense length] <= 0){
+        driverDMVLicense = @"N/A";
+    }
+    NSString *driverVIN = [object objectForKey:@"driverVIN"];
+    NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
+    NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
+    NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
+    
+    NSMutableString *driverMake = [NSMutableString stringWithString:@""];
+    if([driverCabMake length] > 0) {
+        [driverMake appendString:driverCabMake];
+        [driverMake appendString:@" "];
+    }
+    
+    if([driverCabModel length] > 0) {
+        [driverMake appendString:driverCabModel];
+        [driverMake appendString:@" "];
+    }
+    
+    if([driverCabYear length] > 0) {
+        [driverMake appendString:driverCabYear];
+    }
+    
+    NSMutableString *passengerSMS = [NSMutableString stringWithString:@""];
+    [passengerSMS appendString:@"CabCheck App Message:\n"];
+    [passengerSMS appendString:@"I just got into a "];
+    [passengerSMS appendString:self.settingCityString];
+    
+    if ([driverType isEqualToString:@"Y"]) {
+        [passengerSMS appendString:@" Yellow Medallion Taxi\n"];
+    }
+    else if ([driverType isEqualToString:@"L"]) {
+        [passengerSMS appendString:@" TLC Street Hail Livery Taxi\n"];
+    } else {
+        [passengerSMS appendString:@" Medallion Taxi\n"];
+    }
+    
+    [passengerSMS appendString:[NSString stringWithFormat:@"near %@ on %@.\n\n", self.userAddress, self.userDate]];
+    
+    if([driverMake length] > 0) {
+        [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Model: %@.\n", driverMake]];
+    } else {
+        [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Company: %@.\n", driverCompany]];
+    }
+    [passengerSMS appendString:[NSString stringWithFormat:@"Driver: %@.\n", driverName]];
+    [passengerSMS appendString:[NSString stringWithFormat:@"Medallion Number: %@.\n", driverMedallion]];
+    
+    if ([driverVIN length] > 0)
+    {
+        [passengerSMS appendString:[NSString stringWithFormat:@"VIN: %@.\n", driverVIN]];
+    }
+    if ([driverDMVLicense length] > 0)
+    {
+        [passengerSMS appendString:[NSString stringWithFormat:@"License Plate: %@.\n", driverDMVLicense]];
+    }
+    
+    [passengerSMS appendString:[NSString stringWithFormat:@"\n Download this app at http://www.duomodigital.com/cabcheck.html"]];
+    
+    
+    MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
+    messageController.messageComposeDelegate = self;
+    [messageController setRecipients:nil];
+    [messageController setBody:passengerSMS];
+    
+    // Present message view controller on screen
+    [self presentViewController:messageController animated:YES completion:nil];
+    
+}
+
 
 -(float) getReviewPercent:(long)TotalCount withInteger:(int)categoryCount
 {
@@ -502,6 +625,7 @@
     // Pass the selected object to the new view controller.
 }
 */
+
 
 
 @end

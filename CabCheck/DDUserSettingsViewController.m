@@ -93,48 +93,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [_userCurrentCity setSelectedSegmentIndex:UISegmentedControlNoSegment];
     
-    [self.userSMSContact1 resignFirstResponder];
-    [self.userSMSContact2 resignFirstResponder];
-    [self.userSMSContact3 resignFirstResponder];
-    
-    self.userSMSContact1.delegate = self;
-    self.userSMSContact2.delegate = self;
-    self.userSMSContact3.delegate = self;
+    [self.userEmailAddress resignFirstResponder];
+    self.userEmailAddress.delegate = self;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
     int userCurrentCity =(int)[defaults integerForKey:@"userCurrentCity"];
     [_userCurrentCity setSelectedSegmentIndex:userCurrentCity];
- 
-    NSMutableArray *userSMSNumbers = [NSMutableArray arrayWithArray:[defaults objectForKey:@"userSMSNumbers"]];
     
-    NSUInteger arrCount = (unsigned long)[userSMSNumbers count] ;
-    if(arrCount > 0)
-    {
-        NSString *userSMS1 = [userSMSNumbers objectAtIndex:0];
-        if([userSMS1 length] > 0) {
-            _userSMSContact1.text = userSMS1;
-        }
-    }
-    if(arrCount > 1)
-    {
-        NSString *userSMS2 = [userSMSNumbers objectAtIndex:1];
-
-        if([userSMS2 length] > 0) {
-            _userSMSContact2.text = userSMS2;
-        }
-    }
-    if(arrCount > 2)
-    {
-        NSString *userSMS3 = [userSMSNumbers objectAtIndex:2];
-        if([userSMS3 length] > 0) {
-            _userSMSContact3.text = userSMS3;
-        }
+    NSString *userEmailAddress = [defaults objectForKey:@"userEmailAddress"];
+    if([userEmailAddress length] > 0) {
+        _userEmailAddress.text = userEmailAddress;
     }
     
-    //allow banner ads
     self.canDisplayBannerAds = YES;
 }
 
@@ -142,28 +115,13 @@
 - (IBAction)btnSaveUserSettings:(id)sender {
     
     int userCurrentCity = (int)_userCurrentCity.selectedSegmentIndex;
-    NSString *userSMS1 = _userSMSContact1.text;
-    NSString *userSMS2 = _userSMSContact2.text;
-    NSString *userSMS3 = _userSMSContact3.text;
+    NSString *userEmailAddress = _userEmailAddress.text;
     
-    NSMutableArray *smsNumbers = [[NSMutableArray alloc] init];
-    
-    if([userSMS1 length] > 0){
-        [smsNumbers addObject:userSMS1];
-    }
-    if([userSMS2 length] > 0){
-        [smsNumbers addObject:userSMS2];
-    }
-    if([userSMS3 length] > 0){
-        [smsNumbers addObject:userSMS3];
-    }
-    
-    // Store the data
+   // Store the data
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:smsNumbers forKey:@"userSMSNumbers"];
+    [defaults setObject:userEmailAddress forKey:@"userEmailAddress"];
     [defaults setInteger:userCurrentCity forKey:@"userCurrentCity"];
     [defaults synchronize];
-    
 }
 
 -(IBAction) searchBtnUserClick
@@ -179,19 +137,15 @@
     
     BOOL returnKey = [string rangeOfString: @"\n"].location != NSNotFound;
     
-    return newLength <= 10 || returnKey;
+    return newLength <= 50 || returnKey;
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.userSMSContact1 resignFirstResponder];
-    [self.userSMSContact2 resignFirstResponder];
-    [self.userSMSContact3 resignFirstResponder];
+    [self.userEmailAddress resignFirstResponder];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [self.userSMSContact1 resignFirstResponder];
-    [self.userSMSContact2 resignFirstResponder];
-    [self.userSMSContact3 resignFirstResponder];
+    [self.userEmailAddress resignFirstResponder];
     return NO;
 }
 
