@@ -113,8 +113,10 @@
     //Initialize CoreLocation
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
-    locationManager.distanceFilter=20.0;
-    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    locationManager.distanceFilter=500.0;
+    locationManager.pausesLocationUpdatesAutomatically = YES;
+    locationManager.activityType = CLActivityTypeAutomotiveNavigation;
+    //locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
     geocoder = [[CLGeocoder alloc] init];
     
@@ -135,7 +137,16 @@
         _userLat = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
         _userLong = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
         
+        NSString *alertMessage = [NSString stringWithFormat:@"Your new location %@ %@.", _userLat, _userLong];
+        NSLog(@" lat and long: %@", alertMessage);
+        
+        UIAlertView    *alert = [[UIAlertView alloc] initWithTitle:@"New Location at 30 meters"
+                                                           message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+        
         //store coordinates for final map route.
+        /*
         if( (_userLatHolder != _userLat) || (_userLongHolder != _userLong))
         {
             NSString *alertMessage = [NSString stringWithFormat:@"Your new location %@ %@.", _userLat, _userLong];
@@ -151,7 +162,7 @@
             NSString *alertMessage = [NSString stringWithFormat:@"Same location %@ %@.", _userLat, _userLong];
             NSLog(@" lat and long: %@", alertMessage);
         }
-        
+        */
         _userLatHolder = _userLat;
         _userLongHolder = _userLong;
         

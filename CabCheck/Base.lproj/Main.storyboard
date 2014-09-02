@@ -565,7 +565,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LfT-M7-d7p">
-                                <rect key="frame" x="17" y="313" width="284" height="30"/>
+                                <rect key="frame" x="17" y="317" width="284" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                 <state key="normal" title="[Save My Review]">
@@ -882,7 +882,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="nsZ-Zz-XI1"/>
-        <segue reference="FPG-c1-6qI"/>
+        <segue reference="KU9-2B-Lpk"/>
+        <segue reference="EL9-Gh-TNM"/>
     </inferredMetricsTieBreakers>
 </document>

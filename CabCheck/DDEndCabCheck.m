@@ -111,7 +111,7 @@
     //Initialize CoreLocation
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
-    locationManager.distanceFilter=10.0;
+    locationManager.pausesLocationUpdatesAutomatically = YES;
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
     geocoder = [[CLGeocoder alloc] init];
@@ -128,8 +128,8 @@
     
     if (currentLocation != nil) {
         
-        _userLatEnd = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
-        _userLongEnd = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
+        _userLat = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
+        _userLong = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
         
         [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
          {

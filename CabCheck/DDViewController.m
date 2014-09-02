@@ -102,7 +102,7 @@
     //Initialize LocationManager
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
-    locationManager.distanceFilter=100.0;
+    //locationManager.distanceFilter=100.0;
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
     
@@ -314,6 +314,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    NSLog(@"touch detection");
     if(autocompleteObjects.count > 0) {
         PFObject *taxiObject = [autocompleteObjects objectAtIndex:indexPath.row];
         self.taxiObject = taxiObject;

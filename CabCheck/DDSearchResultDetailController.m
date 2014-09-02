@@ -105,7 +105,7 @@
     //Initialize CoreLocation
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
-    locationManager.distanceFilter=10.0;
+    //locationManager.distanceFilter=10.0;
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
     geocoder = [[CLGeocoder alloc] init];
