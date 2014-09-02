@@ -26,6 +26,7 @@
 @property (strong, nonatomic, readwrite) NSString *userLatEnd;
 @property (strong, nonatomic, readwrite) NSString *userLongEnd;
 
+
 @property (strong, nonatomic, readwrite) NSString *userCity;
 @property (nonatomic, strong) PFObject *taxiObject;
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;

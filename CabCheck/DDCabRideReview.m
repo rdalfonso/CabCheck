@@ -112,7 +112,7 @@ NSString *reviewComments;
     
     if ([self.reviewComments respondsToSelector:@selector(setAttributedPlaceholder:)]) {
         UIColor *color = [UIColor grayColor];
-        self.reviewComments.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Give feedback on this cab ride." attributes:@{NSForegroundColorAttributeName: color}];
+        self.reviewComments.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Give feedback on this cab driver." attributes:@{NSForegroundColorAttributeName: color}];
     }
     
     [self.reviewComments becomeFirstResponder];

@@ -118,6 +118,9 @@
     [locationManager startUpdatingLocation];
     geocoder = [[CLGeocoder alloc] init];
     
+    //Initialize Results
+    self.userCabPoints = [[NSMutableArray alloc] init];
+    
     //Viewload methods
     [self showTaxiInformationSMS:self.taxiObject];
     [self setMapPoints];
@@ -134,14 +137,11 @@
         _userLong = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
         
         //store coordinates for final map route.
-        /*
         CLLocationCoordinate2D centerCoord = { [_userLat doubleValue], [_userLong doubleValue] };
         [userCabPoints addObject:[NSValue valueWithMKCoordinate:centerCoord]];
         
         NSString *alertMessage = [NSString stringWithFormat:@"Your new location %@ %@.", _userLat, _userLong];
-        UIAlertView    *alert = [[UIAlertView alloc] initWithTitle:@"didUpdateToLocation"
-                                                           message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
+        NSLog(@" lat and long: %@", alertMessage);
         
         [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
          {
@@ -149,10 +149,9 @@
              {
                  placemark = [placemarks lastObject];
                  _userCity = placemark.locality;
-                 
              }
          } ];
-         */
+         
     }
 }
 
@@ -240,7 +239,7 @@
         case MessageComposeResultFailed:
         {
             UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to send SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [warningAlert show];
+           [warningAlert show];
             break;
         }
             

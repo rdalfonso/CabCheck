@@ -14,9 +14,6 @@
 {
     BOOL _bannerIsVisible;
 }
-//@property (nonatomic, strong) NSMutableArray *allPins;
-//@property (nonatomic, strong) MKPolylineView *lineView;
-//@property (nonatomic, strong) MKPolyline *polyline;
 @end
 
 @implementation DDEndCabCheck
@@ -205,6 +202,7 @@
     if([defaults objectForKey:@"userLongPickUp"] != nil) {
         self.userLong = [defaults stringForKey:@"userLongPickUp"];
     }
+    //defaults = nil;
     
 }
 
