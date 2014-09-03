@@ -11,7 +11,10 @@
 @class CabObject;
 @interface CabObjectDataBase : NSObject
 
+@property (nonatomic, strong) NSString *documentsDirectory;
+@property (nonatomic, strong) NSString *databaseFilename;
+
 -(instancetype)initWithDatabaseFilename:(NSString *)dbFilename;
 -(NSMutableArray *)cabObjectInfos:(NSString *)searchTerm withString:(NSString*)cityObject;
-
+-(void)copyDatabaseIntoDocumentsDirectory;
 @end

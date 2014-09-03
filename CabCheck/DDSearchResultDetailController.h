@@ -32,6 +32,7 @@
 @property (strong, nonatomic, readwrite) NSString *userDate;
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
+@property (nonatomic, assign) NSInteger settingCity;
 
 @property (nonatomic, strong) CabObject *taxiObject;
 @property (strong, nonatomic) IBOutlet UILabel *lblSearchResultDetailHeader;

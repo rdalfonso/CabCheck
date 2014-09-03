@@ -94,19 +94,15 @@
 {
     [super viewDidLoad];
     [_userCurrentCity setSelectedSegmentIndex:UISegmentedControlNoSegment];
-    
-    [self.userEmailAddress resignFirstResponder];
-    self.userEmailAddress.delegate = self;
+    [_userPreferredTransportation setSelectedSegmentIndex:UISegmentedControlNoSegment];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     int userCurrentCity =(int)[defaults integerForKey:@"userCurrentCity"];
     [_userCurrentCity setSelectedSegmentIndex:userCurrentCity];
     
-    NSString *userEmailAddress = [defaults objectForKey:@"userEmailAddress"];
-    if([userEmailAddress length] > 0) {
-        _userEmailAddress.text = userEmailAddress;
-    }
+    int userPreferredTransportation  = (int)[defaults integerForKey:@"userPreferredTransportation"];
+    [_userPreferredTransportation setSelectedSegmentIndex:userPreferredTransportation];
     
     self.canDisplayBannerAds = YES;
 }
@@ -115,38 +111,17 @@
 - (IBAction)btnSaveUserSettings:(id)sender {
     
     int userCurrentCity = (int)_userCurrentCity.selectedSegmentIndex;
-    NSString *userEmailAddress = _userEmailAddress.text;
+    int userPreferredTransportation = (int)_userPreferredTransportation.selectedSegmentIndex;
     
    // Store the data
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:userEmailAddress forKey:@"userEmailAddress"];
     [defaults setInteger:userCurrentCity forKey:@"userCurrentCity"];
+    [defaults setInteger:userPreferredTransportation forKey:@"userPreferredTransportation"];
     [defaults synchronize];
 }
 
 -(IBAction) searchBtnUserClick
 {
-}
-
-- (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-    NSUInteger oldLength = [textField.text length];
-    NSUInteger replacementLength = [string length];
-    NSUInteger rangeLength = range.length;
-    NSUInteger newLength = oldLength - rangeLength + replacementLength;
-    
-    BOOL returnKey = [string rangeOfString: @"\n"].location != NSNotFound;
-    
-    return newLength <= 50 || returnKey;
-}
-
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.userEmailAddress resignFirstResponder];
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [self.userEmailAddress resignFirstResponder];
-    return NO;
 }
 
 - (void)didReceiveMemoryWarning

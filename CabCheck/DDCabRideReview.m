@@ -175,8 +175,6 @@ NSString *reviewComments;
     if([defaults objectForKey:@"userLastCabReviewDate"] != nil) {
         self.lastCabReviewDate = [defaults objectForKey:@"userLastCabReviewDate"];
     }
-    
-    //NSLog(@"deviceID: %@", self.deviceID);
 }
 
 -(void) getCurrentReview

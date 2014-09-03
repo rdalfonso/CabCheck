@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <iAd/iAd.h>
 
-@interface DDUserSettingsViewController : UIViewController<UITextFieldDelegate,ADBannerViewDelegate>
+@interface DDUserSettingsViewController : UIViewController<ADBannerViewDelegate>
 {}
 @property (strong, nonatomic) ADBannerView *UIiAD;
 - (IBAction)btnSaveUserSettings:(id)sender;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *userCurrentCity;
-@property (strong, nonatomic) IBOutlet UITextField *userEmailAddress;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *userPreferredTransportation;
+
 
 @end

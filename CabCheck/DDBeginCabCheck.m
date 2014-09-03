@@ -128,6 +128,21 @@
     [self setMapPoints];
 }
 
+-(void) refreshUserDefaults
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if([defaults objectForKey:@"userPickUpAddress"] != nil) {
+        self.userAddress = [defaults stringForKey:@"userPickUpAddress"];
+    }
+    
+    if([defaults objectForKey:@"userLatPickUp"] != nil) {
+        self.userLat = [defaults stringForKey:@"userLatPickUp"];
+    }
+    
+    if([defaults objectForKey:@"userLongPickUp"] != nil) {
+        self.userLong = [defaults stringForKey:@"userLongPickUp"];
+    }
+}
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
@@ -138,26 +153,17 @@
         _userLat = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
         _userLong = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
         
-        NSString *alertMessage = [NSString stringWithFormat:@"Your new location %@ %@.", _userLat, _userLong];
-        NSLog(@" lat and long: %@", alertMessage);
+        CLLocationCoordinate2D centerCoord = { [_userLat doubleValue], [_userLong doubleValue] };
+        [userCabPoints addObject:[NSValue valueWithMKCoordinate:centerCoord]];
         
+        NSString *alertMessage = [NSString stringWithFormat:@"Your new location %@ %@.plots points are %lu", _userLat, _userLong, (unsigned long)userCabPoints.count];
+        NSLog(@" lat and long: %@", alertMessage);
         UIAlertView    *alert = [[UIAlertView alloc] initWithTitle:@"New Location at 30 meters"
                                                            message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
         
-        /*
-         CLLocationCoordinate2D centerCoord = { [_userLat doubleValue], [_userLong doubleValue] };
-         [userCabPoints addObject:[NSValue valueWithMKCoordinate:centerCoord]];
-        */
-        [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
-         {
-             if (error == nil && [placemarks count] > 0)
-             {
-                 placemark = [placemarks lastObject];
-                 _userCity = placemark.locality;
-             }
-         } ];
-         
+        
+        
     }
 }
 
@@ -180,22 +186,6 @@
     [self.mapView setCenterCoordinate:centerCoord zoomLevel:12 animated:NO];
 }
 
--(void) refreshUserDefaults
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if([defaults objectForKey:@"userPickUpAddress"] != nil) {
-        self.userAddress = [defaults stringForKey:@"userPickUpAddress"];
-    }
-    
-    if([defaults objectForKey:@"userLatPickUp"] != nil) {
-        self.userLat = [defaults stringForKey:@"userLatPickUp"];
-    }
-    
-    if([defaults objectForKey:@"userLongPickUp"] != nil) {
-        self.userLong = [defaults stringForKey:@"userLongPickUp"];
-    }
-}
-
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"pushSeqReviewThisDriver"]) {
@@ -205,7 +195,6 @@
             destViewController.taxiObject = self.taxiObject;
         }
     }
-    
 }
 
 -(void)searchBtnUserClick:(id)sender

@@ -137,18 +137,6 @@
     CabObject *object = self.taxiObject;
     if(object != nil)
     {
-        /*
-        NSString *driverType = [object objectForKey:@"driverType"];
-        NSString *driverName = [object objectForKey:@"driverName"];
-        NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
-        NSString *driverDMVLicense = [object objectForKey:@"driverDMVLicense"];
-        NSString *driverVIN = [object objectForKey:@"driverVIN"];
-        
-        NSMutableString *driverCabType = [NSMutableString stringWithString:@""];
-        NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
-        NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
-        NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
-        */
         NSString *driverType = object.driverType;
         NSString *driverName = object.driverName;
         NSString *driverMedallion = object.driverMedallion;
@@ -214,19 +202,7 @@
     
     if([defaults objectForKey:@"userCurrentCity"] != nil)
     {
-        NSInteger settingCity = [defaults integerForKey:@"userCurrentCity"];
-        if(settingCity == 0) {
-            self.settingCityString = @"New York City";
-        }
-        else if(settingCity == 1) {
-            self.settingCityString = @"Chicago";
-        }
-        else if(settingCity == 2) {
-            self.settingCityString = @"San Francisco";
-        }
-        else if(settingCity == 3) {
-            self.settingCityString = @"Las Vegas";
-        }
+        self.settingCity = [defaults integerForKey:@"userCurrentCity"];
     }
 }
 
@@ -467,14 +443,6 @@
 
 - (void)showTaxiInformationSMS:(CabObject*)taxiObject {
     
-    
-    //Send email to user
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *userEmailAddress = [defaults objectForKey:@"userEmailAddress"];
-    if([userEmailAddress length] > 0) {
-        NSLog(@"userEmailAddress: %@", userEmailAddress);
-    }
-    
     if(![MFMessageComposeViewController canSendText]) {
         UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your device doesn't support SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [warningAlert show];
@@ -497,23 +465,8 @@
     NSString *driverCabModel = object.driverCabModel;
     NSString *driverCabYear = object.driverCabYear;
     
-    NSMutableString *driverMake = [NSMutableString stringWithString:@""];
-
     if([driverDMVLicense length] <= 0){
         driverDMVLicense = @"N/A";
-    }
-    if([driverCabMake length] > 0) {
-        [driverMake appendString:driverCabMake];
-        [driverMake appendString:@" "];
-    }
-    
-    if([driverCabModel length] > 0) {
-        [driverMake appendString:driverCabModel];
-        [driverMake appendString:@" "];
-    }
-    
-    if([driverCabYear length] > 0) {
-        [driverMake appendString:driverCabYear];
     }
     
     NSMutableString *passengerSMS = [NSMutableString stringWithString:@""];
@@ -521,34 +474,52 @@
     [passengerSMS appendString:@"I just got into a "];
     [passengerSMS appendString:self.settingCityString];
     
+    if(self.settingCity == 0) {
+        [passengerSMS appendString:@"New York City"];
+    }
+    else if(self.settingCity == 1) {
+        [passengerSMS appendString:@"Chicago"];
+    }
+    else if(self.settingCity == 2) {
+        [passengerSMS appendString:@"San Francisco"];
+    }
+    else if(self.settingCity == 3) {
+        [passengerSMS appendString:@"Las Vegas"];
+    }
+    
     if ([driverType isEqualToString:@"Y"]) {
         [passengerSMS appendString:@" Yellow Medallion Taxi\n"];
     }
     else if ([driverType isEqualToString:@"L"]) {
         [passengerSMS appendString:@" TLC Street Hail Livery Taxi\n"];
-    } else {
-        [passengerSMS appendString:@" Medallion Taxi\n"];
     }
     
     [passengerSMS appendString:[NSString stringWithFormat:@"near %@ on %@.\n\n", self.userAddress, self.userDate]];
     
-    if([driverMake length] > 0) {
-        [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Model: %@.\n", driverMake]];
-    } else {
-        [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Company: %@.\n", driverCompany]];
-    }
     [passengerSMS appendString:[NSString stringWithFormat:@"Driver: %@.\n", driverName]];
     [passengerSMS appendString:[NSString stringWithFormat:@"Medallion Number: %@.\n", driverMedallion]];
+    if([driverCabMake length] > 0) {
+        [passengerSMS appendString:[NSString stringWithFormat:@"Vehicle: %@.\n", driverCabMake]];
+    }
+    if([driverCabModel length] > 0) {
+        [passengerSMS appendString:[NSString stringWithFormat:@"Model: %@ %@.\n", driverCabModel, driverCabYear]];
+    }
     
-    if ([driverVIN length] > 0)
-    {
+    if ([driverVIN length] > 0){
         [passengerSMS appendString:[NSString stringWithFormat:@"VIN: %@.\n", driverVIN]];
     }
     if ([driverDMVLicense length] > 0)
     {
         [passengerSMS appendString:[NSString stringWithFormat:@"License Plate: %@.\n", driverDMVLicense]];
     }
-    
+    if([driverCompany length] > 0) {
+        [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Company: %@.\n", driverCompany]];
+    }
+        
+    if([driverCompanyPhone length] > 0) {
+        [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Company Number: %@.\n", driverCompanyPhone]];
+    }
+        
     [passengerSMS appendString:[NSString stringWithFormat:@"\n Download this app at http://www.duomodigital.com/cabcheck.html"]];
     
     
