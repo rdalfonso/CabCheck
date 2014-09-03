@@ -18,20 +18,17 @@
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewKnowCity;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewHonestFare;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *reviewCourteous;
-
 @property (strong, nonatomic) IBOutlet UITextField *reviewComments;
+@property (nonatomic, assign) NSInteger settingCity;
 
+@property (nonatomic, assign) NSString *deviceID;
+@property (strong, nonatomic) ADBannerView *UIiAD;
 @property (nonatomic, strong) CabObject *taxiObject;
 @property (nonatomic, strong) PFObject *reviewObject;
 
 @property (strong, nonatomic) IBOutlet UIButton *btnSaveReview;
 @property (strong, nonatomic) IBOutlet UILabel *lblReviewHeader;
 @property (strong, nonatomic) IBOutlet UILabel *lblReviewDate;
-
-@property (nonatomic, assign) NSString *deviceID;
-@property (nonatomic, assign) NSString *lastCabReviewed;
-@property (nonatomic, assign) NSDate *lastCabReviewDate;
-@property (strong, nonatomic) ADBannerView *UIiAD;
 
 - (IBAction)btnSaveReview:(id)sender;
 

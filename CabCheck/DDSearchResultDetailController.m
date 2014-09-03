@@ -126,6 +126,21 @@
     
 }
 
+-(void) refreshUserDefaults
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if([defaults objectForKey:@"deviceID"] == nil) {
+        self.deviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    } else {
+        self.deviceID = [defaults stringForKey:@"deviceID"];
+    }
+    
+    if([defaults objectForKey:@"userCurrentCity"] != nil) {
+        self.settingCity = [defaults integerForKey:@"userCurrentCity"];
+    }
+}
+
+
 -(void) buildCabInfoSection
 {
     NSDate *todayDate = [NSDate date];
@@ -189,20 +204,6 @@
             _driverType.text = @"Medallion Taxi";
             _driverCabInfo.text = driverCabType;
         }
-    }
-}
--(void) refreshUserDefaults
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if([defaults objectForKey:@"deviceID"] == nil) {
-        self.deviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    } else {
-        self.deviceID = [defaults stringForKey:@"deviceID"];
-    }
-    
-    if([defaults objectForKey:@"userCurrentCity"] != nil)
-    {
-        self.settingCity = [defaults integerForKey:@"userCurrentCity"];
     }
 }
 
@@ -472,7 +473,6 @@
     NSMutableString *passengerSMS = [NSMutableString stringWithString:@""];
     [passengerSMS appendString:@"CabCheck App Message:\n"];
     [passengerSMS appendString:@"I just got into a "];
-    [passengerSMS appendString:self.settingCityString];
     
     if(self.settingCity == 0) {
         [passengerSMS appendString:@"New York City"];

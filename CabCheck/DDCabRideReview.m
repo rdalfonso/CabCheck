@@ -168,12 +168,8 @@ NSString *reviewComments;
         self.deviceID = [defaults stringForKey:@"deviceID"];
     }
     
-    if([defaults objectForKey:@"userlastCabReviewed"] != nil) {
-        self.lastCabReviewed = [defaults stringForKey:@"userlastCabReviewed"];
-    }
-    
-    if([defaults objectForKey:@"userLastCabReviewDate"] != nil) {
-        self.lastCabReviewDate = [defaults objectForKey:@"userLastCabReviewDate"];
+    if([defaults objectForKey:@"userCurrentCity"] != nil) {
+        self.settingCity = [defaults integerForKey:@"userCurrentCity"];
     }
 }
 
@@ -183,6 +179,7 @@ NSString *reviewComments;
     PFQuery *broadCast = [PFQuery queryWithClassName:@"DriverReviewObject"];
     [broadCast whereKey:@"deviceID" equalTo:self.deviceID];
     [broadCast whereKey:@"taxiUniqueID" equalTo:[NSString stringWithFormat:@"%d",self.taxiObject.uniqueCabId]];
+    [broadCast whereKey:@"taxiCity" equalTo:[NSString stringWithFormat:@"%ld",(long)self.settingCity]];
     [broadCast getFirstObjectInBackgroundWithBlock:^(PFObject *reviewObject, NSError *error) {
         if (!error)
         {
@@ -232,6 +229,7 @@ NSString *reviewComments;
     if(self.reviewObject == nil){
         PFObject *reviewCab = [PFObject objectWithClassName:@"DriverReviewObject"];
         reviewCab[@"deviceID"] =        self.deviceID;
+        reviewCab[@"taxiCity"] =       [NSString stringWithFormat:@"%ld",(long)self.settingCity];
         reviewCab[@"taxiUniqueID"] =       [NSString stringWithFormat:@"%d",self.taxiObject.uniqueCabId];
         reviewCab[@"reviewOverall"] =           [NSString stringWithFormat:@"%d",reviewOverallValue];
         reviewCab[@"reviewCarService"] =        [NSString stringWithFormat:@"%d",reviewCarServiceValue];
@@ -269,12 +267,6 @@ NSString *reviewComments;
             }
         }];
     }
-    
-    // Store the data
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setValue:[NSString stringWithFormat:@"%d",self.taxiObject.uniqueCabId] forKey:@"userlastCabReviewed"];
-    [defaults setObject:[NSDate date] forKey:@"userLastCabReviewDate"];
-    [defaults synchronize];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
