@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "CabObject.h"
 #import <iAd/iAd.h>
 
 @interface DDCabRideReview : UIViewController<UITextFieldDelegate,ADBannerViewDelegate>
@@ -20,7 +21,7 @@
 
 @property (strong, nonatomic) IBOutlet UITextField *reviewComments;
 
-@property (nonatomic, strong) PFObject *taxiObject;
+@property (nonatomic, strong) CabObject *taxiObject;
 @property (nonatomic, strong) PFObject *reviewObject;
 
 @property (strong, nonatomic) IBOutlet UIButton *btnSaveReview;

@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <iAd/iAd.h>
 #import <MapKit/MapKit.h>
-#import <Parse/Parse.h>
 #import <CoreLocation/CoreLocation.h>
+#import "CabObject.h"
 @interface DDBeginCabCheck : UIViewController<CLLocationManagerDelegate,ADBannerViewDelegate>
 {
     CLLocationManager *locationManager;
@@ -19,7 +19,7 @@
 }
 
 
-@property (nonatomic, strong) PFObject *taxiObject;
+@property (nonatomic, strong) CabObject *taxiObject;
 @property (strong, nonatomic) ADBannerView *UIiAD;
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) IBOutlet UIButton *btnReviewThisDriver;

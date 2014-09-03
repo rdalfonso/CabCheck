@@ -7,15 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <sqlite3.h>
 
 @class CabObject;
-@interface CabObjectDataBase : NSObject{
-    sqlite3 *_database;
-}
+@interface CabObjectDataBase : NSObject
 
-+ (CabObjectDataBase*)database;
-- (NSArray *)cabObjectInfos;
-- (CabObject *)cabObjectDetails:(int)uniqueId;
+-(instancetype)initWithDatabaseFilename:(NSString *)dbFilename;
+-(NSMutableArray *)cabObjectInfos:(NSString *)searchTerm withString:(NSString*)cityObject;
 
 @end

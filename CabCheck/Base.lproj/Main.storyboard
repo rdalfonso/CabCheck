@@ -440,7 +440,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UaA-kR-HjB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2730" y="90"/>
+            <point key="canvasLocation" x="2602" y="126"/>
         </scene>
         <!--Cab Ride Review - TaxiReview-->
         <scene sceneID="F7r-mE-5ax">
@@ -613,7 +613,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2qj-Mg-eBh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3275" y="90"/>
+            <point key="canvasLocation" x="2987" y="90"/>
         </scene>
         <!--Cab Reviews-->
         <scene sceneID="RpB-Iw-tYQ">

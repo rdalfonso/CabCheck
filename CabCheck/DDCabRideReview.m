@@ -122,7 +122,7 @@ NSString *reviewComments;
     //Set Title
     if(self.taxiObject != nil)
     {
-        NSString *driverMedallion = [self.taxiObject objectForKey:@"driverMedallion"];
+        NSString *driverMedallion = self.taxiObject.driverMedallion;
         if([driverMedallion length] > 0) {
             _lblReviewHeader.text = [NSString stringWithFormat:@"Driver Review: %@",driverMedallion];
         } else {
@@ -184,7 +184,7 @@ NSString *reviewComments;
 
     PFQuery *broadCast = [PFQuery queryWithClassName:@"DriverReviewObject"];
     [broadCast whereKey:@"deviceID" equalTo:self.deviceID];
-    [broadCast whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
+    [broadCast whereKey:@"taxiUniqueID" equalTo:[NSString stringWithFormat:@"%d",self.taxiObject.uniqueCabId]];
     [broadCast getFirstObjectInBackgroundWithBlock:^(PFObject *reviewObject, NSError *error) {
         if (!error)
         {
@@ -234,7 +234,7 @@ NSString *reviewComments;
     if(self.reviewObject == nil){
         PFObject *reviewCab = [PFObject objectWithClassName:@"DriverReviewObject"];
         reviewCab[@"deviceID"] =        self.deviceID;
-        reviewCab[@"taxiUniqueID"] =       self.taxiObject.objectId;
+        reviewCab[@"taxiUniqueID"] =       [NSString stringWithFormat:@"%d",self.taxiObject.uniqueCabId];
         reviewCab[@"reviewOverall"] =           [NSString stringWithFormat:@"%d",reviewOverallValue];
         reviewCab[@"reviewCarService"] =        [NSString stringWithFormat:@"%d",reviewCarServiceValue];
         reviewCab[@"reviewDriveSafe"] =         [NSString stringWithFormat:@"%d",reviewDriveSafeValue];
@@ -274,7 +274,7 @@ NSString *reviewComments;
     
     // Store the data
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setValue:self.taxiObject.objectId forKey:@"userlastCabReviewed"];
+    [defaults setValue:[NSString stringWithFormat:@"%d",self.taxiObject.uniqueCabId] forKey:@"userlastCabReviewed"];
     [defaults setObject:[NSDate date] forKey:@"userLastCabReviewDate"];
     [defaults synchronize];
 }
@@ -284,7 +284,8 @@ NSString *reviewComments;
     if ([segue.identifier isEqualToString:@"seqPushPostReviewEnd"]) {
         DDSearchResultDetailController *destViewController = segue.destinationViewController;
         
-        if([self.taxiObject.objectId length] > 0) {
+        NSString *taxiID = [NSString stringWithFormat:@"%d",self.taxiObject.uniqueCabId];
+        if([taxiID length] > 0) {
             destViewController.taxiObject = self.taxiObject;
         }
     }

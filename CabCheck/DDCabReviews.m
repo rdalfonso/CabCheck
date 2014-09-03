@@ -39,7 +39,7 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
-    [driverRatings whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
+    [driverRatings whereKey:@"taxiUniqueID" equalTo:[NSString stringWithFormat:@"%d",self.taxiObject.uniqueCabId]];
     driverRatings.limit = 20;
     
     if (self.pullToRefreshEnabled) {
@@ -68,7 +68,7 @@
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stop-light.jpg"]];
     [self.tableView setBackgroundColor:[UIColor blackColor]];
     
-    NSString *driverMedallion = [self.taxiObject objectForKey:@"driverMedallion"];
+    NSString *driverMedallion = self.taxiObject.driverMedallion;
     _lblCabReviewsHeader.text = [NSString stringWithFormat:@"  Driver Reviews - %@", driverMedallion];
 }
 

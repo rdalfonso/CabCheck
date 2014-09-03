@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import <Parse/Parse.h>
 #import <iAd/iAd.h>
 #import <CoreLocation/CoreLocation.h>
-
+#import "CabObject.h"
 @interface DDEndCabCheck : UIViewController<CLLocationManagerDelegate,ADBannerViewDelegate>
 {
     CLLocationManager *locationManager;
@@ -19,7 +18,7 @@
     CLPlacemark *placemark;
 }
 
-@property (nonatomic, strong) PFObject *taxiObject;
+@property (nonatomic, strong) CabObject *taxiObject;
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) ADBannerView *UIiAD;
 

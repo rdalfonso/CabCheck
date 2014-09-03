@@ -36,6 +36,7 @@
 -(void) viewWillDisappear:(BOOL)animated{
     _UIiAD.delegate = nil;
     _UIiAD=nil;
+    userCabPoints = nil;
     [_UIiAD removeFromSuperview];
 }
 
@@ -144,30 +145,10 @@
                                                            message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
         
-        
-        //store coordinates for final map route.
         /*
-        if( (_userLatHolder != _userLat) || (_userLongHolder != _userLong))
-        {
-            NSString *alertMessage = [NSString stringWithFormat:@"Your new location %@ %@.", _userLat, _userLong];
-            NSLog(@" lat and long: %@", alertMessage);
-            
-            UIAlertView    *alert = [[UIAlertView alloc] initWithTitle:@"New Location at 30 meters"
-                message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
-            
-            CLLocationCoordinate2D centerCoord = { [_userLat doubleValue], [_userLong doubleValue] };
-            [userCabPoints addObject:[NSValue valueWithMKCoordinate:centerCoord]];
-        } else {
-            NSString *alertMessage = [NSString stringWithFormat:@"Same location %@ %@.", _userLat, _userLong];
-            NSLog(@" lat and long: %@", alertMessage);
-        }
+         CLLocationCoordinate2D centerCoord = { [_userLat doubleValue], [_userLong doubleValue] };
+         [userCabPoints addObject:[NSValue valueWithMKCoordinate:centerCoord]];
         */
-        _userLatHolder = _userLat;
-        _userLongHolder = _userLong;
-        
-        
-        
         [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
          {
              if (error == nil && [placemarks count] > 0)

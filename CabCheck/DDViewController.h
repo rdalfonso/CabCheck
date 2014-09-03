@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Parse/Parse.h>
 #import <CoreLocation/CoreLocation.h>
 #import <iAd/iAd.h>
+#import "CabObject.h"
+#import "CabObjectDataBase.h"
 
 @interface DDViewController : UIViewController<CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate,ADBannerViewDelegate> {
     
@@ -20,6 +21,7 @@
     NSMutableArray *autocompleteObjects;
     UITableView *autocompleteTableView;
     NSString *cityObject;
+    CabObjectDataBase *_dbManager;
 }
 
 @property (strong, nonatomic) ADBannerView *UIiAD;
@@ -32,9 +34,10 @@
 @property (strong, nonatomic) IBOutlet UILabel *lblCityWarning;
 @property (strong, nonatomic) IBOutlet UILabel *lblCurrentCity;
 @property (strong, nonatomic) IBOutlet UITextField *txtSearch;
-@property (nonatomic, strong) PFObject *taxiObject;
 @property (nonatomic, retain) NSMutableArray *autocompleteObjects;
 @property (nonatomic, retain) UITableView *autocompleteTableView;
+@property (nonatomic, strong) CabObject *taxiObject;
+@property (nonatomic, strong) CabObjectDataBase *dbManager;
 
 - (IBAction)btnChangeCity:(id)sender;
 - (IBAction)goPressed;

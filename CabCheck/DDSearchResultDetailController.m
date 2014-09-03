@@ -134,14 +134,31 @@
     [theDateFormatter setDateFormat:@"EEE, MMM d, h:mm a"];
     self.userDate = [NSString stringWithFormat:@"%@", [theDateFormatter stringFromDate:todayDate]];
     
-    PFObject *object = self.taxiObject;
+    CabObject *object = self.taxiObject;
     if(object != nil)
     {
+        /*
         NSString *driverType = [object objectForKey:@"driverType"];
         NSString *driverName = [object objectForKey:@"driverName"];
         NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
         NSString *driverDMVLicense = [object objectForKey:@"driverDMVLicense"];
         NSString *driverVIN = [object objectForKey:@"driverVIN"];
+        
+        NSMutableString *driverCabType = [NSMutableString stringWithString:@""];
+        NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
+        NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
+        NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
+        */
+        NSString *driverType = object.driverType;
+        NSString *driverName = object.driverName;
+        NSString *driverMedallion = object.driverMedallion;
+        NSString *driverDMVLicense = object.driverDMVLicense;
+        NSString *driverVIN = object.driverVIN;
+        
+        NSMutableString *driverCabType = [NSMutableString stringWithString:@""];
+        NSString *driverCabMake = object.driverCabMake;
+        NSString *driverCabModel = object.driverCabModel;
+        NSString *driverCabYear = object.driverCabYear;
         
         if([driverDMVLicense length] <= 0){
             driverDMVLicense = @"N/A";
@@ -150,11 +167,6 @@
         if([driverVIN length] <= 0){
             driverVIN = @"N/A";
         }
-        
-        NSMutableString *driverCabType = [NSMutableString stringWithString:@""];
-        NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
-        NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
-        NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
         
         if([driverCabMake length] > 0) {
             [driverCabType appendString:[driverCabMake capitalizedString]];
@@ -220,7 +232,6 @@
 
 - (void)buildReviewSection
 {
-    NSLog(@"Build Review Section");
     __block int GoodCount = 0;
     __block int OkCount = 0;
     __block int BadCount = 0;
@@ -233,11 +244,9 @@
     __block long TotalCount = 0;
     
     PFQuery *driverRatings = [PFQuery queryWithClassName:@"DriverReviewObject"];
-    [driverRatings whereKey:@"taxiUniqueID" equalTo:self.taxiObject.objectId];
+    [driverRatings whereKey:@"taxiUniqueID" equalTo:[NSString stringWithFormat:@"%d",self.taxiObject.uniqueCabId]];
      driverRatings.cachePolicy = kPFCachePolicyNetworkOnly;
     driverRatings.limit = 20;
-    
-    //driverRatings.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [driverRatings findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
         if (!error)
         {
@@ -296,7 +305,6 @@
                 float pcGood =  [self getReviewPercent:TotalCount withInteger:GoodCount];
                 float pcOk = [self getReviewPercent:TotalCount withInteger:OkCount];
                 float pcBad = [self getReviewPercent:TotalCount withInteger:BadCount];
-                
                 
                 if( pcGood >= 50.0  )
                 {
@@ -457,7 +465,7 @@
 }
 
 
-- (void)showTaxiInformationSMS:(PFObject*)taxiObject {
+- (void)showTaxiInformationSMS:(CabObject*)taxiObject {
     
     
     //Send email to user
@@ -475,22 +483,25 @@
     
     
     //Get Taxi Object information
-    PFObject *object = self.taxiObject;
+    CabObject *object = self.taxiObject;
     
-    NSString *driverType = [object objectForKey:@"driverType"];
-    NSString *driverName = [object objectForKey:@"driverName"];
-    NSString *driverCompany = [object objectForKey:@"driverCompany"];
-    NSString *driverMedallion = [object objectForKey:@"driverMedallion"];
-    NSString *driverDMVLicense = [object objectForKey:@"driverDMVLicense"];
+    NSString *driverType = object.driverType;
+    NSString *driverName = object.driverName;
+    NSString *driverMedallion = object.driverMedallion;
+    NSString *driverDMVLicense = object.driverDMVLicense;
+    NSString *driverVIN = object.driverVIN;
+    NSString *driverCompany = object.driverCompany;
+    NSString *driverCompanyPhone = object.driverCompanyPhone;
+    
+    NSString *driverCabMake = object.driverCabMake;
+    NSString *driverCabModel = object.driverCabModel;
+    NSString *driverCabYear = object.driverCabYear;
+    
+    NSMutableString *driverMake = [NSMutableString stringWithString:@""];
+
     if([driverDMVLicense length] <= 0){
         driverDMVLicense = @"N/A";
     }
-    NSString *driverVIN = [object objectForKey:@"driverVIN"];
-    NSString *driverCabMake =[object objectForKey:@"driverCabMake"];
-    NSString *driverCabModel =[object objectForKey:@"driverCabModel"];
-    NSString *driverCabYear =[object objectForKey:@"driverCabYear"];
-    
-    NSMutableString *driverMake = [NSMutableString stringWithString:@""];
     if([driverCabMake length] > 0) {
         [driverMake appendString:driverCabMake];
         [driverMake appendString:@" "];

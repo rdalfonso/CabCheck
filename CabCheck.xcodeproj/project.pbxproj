@@ -219,6 +219,7 @@
 		A1AB56291979C9B3004D23AD /* CabCheck */ = {
 			isa = PBXGroup;
 			children = (
+				A1A36DAC19B68383005F1653 /* CabCheck.sqlite */,
 				A1AB56321979C9B3004D23AD /* DDAppDelegate.h */,
 				A1AB56331979C9B3004D23AD /* DDAppDelegate.m */,
 				A1AB56351979C9B3004D23AD /* Main.storyboard */,
@@ -255,7 +256,6 @@
 		A1AB562A1979C9B3004D23AD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				A1A36DAC19B68383005F1653 /* CabCheck.sqlite */,
 				A14661051986CD79008AF0A9 /* stop-light-horizontal.jpg */,
 				A1C6AC20199039B700D55E31 /* review-yellow-small.jpg */,
 				A1C6AC21199039B700D55E31 /* review-red-small.jpg */,

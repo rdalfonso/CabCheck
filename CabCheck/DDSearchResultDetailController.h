@@ -11,6 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MessageUI/MessageUI.h>
 #import <iAd/iAd.h>
+#import "CabObject.h"
 
 @interface DDSearchResultDetailController : UIViewController<CLLocationManagerDelegate,ADBannerViewDelegate,MFMessageComposeViewControllerDelegate>
 {
@@ -32,7 +33,7 @@
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
 
-@property (nonatomic, strong) PFObject *taxiObject;
+@property (nonatomic, strong) CabObject *taxiObject;
 @property (strong, nonatomic) IBOutlet UILabel *lblSearchResultDetailHeader;
 @property (strong, nonatomic) IBOutlet UILabel *driverReviewTags;
 @property (strong, nonatomic) IBOutlet UILabel *driverLicense;

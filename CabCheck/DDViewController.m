@@ -8,9 +8,8 @@
 
 #import "DDViewController.h"
 #import "DDSearchResultDetailController.h"
-#import <Parse/Parse.h>
-#import <QuartzCore/QuartzCore.h>
 #import "DDAppDelegate.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface DDViewController ()
 {
@@ -22,6 +21,7 @@
 @synthesize autocompleteObjects;
 @synthesize autocompleteTableView;
 @synthesize cityObject;
+@synthesize dbManager = _dbManager;
 
 - (DDAppDelegate *) appdelegate {
     return (DDAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -105,6 +105,9 @@
     //locationManager.distanceFilter=100.0;
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
+    
+    // Initialize the dbManager property.
+    self.dbManager = [[CabObjectDataBase alloc] initWithDatabaseFilename:@"CabCheck.sqlite"];
     
     //Layout and Navigation
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -234,13 +237,13 @@
                      _lblCurrentCity.text = returnCity;
                      
                      if ([returnCity isEqualToString:@"New York"]) {
-                         cityObject = @"DriverObjectNewYork";
+                         cityObject = @"CabObjectsNewYork";
                      } else if ([returnCity isEqualToString:@"Chicago"]) {
-                         cityObject = @"DriverObjectChicago";
+                         cityObject = @"CabObjectsChicago";
                      } else if ([returnCity isEqualToString:@"San Francisco"]) {
-                         cityObject = @"DriverObjectSanFran";
+                         cityObject = @"CabObjectsSanFran";
                      } else if ([returnCity isEqualToString:@"Las Vegas"]) {
-                         cityObject = @"DriverObjectLasVegas";
+                         cityObject = @"CabObjectsLasVegas";
                      } else
                      {
                          //Disable typing/earch until supported city is found.
@@ -305,8 +308,8 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier];
     }
-    PFObject *taxiObject = [autocompleteObjects objectAtIndex:indexPath.row];
-    NSString *driverMedallion = [taxiObject objectForKey:@"driverMedallion"];
+    CabObject *taxiObject = [autocompleteObjects objectAtIndex:indexPath.row];
+    NSString *driverMedallion = taxiObject.driverMedallion;
     cell.textLabel.text = driverMedallion;
     
     return cell;
@@ -316,20 +319,10 @@
     
     NSLog(@"touch detection");
     if(autocompleteObjects.count > 0) {
-        PFObject *taxiObject = [autocompleteObjects objectAtIndex:indexPath.row];
+        CabObject *taxiObject = [autocompleteObjects objectAtIndex:indexPath.row];
         self.taxiObject = taxiObject;
         [self goPressed];
     }
-    /*
-    for (int i = 0; i < [autocompleteObjects count]; i++) {
-        NSNumber *rowSelected = [NSNumber numberWithBool:(indexPath.row == i)];
-        [autocompleteObjects replaceObjectAtIndex:i withObject:rowSelected];
-        PFObject *taxiObject = [autocompleteObjects objectAtIndex:indexPath.row];
-        self.taxiObject = taxiObject;
-        [self goPressed];
-        
-    }
-    */
 }
 
 
@@ -369,25 +362,12 @@
 - (void)searchAutocompleteEntriesWithSubstring:(NSString *)substring {
     
     [autocompleteObjects removeAllObjects];
+    if(self.dbManager != nil)
+    {
+        autocompleteObjects = [self.dbManager cabObjectInfos:substring withString:self.cityObject];
+    }
     
-    PFQuery *searchByMedallion = [PFQuery queryWithClassName:cityObject];
-    [searchByMedallion whereKey:@"driverMedallion" containsString:substring];
-    searchByMedallion.limit=20;
-    [searchByMedallion orderByAscending:@"driverMedallion"];
-    searchByMedallion.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    [searchByMedallion findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error)
-     {
-         if (!error)
-         {
-             for (PFObject *object in results)
-             {
-                 if (object != nil) {
-                     [autocompleteObjects addObject:object];
-                 }
-             }
-             [autocompleteTableView reloadData];
-         }
-     }];
+    [autocompleteTableView reloadData];
 }
 
 
