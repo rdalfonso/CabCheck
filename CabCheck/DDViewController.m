@@ -125,8 +125,8 @@
     }
     
     //Disable typing/search until supported city is found.
-    self.txtSearch.userInteractionEnabled = NO;
-    [self.txtSearch setBackgroundColor:[UIColor grayColor]];
+    //self.txtSearch.userInteractionEnabled = NO;
+    //[self.txtSearch setBackgroundColor:[UIColor grayColor]];
     
     //Responders to Textfields
     self.txtSearch.delegate = self;
@@ -161,23 +161,22 @@
     if([defaults objectForKey:@"userCurrentCity"] == nil) {
         self.settingCity = -1;
     } else {
-        NSString *returnCity = @"";
+        NSString *lblCity = @"";
         self.settingCity = [defaults integerForKey:@"userCurrentCity"];
         
         if(self.settingCity == 0){
-            returnCity = @"New York";
+            lblCity = @"New York";
         }
         else if(self.settingCity == 1){
-            returnCity = @"Chicago";
+            lblCity = @"Chicago";
         }
         else if(self.settingCity == 2){
-            returnCity = @"San Francisco";
+            lblCity = @"San Francisco";
         }
         else if(self.settingCity == 3){
-            returnCity = @"Las Vegas";
+            lblCity = @"Las Vegas";
         }
-        self.txtSearch.userInteractionEnabled = YES;
-        _lblCurrentCity.text = returnCity;
+        _lblCurrentCity.text = lblCity;
     }
 }
 
@@ -193,7 +192,7 @@
 - (NSString*) IsUserCurrentCitySupported:(NSString*)currentCity
 {
     NSString *returnCity;
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     if ([currentCity isEqualToString:@"New York"]) {
         returnCity = currentCity;
@@ -221,7 +220,7 @@
             returnCity = currentCity;
         }
     }
-    [defaults synchronize];
+   // [defaults synchronize];
     return returnCity;
     
 }
@@ -242,7 +241,7 @@
              {
                  placemark = [placemarks lastObject];
                  _userCity = placemark.locality;
-
+                
                  if([_userCity length] > 0)
                  {
                      self.txtSearch.userInteractionEnabled = YES;
@@ -262,7 +261,7 @@
                          cityObject = @"CabObjectsLasVegas";
                      } else
                      {
-                         //Disable typing/earch until supported city is found.
+                         //Disable typing/search until supported city is found.
                          self.txtSearch.userInteractionEnabled = NO;
                          [self.txtSearch setBackgroundColor:[UIColor grayColor]];
                          
