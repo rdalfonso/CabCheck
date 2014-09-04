@@ -493,8 +493,13 @@
     else if ([driverType isEqualToString:@"L"]) {
         [passengerSMS appendString:@" TLC Street Hail Livery Taxi\n"];
     }
-    
-    [passengerSMS appendString:[NSString stringWithFormat:@"near %@ on %@.\n\n", self.userAddress, self.userDate]];
+    if(self.userAddress != nil) {
+       [passengerSMS appendString:[NSString stringWithFormat:@"near %@\n", self.userAddress]];
+    }
+    if(self.userDate != nil) {
+        [passengerSMS appendString:[NSString stringWithFormat:@"on %@.\n", self.userDate]];
+    }
+    [passengerSMS appendString:[NSString stringWithFormat:@"\n"]];
     
     [passengerSMS appendString:[NSString stringWithFormat:@"Driver: %@.\n", driverName]];
     [passengerSMS appendString:[NSString stringWithFormat:@"Medallion Number: %@.\n", driverMedallion]];

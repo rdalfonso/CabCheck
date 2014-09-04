@@ -162,8 +162,6 @@
     annotationPoint.subtitle = self.userAddress;
     
     [mapView addAnnotation:annotationPoint];
-    
-    //CLLocationCoordinate2D centerCoord = { [self.userLat doubleValue], [self.userLong doubleValue] };
     [self.mapView setCenterCoordinate:annotationCoord zoomLevel:12 animated:NO];
 }
 

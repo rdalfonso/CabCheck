@@ -96,7 +96,6 @@
 {
     [super viewDidLoad];
     [self refreshUserDefaults];
-    
     [self.mapView setShowsUserLocation:YES];
     
     //Front-end control manipulation
@@ -147,24 +146,25 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     CLLocation *currentLocation = newLocation;
-    
     if (currentLocation != nil) {
         
         _userLat = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
         _userLong = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
         
-        CLLocationCoordinate2D centerCoord = { [_userLat doubleValue], [_userLong doubleValue] };
-        [userCabPoints addObject:[NSValue valueWithMKCoordinate:centerCoord]];
-        
-        NSString *alertMessage = [NSString stringWithFormat:@"Your new location %@ %@.plots points are %lu", _userLat, _userLong, (unsigned long)userCabPoints.count];
-        NSLog(@" lat and long: %@", alertMessage);
-        UIAlertView    *alert = [[UIAlertView alloc] initWithTitle:@"New Location at 30 meters"
-                                                           message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-        
-        
-        
+        [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
+         {
+             if (error == nil && [placemarks count] > 0)
+             {
+                 placemark = [placemarks lastObject];
+                 _userCity = placemark.locality;
+                 
+                 NSString *address = [NSString stringWithFormat:@"%@ %@,%@ %@", [placemark subThoroughfare],[placemark thoroughfare],[placemark locality], [placemark administrativeArea]];
+                 self.userAddress = address;
+                 
+             }
+         } ];
     }
+    
 }
 
 -(void) setMapPoints

@@ -24,9 +24,6 @@
 @property (nonatomic, assign) NSString *deviceID;
 @property (nonatomic, assign) NSString *settingCityString;
 
-@property (strong, nonatomic, readwrite) NSString *userSMS1;
-@property (strong, nonatomic, readwrite) NSString *userSMS2;
-@property (strong, nonatomic, readwrite) NSString *userSMS3;
 @property (strong, nonatomic, readwrite) NSString *userCity;
 @property (strong, nonatomic, readwrite) NSString *userAddress;
 @property (strong, nonatomic, readwrite) NSString *userDate;

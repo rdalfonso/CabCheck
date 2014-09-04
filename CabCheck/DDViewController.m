@@ -161,7 +161,23 @@
     if([defaults objectForKey:@"userCurrentCity"] == nil) {
         self.settingCity = -1;
     } else {
+        NSString *returnCity = @"";
         self.settingCity = [defaults integerForKey:@"userCurrentCity"];
+        
+        if(self.settingCity == 0){
+            returnCity = @"New York";
+        }
+        else if(self.settingCity == 1){
+            returnCity = @"Chicago";
+        }
+        else if(self.settingCity == 2){
+            returnCity = @"San Francisco";
+        }
+        else if(self.settingCity == 3){
+            returnCity = @"Las Vegas";
+        }
+        self.txtSearch.userInteractionEnabled = YES;
+        _lblCurrentCity.text = returnCity;
     }
 }
 
@@ -252,7 +268,7 @@
                          
                          _lblCityWarning.text = [NSString stringWithFormat:@"Sorry, CabCheck only supports New York, Chicago, San Francisco, and Las Vegas. Hopefully we expand to %@ soon. ", _userCity];
                          
-                         cityObject = @"DriverObjectNewYork";
+                         cityObject = @"CabObjectsNewYork";
                      }
                      
                  }

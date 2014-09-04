@@ -22,6 +22,7 @@
 @property (nonatomic, strong) CabObject *taxiObject;
 @property (strong, nonatomic) ADBannerView *UIiAD;
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
+@property (strong, nonatomic, readwrite) NSMutableArray *userCabPoints;
 @property (strong, nonatomic) IBOutlet UIButton *btnReviewThisDriver;
 
 @property (strong, nonatomic, readwrite) NSString *userAddress;
@@ -29,9 +30,5 @@
 @property (strong, nonatomic, readwrite) NSString *userLat;
 @property (strong, nonatomic, readwrite) NSString *userLong;
 @property (strong, nonatomic, readwrite) NSString *userCity;
-@property (strong, nonatomic, readwrite) NSMutableArray *userCabPoints;
-
-@property (strong, nonatomic, readwrite) NSString *userLatHolder;
-@property (strong, nonatomic, readwrite) NSString *userLongHolder;
 
 @end
