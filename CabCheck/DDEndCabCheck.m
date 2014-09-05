@@ -201,7 +201,6 @@
     if([defaults objectForKey:@"userLongPickUp"] != nil) {
         self.userLong = [defaults stringForKey:@"userLongPickUp"];
     }
-    //defaults = nil;
     
 }
 
