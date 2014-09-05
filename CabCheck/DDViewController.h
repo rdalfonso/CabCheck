@@ -25,8 +25,6 @@
 }
 
 @property (strong, nonatomic) ADBannerView *UIiAD;
-@property (strong, nonatomic, readwrite) NSString *userLat;
-@property (strong, nonatomic, readwrite) NSString *userLong;
 @property (strong, nonatomic, readwrite) NSString *userCity;
 @property (nonatomic, strong) NSString *cityObject;
 @property (nonatomic, assign) NSString *deviceID;
@@ -36,6 +34,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *txtSearch;
 @property (nonatomic, retain) NSMutableArray *autocompleteObjects;
 @property (nonatomic, retain) UITableView *autocompleteTableView;
+
 @property (nonatomic, strong) CabObject *taxiObject;
 @property (nonatomic, strong) CabObjectDataBase *dbManager;
 

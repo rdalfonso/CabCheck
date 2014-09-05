@@ -124,10 +124,6 @@
         self.txtSearch.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter Taxi Medallion Number." attributes:@{NSForegroundColorAttributeName: color}];
     }
     
-    //Disable typing/search until supported city is found.
-    //self.txtSearch.userInteractionEnabled = NO;
-    //[self.txtSearch setBackgroundColor:[UIColor grayColor]];
-    
     //Responders to Textfields
     self.txtSearch.delegate = self;
     
@@ -160,23 +156,33 @@
     
     if([defaults objectForKey:@"userCurrentCity"] == nil) {
         self.settingCity = -1;
+        _lblCurrentCity.text = @"New York";
+        self.cityObject = @"CabObjectsNewYork";
     } else {
-        NSString *lblCity = @"";
+        
         self.settingCity = [defaults integerForKey:@"userCurrentCity"];
         
         if(self.settingCity == 0){
-            lblCity = @"New York";
+            _lblCurrentCity.text = @"New York";
+            self.cityObject = @"CabObjectsNewYork";
         }
         else if(self.settingCity == 1){
-            lblCity = @"Chicago";
+            _lblCurrentCity.text = @"Chicago";
+            self.cityObject = @"CabObjectsChicago";
         }
         else if(self.settingCity == 2){
-            lblCity = @"San Francisco";
+            _lblCurrentCity.text = @"San Francisco";
+            self.cityObject = @"CabObjectsSanFran";
         }
         else if(self.settingCity == 3){
-            lblCity = @"Las Vegas";
+            _lblCurrentCity.text = @"Las Vegas";
+            self.cityObject = @"CabObjectsLasVegas";
+        } else {
+            _lblCurrentCity.text = @"New York";
+            self.cityObject = @"CabObjectsNewYork";
         }
-        _lblCurrentCity.text = lblCity;
+        
+        
     }
 }
 
@@ -189,39 +195,26 @@
     return NO;
 }
 
-- (NSString*) IsUserCurrentCitySupported:(NSString*)currentCity
+
+
+- (BOOL) IsUserCurrentCitySupported:(NSString*)currentCity
 {
-    NSString *returnCity;
-    //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    bool blnSupportedCity;
     
     if ([currentCity isEqualToString:@"New York"]) {
-        returnCity = currentCity;
+        blnSupportedCity = true;
     } else if ([currentCity isEqualToString:@"Chicago"]) {
-        returnCity = currentCity;
+        blnSupportedCity = true;
     } else if ([_userCity isEqualToString:@"San Francisco"]) {
-        returnCity = currentCity;
+        blnSupportedCity = true;
     } else if ([_userCity isEqualToString:@"Las Vegas"]) {
-        returnCity = currentCity;
+        blnSupportedCity = true;
     }
     else
     {
-        if(self.settingCity == 0){
-            returnCity = @"New York";
-        }
-        else if(self.settingCity == 1){
-            returnCity = @"Chicago";
-        }
-        else if(self.settingCity == 2){
-            returnCity = @"San Francisco";
-        }
-        else if(self.settingCity == 3){
-            returnCity = @"Las Vegas";
-        } else {
-            returnCity = currentCity;
-        }
+        blnSupportedCity = false;
     }
-   // [defaults synchronize];
-    return returnCity;
+    return blnSupportedCity;
     
 }
 
@@ -232,9 +225,6 @@
     
     if (currentLocation != nil)
     {
-        _userLat = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
-        _userLong = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
-        
         [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
          {
              if (error == nil && [placemarks count] > 0)
@@ -248,32 +238,22 @@
                      [self.txtSearch setBackgroundColor:[UIColor whiteColor]];
                      
                      //Determine on load if geolocated city is a supported city for later use.
-                     NSString *returnCity = [self IsUserCurrentCitySupported:_userCity];
-                     _lblCurrentCity.text = returnCity;
-                     
-                     if ([returnCity isEqualToString:@"New York"]) {
-                         cityObject = @"CabObjectsNewYork";
-                     } else if ([returnCity isEqualToString:@"Chicago"]) {
-                         cityObject = @"CabObjectsChicago";
-                     } else if ([returnCity isEqualToString:@"San Francisco"]) {
-                         cityObject = @"CabObjectsSanFran";
-                     } else if ([returnCity isEqualToString:@"Las Vegas"]) {
-                         cityObject = @"CabObjectsLasVegas";
-                     } else
+                     if(self.settingCity == -1)
                      {
-                         //Disable typing/search until supported city is found.
-                         self.txtSearch.userInteractionEnabled = NO;
-                         [self.txtSearch setBackgroundColor:[UIColor grayColor]];
-                         
-                         _lblCityWarning.text = [NSString stringWithFormat:@"Sorry, CabCheck only supports New York, Chicago, San Francisco, and Las Vegas. Hopefully we expand to %@ soon. ", _userCity];
-                         
-                         cityObject = @"CabObjectsNewYork";
+                         _lblCurrentCity.text = _userCity;
+                         bool IsCurrentCitySupported = [self IsUserCurrentCitySupported:_userCity];
+                         if(!IsCurrentCitySupported)
+                         {
+                             self.txtSearch.userInteractionEnabled = NO;
+                             [self.txtSearch setBackgroundColor:[UIColor grayColor]];
+                             
+                             _lblCityWarning.text = [NSString stringWithFormat:@"Sorry, CabCheck only supports New York, Chicago, San Francisco, and Las Vegas. Hopefully we expand to %@ soon. ", _userCity];
+                         }
                      }
-                     
                  }
                 
              } else {
-                 NSLog(@"ERROR: %@", error.debugDescription);
+                 NSLog(@"ERROR LOCATION: %@", error.debugDescription);
              }
          } ];
 
