@@ -525,7 +525,7 @@
         [passengerSMS appendString:[NSString stringWithFormat:@"Taxi Company Number: %@.\n", driverCompanyPhone]];
     }
         
-    [passengerSMS appendString:[NSString stringWithFormat:@"\n Download this app at http://www.duomodigital.com/cabcheck.html"]];
+    [passengerSMS appendString:[NSString stringWithFormat:@"\n Download this app at https://itunes.apple.com/us/app/cabcheck/id907600990?ls=1&mt=8"]];
     
     
     MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
