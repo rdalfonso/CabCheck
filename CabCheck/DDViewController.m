@@ -28,6 +28,7 @@
 }
 
 -(void) viewWillAppear:(BOOL)animated{
+    
     _UIiAD = [[self appdelegate] UIiAD];
     _UIiAD.delegate = self;
     [_UIiAD setFrame:CGRectMake(0, self.view.frame.size.height, 320, 50)];
@@ -36,6 +37,7 @@
 
 
 -(void) viewWillDisappear:(BOOL)animated{
+    
     _UIiAD.delegate = nil;
     _UIiAD=nil;
     [_UIiAD removeFromSuperview];
@@ -44,6 +46,11 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    if (self.txtSearch != nil) {
+        self.txtSearch.text = nil;
+    }
+    
 }
 
 -(void)bannerViewDidLoadAd:(ADBannerView *)banner{
@@ -89,6 +96,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSLog(@"viewDidLoad");
     
     //Get/Set User settings used throughout app.
     [self refreshUserDefaults];
