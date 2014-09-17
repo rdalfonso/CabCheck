@@ -268,7 +268,7 @@
             if( TotalCount == 0){
                 _driverRatingImage.image = [UIImage imageNamed: @"review-green-large.jpg"];
                 _driverReviewTags.text = @"No Reviews Yet.";
-                _btnReadRevews = NO;
+                _btnReadRevews.enabled = NO;
                 _btnReadRevews.titleLabel.textColor = [UIColor grayColor];
             }
             else
