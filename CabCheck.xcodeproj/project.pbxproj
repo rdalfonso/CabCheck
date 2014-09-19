@@ -501,7 +501,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "ac536fcd-34ba-4ddf-b650-afb53b32843d";
+				PROVISIONING_PROFILE = "d972d154-d607-4f58-9238-f74df6e465d1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -556,11 +556,11 @@
 				GCC_PREFIX_HEADER = "CabCheck/CabCheck-Prefix.pch";
 				INFOPLIST_FILE = "CabCheck/CabCheck-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d972d154-d607-4f58-9238-f74df6e465d1";
+				PROVISIONING_PROFILE = "f5ebe412-6d06-44dd-aaf3-994982e1c29f";
 				TARGETED_DEVICE_FAMILY = 1;
-				VALIDATE_PRODUCT = NO;
+				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -580,11 +580,11 @@
 				GCC_PREFIX_HEADER = "CabCheck/CabCheck-Prefix.pch";
 				INFOPLIST_FILE = "CabCheck/CabCheck-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d972d154-d607-4f58-9238-f74df6e465d1";
+				PROVISIONING_PROFILE = "f5ebe412-6d06-44dd-aaf3-994982e1c29f";
 				TARGETED_DEVICE_FAMILY = 1;
-				VALIDATE_PRODUCT = YES;
+				VALIDATE_PRODUCT = NO;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -606,6 +606,7 @@
 				);
 				INFOPLIST_FILE = "CabCheckTests/CabCheckTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "f5ebe412-6d06-44dd-aaf3-994982e1c29f";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -624,6 +625,7 @@
 				GCC_PREFIX_HEADER = "CabCheck/CabCheck-Prefix.pch";
 				INFOPLIST_FILE = "CabCheckTests/CabCheckTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "f5ebe412-6d06-44dd-aaf3-994982e1c29f";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
