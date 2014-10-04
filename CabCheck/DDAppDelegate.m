@@ -8,6 +8,7 @@
 
 #import "DDAppDelegate.h"
 #import <Parse/Parse.h>
+#import <sys/xattr.h>
 
 @implementation DDAppDelegate
 
@@ -26,10 +27,46 @@
     
     [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0 green:.62 blue:.984 alpha:1]];
     
+    //Requirement to remove sqlite database from iCloud backup
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *dbDocumentPath = [paths objectAtIndex:0];
+    NSString *dbName = @"CabCheck.sqlite";
+    NSString *dbFullDocumentPath = [NSString stringWithFormat:@"%@/%@", dbDocumentPath, dbName];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dbFullDocumentPath]) {
+        
+        NSLog(@"SQLite file does not exist in documents. New install. Need to copy and prevent iCloud backup");
+        NSString *sourcePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:dbName];
+        NSError *error;
+        [[NSFileManager defaultManager] copyItemAtPath:sourcePath toPath:dbFullDocumentPath error:&error];
+        
+        // Check if any error occurred during copying and display it.
+        if (error != nil) {
+            NSLog(@"%@", [error localizedDescription]);
+        }
+    } else {
+        NSLog(@"SQLite file already exists in documents");
+    }
+    
+    [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:dbFullDocumentPath]];
+    
     return YES;
 }
 
-
+- (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
+{
+    assert([[NSFileManager defaultManager] fileExistsAtPath: [URL path]]);
+    
+    NSError *error = nil;
+    BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
+    if(!success){
+        NSLog(@"Error Excluding %@ from backup %@", [URL lastPathComponent], error);
+    } else {
+        NSLog(@"Success excluding %@ from backup", [URL lastPathComponent]);
+    }
+    
+    return success;
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
