@@ -28,8 +28,9 @@
     [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0 green:.62 blue:.984 alpha:1]];
     
     //Requirement to remove sqlite database from iCloud backup
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *dbDocumentPath = [paths objectAtIndex:0];
+    NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *dbDocumentPath = [docPaths objectAtIndex:0];
+    
     NSString *dbName = @"CabCheck.sqlite";
     NSString *dbFullDocumentPath = [NSString stringWithFormat:@"%@/%@", dbDocumentPath, dbName];
     
@@ -45,7 +46,7 @@
             NSLog(@"%@", [error localizedDescription]);
         }
     } else {
-        NSLog(@"SQLite file already exists in documents");
+        NSLog(@"SQLite already exists in : %@", dbDocumentPath);
     }
     
     [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:dbFullDocumentPath]];

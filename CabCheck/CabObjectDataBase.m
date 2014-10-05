@@ -40,9 +40,6 @@
     // Check if the database file exists in the documents directory.
     NSString *destinationPath = [self.documentsDirectory stringByAppendingPathComponent:self.databaseFilename];
     
-    //NSLog(@"sourcePath: %@", [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:self.databaseFilename]);
-    //NSLog(@"destinationPath: %@", destinationPath);
-    
     if (![[NSFileManager defaultManager] fileExistsAtPath:destinationPath]) {
         
         // The database file does not exist in the documents directory, so copy it from the main bundle now.
